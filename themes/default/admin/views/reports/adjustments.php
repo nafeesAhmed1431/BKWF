@@ -188,7 +188,7 @@ if ($this->input->post('end_date')) {
                 <div class="clearfix"></div>
 
                 <div class="table-responsive">
-                    <table id="dmpData" class="table table-bordered table-condensed table-hover table-striped">
+                    <table id="dmpData" class="table table_theme">
                         <thead>
                         <tr>
                             <th class="col-xs-2"><?= lang("date"); ?></th>

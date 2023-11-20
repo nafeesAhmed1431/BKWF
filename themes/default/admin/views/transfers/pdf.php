@@ -62,7 +62,7 @@
 
         <div class="col-xs-12">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
+                <table class="table table_theme">
                     <thead>
                         <tr>
                             <th style="text-align:center; vertical-align:middle;"><?php echo $this->lang->line("no"); ?></th>

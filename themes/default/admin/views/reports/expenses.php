@@ -206,7 +206,7 @@ if ($this->input->post('end_date')) {
                 <div class="clearfix"></div>
                 <div class="table-responsive">
                     <table id="EXPData" cellpadding="0" cellspacing="0" border="0"
-                           class="table table-bordered table-hover table-striped">
+                           class="table table_theme">
                         <thead>
                         <tr class="active">
                             <th class="col-xs-2"><?= lang("date"); ?></th>

@@ -1028,7 +1028,7 @@
                         <p class="introtext"><?= lang('list_results'); ?></p>
 
                         <div class="table-responsive">
-                            <table id="dmpData" class="table table-bordered table-condensed table-hover table-striped">
+                            <table id="dmpData" class="table table_theme">
                                 <thead>
                                 <tr>
                                     <th class="col-xs-2"><?= lang("date"); ?></th>

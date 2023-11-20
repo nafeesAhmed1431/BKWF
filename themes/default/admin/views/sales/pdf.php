@@ -266,7 +266,7 @@
             ?>
             <div class="col-xs-12" style="margin-top: 15px;">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
+                <table class="table table_theme">
                     <thead>
                     <tr>
                         <th><?= lang('no'); ?></th>

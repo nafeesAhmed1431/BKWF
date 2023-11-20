@@ -23,7 +23,7 @@
 
                         echo admin_form_open("system_settings/permissions/" . $id); ?>
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover table-striped reports-table">
+                            <table class="table table_theme">
 
                                 <thead>
                                 <tr>

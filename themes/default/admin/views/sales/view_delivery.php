@@ -54,7 +54,7 @@
             </div>
             <h3><?= lang("items"); ?></h3>
             <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
+                <table class="table table_theme">
                     <thead>
                         <tr>
                             <th style="text-align:center; vertical-align:middle;"><?= lang("no"); ?></th>

@@ -12,7 +12,7 @@
         </div>
         <div class="modal-body">
             <div class="table-responsive">
-                <table id="CompTable" class="table table-bordered table-hover table-striped">
+                <table id="CompTable" class="table table_theme">
                     <thead>
                         <tr>
                             <th style="width:30%;"><?= $this->lang->line("date"); ?></th>

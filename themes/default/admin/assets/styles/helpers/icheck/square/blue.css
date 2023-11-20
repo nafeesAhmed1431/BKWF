@@ -7,8 +7,8 @@
     vertical-align: middle;
     margin: 0;
     padding: 0;
-    width: 22px;
-    height: 22px;
+    width: 17px;
+    height: 17px;
     background: url(blue.png) no-repeat;
     border: none;
     cursor: pointer;
@@ -16,43 +16,54 @@
 
 .icheckbox_square-blue {
     background-position: 0 0;
+    background-size: 1000%;
+    border-radius: 3px;
 }
-    .icheckbox_square-blue.hover {
-        background-position: -24px 0;
-    }
-    .icheckbox_square-blue.checked {
-        background-position: -48px 0;
-    }
-    .icheckbox_square-blue.disabled {
-        background-position: -72px 0;
-        cursor: default;
-    }
-    .icheckbox_square-blue.checked.disabled {
-        background-position: -96px 0;
-    }
+
+.icheckbox_square-blue.hover {
+    background-position: -16px 0;
+}
+
+.icheckbox_square-blue.checked {
+    background-position: -33px 0;
+}
+
+.icheckbox_square-blue.disabled {
+    background-position: -50px 0;
+    cursor: default;
+}
+
+.icheckbox_square-blue.checked.disabled {
+    background-position: -67px 0;
+}
 
 .iradio_square-blue {
     background-position: -120px 0;
 }
-    .iradio_square-blue.hover {
-        background-position: -144px 0;
-    }
-    .iradio_square-blue.checked {
-        background-position: -168px 0;
-    }
-    .iradio_square-blue.disabled {
-        background-position: -192px 0;
-        cursor: default;
-    }
-    .iradio_square-blue.checked.disabled {
-        background-position: -216px 0;
-    }
+
+.iradio_square-blue.hover {
+    background-position: -144px 0;
+}
+
+.iradio_square-blue.checked {
+    background-position: -168px 0;
+}
+
+.iradio_square-blue.disabled {
+    background-position: -192px 0;
+    cursor: default;
+}
+
+.iradio_square-blue.checked.disabled {
+    background-position: -216px 0;
+}
 
 /* Retina support */
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-       only screen and (-moz-min-device-pixel-ratio: 1.5),
-       only screen and (-o-min-device-pixel-ratio: 3/2),
-       only screen and (min-device-pixel-ratio: 1.5) {
+only screen and (-moz-min-device-pixel-ratio: 1.5),
+only screen and (-o-min-device-pixel-ratio: 3/2),
+only screen and (min-device-pixel-ratio: 1.5) {
+
     .icheckbox_square-blue,
     .iradio_square-blue {
         background-image: url(blue@2x.png);

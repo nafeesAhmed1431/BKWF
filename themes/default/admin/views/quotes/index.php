@@ -137,7 +137,7 @@
                 <p class="introtext"><?= lang('list_results'); ?></p>
 
                 <div class="table-responsive">
-                    <table id="QUData" class="table table-bordered table-hover table-striped">
+                    <table id="QUData" class="table table_theme">
                         <thead>
                             <tr class="active">
                                 <th style="min-width:30px; width: 30px; text-align: center;">

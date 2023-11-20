@@ -268,7 +268,7 @@ if ($this->input->post('end_date')) {
 
                 <div class="table-responsive">
                     <table id="SlRData"
-                           class="table table-bordered table-hover table-striped table-condensed reports-table">
+                           class="table table_theme">
                         <thead>
                         <tr>
                             <th><?= lang("date"); ?></th>

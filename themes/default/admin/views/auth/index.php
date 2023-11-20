@@ -75,7 +75,7 @@
 
                 <div class="table-responsive">
                     <table id="UsrTable" cellpadding="0" cellspacing="0" border="0"
-                           class="table table-bordered table-hover table-striped">
+                           class="table table_theme">
                         <thead>
                         <tr>
                             <th style="min-width:30px; width: 30px; text-align: center;">
