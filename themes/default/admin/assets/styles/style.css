@@ -3492,7 +3492,7 @@ legend.scheduler-border {
     color: #8A8A8A;
 }
 
-a.button {
+.button {
     background-color: #EE4036;
     border-radius: 8px;
     width: 100%;
