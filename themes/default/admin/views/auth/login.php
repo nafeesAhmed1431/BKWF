@@ -69,10 +69,10 @@
                         <div class="login_form_content">
                             <p>Bilal Khal Wanda Factory</p>
                         </div>
-                        <form action="#">
+                        <form action="<?= admin_url('auth/login') ?>" data-toggle="validator" method="post" accept-charset="utf-8">
                             <div class="form-group emailInput" data-img="<?= base_url('assets/images/user.svg') ?>">
                                 <label for="email">Username/Email</label>
-                                <input type="text" class="inputField" name="email" id="email" placeholder="bilalkhalwanda@gmail.com">
+                                <input type="text" class="inputField" name="identity" id="identity" placeholder="Username | email@mail.com">
                             </div>
                             <div class="form-group passwordInput" data-img="<?= base_url('assets/images/lock.svg') ?>">
                                 <label for="password">Password</label>
@@ -92,7 +92,8 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <a href="#" class="button">LOGIN</a>
+                                <!-- <a href="#" class="button">LOGIN</a> -->
+                                <button type="submit" class="button">LOGIN</button>
                             </div>
                         </form>
                     </div>
