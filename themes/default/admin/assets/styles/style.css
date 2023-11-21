@@ -3366,7 +3366,7 @@ legend.scheduler-border {
 }
 
 .content_part {
-    background: linear-gradient(180deg, rgba(246, 146, 30, 0.88) 0.11%, rgba(238, 64, 54, 0.88) 100.63%), url(../../../../../assets/images/login-img.png);
+    background-image: url(../../../../../assets/images/login-img.png);
     background-repeat: no-repeat;
     background-position: top 0 left 0;
     background-size: 100% 100%;
