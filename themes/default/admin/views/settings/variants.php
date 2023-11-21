@@ -37,7 +37,7 @@
                 <p class="introtext"><?php echo $this->lang->line("list_results"); ?></p>
 
                 <div class="table-responsive">
-                    <table id="CURData" class="table table-bordered table-hover table-striped reports-table">
+                    <table id="CURData" class="table table_theme">
                         <thead>
                         <tr>
                             <th style="min-width:30px; width: 30px; text-align: center;">

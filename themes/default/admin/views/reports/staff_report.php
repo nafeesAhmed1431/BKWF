@@ -399,7 +399,7 @@
 
                         <div class="table-responsive">
                             <table id="SlRData"
-                                   class="table table-bordered table-hover table-striped table-condensed reports-table">
+                                   class="table table_theme">
                                 <thead>
                                 <tr>
                                     <th><?= lang("date"); ?></th>
@@ -602,7 +602,7 @@
 
                         <div class="table-responsive">
                             <table id="PoRData"
-                                   class="table table-bordered table-hover table-striped table-condensed reports-table">
+                                   class="table table_theme">
                                 <thead>
                                 <tr>
                                     <th><?= lang("date"); ?></th>
@@ -814,7 +814,7 @@
 
                         <div class="table-responsive">
                             <table id="PayRData"
-                                   class="table table-bordered table-hover table-striped table-condensed reports-table">
+                                   class="table table_theme">
 
                                 <thead>
                                 <tr>
@@ -978,7 +978,7 @@
                                 <div class="col-md-12">
                                     <div class="table-responsive">
                                         <table id="LGTable"
-                                               class="table table-bordered table-hover table-striped reports-table">
+                                               class="table table_theme">
                                             <thead>
                                             <tr>
                                                 <th><?= lang('email'); ?></th>

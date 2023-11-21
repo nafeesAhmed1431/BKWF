@@ -26,7 +26,7 @@
             <div class="col-lg-12">
                 <p><?= lang('list_results'); ?></p>
                 <div class="table-responsive">
-                    <table id="PData" class="table table-bordered table-hover table-striped">
+                    <table id="PData" class="table table_theme">
                         <thead>
                             <tr>
                                 <th class="col-xs-2"><?= lang("title"); ?></th>

@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="table-responsive">
-                    <table id="REData" class="table table-bordered table-hover table-striped">
+                    <table id="REData" class="table table_theme">
                         <thead>
                             <th>Name</th>
                             <th>City</th>

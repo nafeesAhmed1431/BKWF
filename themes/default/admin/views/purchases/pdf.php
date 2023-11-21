@@ -122,7 +122,7 @@
             ?>
             <div style="margin-top: 15px;">
             <div class="table-responsive">
-                <table class="table table-bordered table-hover table-striped">
+                <table class="table table_theme">
                     <thead>
                     <tr class="active">
                         <th><?=lang("no");?></th>

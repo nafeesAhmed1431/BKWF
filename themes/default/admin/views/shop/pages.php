@@ -59,7 +59,7 @@
                 <p class="introtext"><?= lang("list_results"); ?></p>
 
                 <div class="table-responsive">
-                    <table id="PgData" class="table table-bordered table-hover table-striped">
+                    <table id="PgData" class="table table_theme">
                         <thead>
                         <tr>
                             <th style="min-width:30px; width: 30px; text-align: center;">

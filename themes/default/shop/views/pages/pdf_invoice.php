@@ -145,7 +145,7 @@
                             $tcol = $col;
                         }
                         ?>
-                        <table class="table table-bordered table-hover table-striped">
+                        <table class="table table_theme">
                             <thead>
                                 <tr>
                                     <th><?= lang('no'); ?></th>

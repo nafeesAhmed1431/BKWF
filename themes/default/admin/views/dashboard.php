@@ -236,7 +236,7 @@ function row_status($x)
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
                                             <table id="sales-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table-bordered table-hover table-striped"
+                                                   class="table table_theme"
                                                    style="margin-bottom: 0;">
                                                 <thead>
                                                 <tr>
@@ -285,7 +285,7 @@ function row_status($x)
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
                                             <table id="quotes-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table-bordered table-hover table-striped"
+                                                   class="table table_theme"
                                                    style="margin-bottom: 0;">
                                                 <thead>
                                                 <tr>
@@ -330,7 +330,7 @@ function row_status($x)
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
                                             <table id="purchases-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table-bordered table-hover table-striped"
+                                                   class="table table_theme"
                                                    style="margin-bottom: 0;">
                                                 <thead>
                                                 <tr>
@@ -375,7 +375,7 @@ function row_status($x)
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
                                             <table id="transfers-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table-bordered table-hover table-striped"
+                                                   class="table table_theme"
                                                    style="margin-bottom: 0;">
                                                 <thead>
                                                 <tr>
@@ -422,7 +422,7 @@ function row_status($x)
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
                                             <table id="customers-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table-bordered table-hover table-striped"
+                                                   class="table table_theme"
                                                    style="margin-bottom: 0;">
                                                 <thead>
                                                 <tr>
@@ -467,7 +467,7 @@ function row_status($x)
                                     <div class="col-sm-12">
                                         <div class="table-responsive">
                                             <table id="suppliers-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table-bordered table-hover table-striped"
+                                                   class="table table_theme"
                                                    style="margin-bottom: 0;">
                                                 <thead>
                                                 <tr>

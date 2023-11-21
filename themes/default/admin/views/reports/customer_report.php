@@ -581,7 +581,7 @@
                     <p class="introtext"><?php echo lang('list_results'); ?></p>
 
                     <div class="table-responsive">
-                        <table id="QuRData" class="table table-bordered table-hover table-striped table-condensed reports-table">
+                        <table id="QuRData" class="table table_theme">
                             <thead>
                                 <tr>
                                     <th><?= lang("date"); ?></th>

@@ -147,7 +147,7 @@ if ($this->input->post('end_date')) {
 
                 <div class="table-responsive">
                     <table id="registerTable" cellpadding="0" cellspacing="0" border="0"
-                           class="table table-bordered table-hover table-striped reports-table">
+                           class="table table_theme">
                         <thead>
                         <tr>
                             <th><?= lang('open_time'); ?></th>

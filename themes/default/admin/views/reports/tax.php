@@ -251,7 +251,7 @@ if ($this->input->post('end_date')) {
 
                 <div class="table-responsive">
                     <table id="TAXData"
-                           class="table table-bordered table-hover table-striped table-condensed reports-table">
+                           class="table table_theme">
                         <thead>
                         <tr>
                             <th style="min-width:150px !important;"><?= lang("date"); ?></th>
@@ -524,7 +524,7 @@ if ($this->input->post('end_date')) {
 
                         <div class="table-responsive">
                             <table id="PTAXData"
-                                   class="table table-bordered table-hover table-striped table-condensed reports-table">
+                                   class="table table_theme">
                                 <thead>
                                 <tr>
                                     <th style="min-width:150px !important;"><?= lang("date"); ?></th>
