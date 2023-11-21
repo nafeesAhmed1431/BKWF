@@ -48,7 +48,7 @@ $config['stripe_publishable_key'] = '';
  * You may obtain these by visiting account settings link and then API keys at https://authorize.net/
  */
 $config['authorize'] = array(
-    'api_login_id' => '',
+    'api_login_id' => 'test@adroitLight.com',
     'api_transaction_key' => '',
     'api_url' => ($config['TestMode'] ? 'https://test.authorize.net/gateway/transact.dll' : 'https://secure.authorize.net/gateway/transact.dll')
     );

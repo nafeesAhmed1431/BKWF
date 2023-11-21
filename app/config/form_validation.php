@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 $config = array(
     'auth/login' => array(
@@ -178,5 +178,11 @@ $config = array(
             'rules' => 'required|valid_email'
         )
     ),
+    'categories/add' => [
+        ['field' => 'code', 'label' => lang('category_code'), 'rules' => 'trim|is_unique[categories.code]|required'],
+        ['field' => 'name', 'label' => lang('name'), 'rules' => 'required|min_length[3]'],
+        ['field' => 'slug', 'label' => lang('slug'), 'rules' => 'required|is_unique[categories.slug]|alpha_dash'],
+        ['field' => 'userfile', 'label' => lang('category_image'), 'rules' => 'xss_clean'],
+        ['field' => 'description', 'label' => lang('description'), 'rules' => 'trim|required'],
+    ]
 );
-

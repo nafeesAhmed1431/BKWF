@@ -5,8 +5,8 @@ class Pos extends MY_Controller
 
     public function __construct()
     {
-
         parent::__construct();
+
         if (!$this->loggedIn) {
             $this->session->set_userdata('requested_page', $this->uri->uri_string());
             $this->sma->md('login');

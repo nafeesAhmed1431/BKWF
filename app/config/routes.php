@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Framework routes
-$route['default_controller'] = 'main';
+$route['default_controller'] = 'auth';
 $route['404_override'] = 'notify/error_404';
 $route['translate_uri_dashes'] = TRUE;
 

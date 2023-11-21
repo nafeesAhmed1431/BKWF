@@ -107,6 +107,22 @@
                         </li>
                         <li class="divider"></li>
                         <li>
+                            <a href="<?=admin_url('system_settings/categories')?>">
+                                <i class="fa-fw fa fa-folder-open"></i> <?= lang('categories') ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?=admin_url('system_settings/units')?>">
+                                <i class="fa-fw fa fa-folder-open"></i> <?= lang('units') ?>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?=admin_url('system_settings/brands')?>">
+                                <i class="fa-fw fa fa-th-list"></i> <?= lang('brands') ?>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
                             <a href="#" class="bpo" title="<b><?= $this->lang->line("delete_products") ?></b>"
                                 data-content="<p><?= lang('r_u_sure') ?></p><button type='button' class='btn btn-danger' id='delete' data-action='delete'><?= lang('i_m_sure') ?></a> <button class='btn bpo-close'><?= lang('no') ?></button>"
                                 data-html="true" data-placement="left">

@@ -957,7 +957,7 @@
                                                         <?php if (POS && $GP['pos-index']) { ?>
                                                             <li id="pos_sales">
                                                                 <a class="submenu" href="<?= admin_url('pos/sales'); ?>">
-                                                                    <i class="fa fa-heart"></i><span class="text"> <?= lang('pos_sales'); ?></span>
+                                                                    <i class="fa fa-heart"></i><span class="text"> <?= lang('`pos`_sales'); ?></span>
                                                                 </a>
                                                             </li>
                                                         <?php } ?>
