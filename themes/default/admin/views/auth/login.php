@@ -70,13 +70,19 @@
                             <p>Bilal Khal Wanda Factory</p>
                         </div>
                         <form action="<?= admin_url('auth/login') ?>" data-toggle="validator" method="post" accept-charset="utf-8">
-                            <div class="form-group emailInput" data-img="<?= base_url('assets/images/user.svg') ?>">
-                                <label for="email">Username/Email</label>
-                                <input type="text" class="inputField" name="identity" id="identity" placeholder="Username | email@mail.com">
+                            <div class="form-group emailInput">
+                                <label for="identity">Username/Email</label>
+                                <div class="inputIconShown">
+                                    <input type="text" class="inputField" name="identity" id="identity" placeholder="Username | email@mail.com">
+                                    <span><img src="<?= base_url('assets/images/user.svg') ?>" alt=""></span>
+                                </div>
                             </div>
-                            <div class="form-group passwordInput" data-img="<?= base_url('assets/images/lock.svg') ?>">
+                            <div class="form-group passwordInput">
                                 <label for="password">Password</label>
-                                <input type="password" class="inputField" name="password" id="password" placeholder="*********">
+                                <div class="inputIconShown">
+                                    <input type="password" class="inputField" name="password" id="password" placeholder="*********">
+                                    <span><img src="<?= base_url('assets/images/lock.svg') ?>" alt=""></span>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-6">

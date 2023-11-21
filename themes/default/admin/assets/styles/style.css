@@ -3451,7 +3451,7 @@ legend.scheduler-border {
     margin-bottom: 7px;
 }
 
-.login_form>form>*>input {
+input.inputField {
     border: 1px solid #8A8A8A;
     padding: 14px 19px 14px;
     border-radius: 8px;
@@ -3465,27 +3465,28 @@ legend.scheduler-border {
     width: 100%;
 }
 
-.login_form>form>*>input:-webkit-autofill,
-.login_form>form>*>input:-webkit-autofill:hover,
-.login_form>form>*>input:-webkit-autofill:focus,
-.login_form>form>*>input:-webkit-autofill:active {
+/* input.:-webkit-autofill,
+input.:-webkit-autofill:hover,
+input.:-webkit-autofill:focus,
+input.:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
+} */
 
 .emailInput {
     margin-bottom: 20px;
 }
 
-#email {
-    background-image: url(../../../../../assets/images/user.svg);
-    background-repeat: no-repeat;
-    background-position: top 13px left 19px;
+.inputIconShown {
+    width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
-#password {
-    background-image: url(../../../../../assets/images/lock.svg);
-    background-repeat: no-repeat;
-    background-position: top 13px left 19px;
+.inputIconShown>span {
+    position: absolute;
+    top: 13px;
+    left: 19px;
+    z-index: 1;
 }
 
 .login_form>form>*>input::placeholder {
@@ -3503,6 +3504,13 @@ legend.scheduler-border {
     font-weight: 900;
     color: #FFFFFF;
     text-decoration: none;
+    border: 1px solid #EE4036;
+    transition: 0.4s ease-in-out;
+}
+
+.button:hover {
+    background-color: transparent;
+    color: #EE4036;
 }
 
 @media (max-width:992px) {
