@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class system_settings extends MY_Controller
 {
@@ -83,7 +83,7 @@ class system_settings extends MY_Controller
 
             $language = $this->input->post('language');
 
-            if ((file_exists(APPPATH.'language'.DIRECTORY_SEPARATOR.$language.DIRECTORY_SEPARATOR.'admin'.DIRECTORY_SEPARATOR.'sma_lang.php') && is_dir(APPPATH.DIRECTORY_SEPARATOR.'language'.DIRECTORY_SEPARATOR.$language)) || $language == 'english') {
+            if ((file_exists(APPPATH . 'language' . DIRECTORY_SEPARATOR . $language . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'sma_lang.php') && is_dir(APPPATH . DIRECTORY_SEPARATOR . 'language' . DIRECTORY_SEPARATOR . $language)) || $language == 'english') {
                 $lang = $language;
             } else {
                 $this->session->set_flashdata('error', lang('language_x_found'));
@@ -94,7 +94,8 @@ class system_settings extends MY_Controller
             $tax1 = ($this->input->post('tax_rate') != 0) ? 1 : 0;
             $tax2 = ($this->input->post('tax_rate2') != 0) ? 1 : 0;
 
-            $data = array('site_name' => DEMO ? 'Stock Manager Advance' : $this->input->post('site_name'),
+            $data = array(
+                'site_name' => DEMO ? 'Stock Manager Advance' : $this->input->post('site_name'),
                 'rows_per_page' => $this->input->post('rows_per_page'),
                 'dateformat' => $this->input->post('dateformat'),
                 'timezone' => DEMO ? 'Asia/Kuala_Lumpur' : $this->input->post('timezone'),
@@ -179,8 +180,8 @@ class system_settings extends MY_Controller
         }
 
         if ($this->form_validation->run() == true && $this->settings_model->updateSetting($data)) {
-            if ( ! DEMO && TIMEZONE != $data['timezone']) {
-                if ( ! $this->write_index($data['timezone'])) {
+            if (!DEMO && TIMEZONE != $data['timezone']) {
+                if (!$this->write_index($data['timezone'])) {
                     $this->session->set_flashdata('error', lang('setting_updated_timezone_failed'));
                     admin_redirect('system_settings');
                 }
@@ -219,7 +220,8 @@ class system_settings extends MY_Controller
 
         if ($this->form_validation->run() == true) {
 
-            $data = array('active' => $this->input->post('active'),
+            $data = array(
+                'active' => $this->input->post('active'),
                 'account_email' => $this->input->post('account_email'),
                 'fixed_charges' => $this->input->post('fixed_charges'),
                 'extra_charges_my' => $this->input->post('extra_charges_my'),
@@ -256,7 +258,8 @@ class system_settings extends MY_Controller
 
         if ($this->form_validation->run() == true) {
 
-            $data = array('active' => $this->input->post('active'),
+            $data = array(
+                'active' => $this->input->post('active'),
                 'account_email' => $this->input->post('account_email'),
                 'fixed_charges' => $this->input->post('fixed_charges'),
                 'extra_charges_my' => $this->input->post('extra_charges_my'),
@@ -352,7 +355,6 @@ class system_settings extends MY_Controller
 
             $this->session->set_flashdata('message', lang('logo_uploaded'));
             redirect($_SERVER["HTTP_REFERER"]);
-
         } elseif ($this->input->post('upload_logo')) {
             $this->session->set_flashdata('error', validation_errors());
             redirect($_SERVER["HTTP_REFERER"]);
@@ -406,7 +408,7 @@ class system_settings extends MY_Controller
             $fields = array('version' => $this->Settings->version, 'code' => $this->Settings->purchase_code, 'username' => $this->Settings->envato_username, 'site' => base_url());
             $this->load->helper('update');
             $protocol = is_https() ? 'https://' : 'http://';
-            $updates = get_remote_contents($protocol.'api.tecdiary.com/v1/update/', $fields);
+            $updates = get_remote_contents($protocol . 'api.tecdiary.com/v1/update/', $fields);
             $this->data['updates'] = json_decode($updates);
             $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => '#', 'page' => lang('updates')));
             $meta = array('page_title' => lang('updates'), 'bc' => $bc);
@@ -452,7 +454,8 @@ class system_settings extends MY_Controller
         }
         $this->data['files'] = glob('./files/backups/*.zip', GLOB_BRACE);
         $this->data['dbs'] = glob('./files/backups/*.txt', GLOB_BRACE);
-        krsort($this->data['files']); krsort($this->data['dbs']);
+        krsort($this->data['files']);
+        krsort($this->data['dbs']);
         $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => '#', 'page' => lang('backups')));
         $meta = array('page_title' => lang('backups'), 'bc' => $bc);
         $this->page_construct('settings/backups', $meta, $this->data);
@@ -474,7 +477,7 @@ class system_settings extends MY_Controller
             'filename' => 'sma_db_backup.sql'
         );
         $back = $this->dbutil->backup($prefs);
-        $backup =& $back;
+        $backup = &$back;
         $db_name = 'db-backup-on-' . date("Y-m-d-H-i-s") . '.txt';
         $save = './files/backups/' . $db_name;
         $this->load->helper('file');
@@ -643,7 +646,6 @@ class system_settings extends MY_Controller
         if ($this->form_validation->run() == TRUE && ($new_group_id = $this->settings_model->addGroup($data))) {
             $this->session->set_flashdata('message', lang('group_added'));
             admin_redirect("system_settings/permissions/" . $new_group_id);
-
         } else {
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
@@ -889,7 +891,8 @@ class system_settings extends MY_Controller
         $this->form_validation->set_rules('rate', lang("exchange_rate"), 'required|numeric');
 
         if ($this->form_validation->run() == true) {
-            $data = array('code' => $this->input->post('code'),
+            $data = array(
+                'code' => $this->input->post('code'),
                 'name' => $this->input->post('name'),
                 'rate' => $this->input->post('rate'),
                 'symbol' => $this->input->post('symbol'),
@@ -924,7 +927,8 @@ class system_settings extends MY_Controller
 
         if ($this->form_validation->run() == true) {
 
-            $data = array('code' => $this->input->post('code'),
+            $data = array(
+                'code' => $this->input->post('code'),
                 'name' => $this->input->post('name'),
                 'rate' => $this->input->post('rate'),
                 'symbol' => $this->input->post('symbol'),
@@ -1017,7 +1021,7 @@ class system_settings extends MY_Controller
     function getCategories()
     {
 
-        $print_barcode = anchor('admin/products/print_barcodes/?category=$1', '<i class="fa fa-print"></i>', 'title="'.lang('print_barcodes').'" class="tip"');
+        $print_barcode = anchor('admin/products/print_barcodes/?category=$1', '<i class="fa fa-print"></i>', 'title="' . lang('print_barcodes') . '" class="tip"');
 
         $this->load->library('datatables');
         $this->datatables
@@ -1025,29 +1029,22 @@ class system_settings extends MY_Controller
             ->from("categories")
             ->join("categories c", 'c.id=categories.parent_id', 'left')
             ->group_by('categories.id')
-            ->add_column("Actions", "<div class=\"text-center\">".$print_barcode." <a href='" . admin_url('system_settings/edit_category/$1') . "' data-toggle='modal' data-target='#myModal' class='tip' title='" . lang("edit_category") . "'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_category") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('system_settings/delete_category/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "id");
+            ->add_column("Actions", "<div class=\"text-center\">" . $print_barcode . " <a href='" . admin_url('system_settings/edit_category/$1') . "' data-toggle='modal' data-target='#myModal' class='tip' title='" . lang("edit_category") . "'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_category") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('system_settings/delete_category/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "id");
 
         echo $this->datatables->generate();
     }
 
     function add_category()
     {
-
         $this->load->helper('security');
-        $this->form_validation->set_rules('code', lang("category_code"), 'trim|is_unique[categories.code]|required');
-        $this->form_validation->set_rules('name', lang("name"), 'required|min_length[3]');
-        $this->form_validation->set_rules('slug', lang("slug"), 'required|is_unique[categories.slug]|alpha_dash');
-        $this->form_validation->set_rules('userfile', lang("category_image"), 'xss_clean');
-        $this->form_validation->set_rules('description', lang("description"), 'trim|required');
-
-        if ($this->form_validation->run() == true) {
+        if ($this->form_validation->run('categories/add')) {
             $data = array(
                 'name' => $this->input->post('name'),
                 'code' => $this->input->post('code'),
                 'slug' => $this->input->post('slug'),
                 'description' => $this->input->post('description'),
                 'parent_id' => $this->input->post('parent'),
-                );
+            );
 
             if ($_FILES['userfile']['size'] > 0) {
                 $this->load->library('upload');
@@ -1098,13 +1095,12 @@ class system_settings extends MY_Controller
                 $this->image_lib->clear();
                 $config = NULL;
             }
-
         } elseif ($this->input->post('add_category')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/categories");
         }
 
-        if ($this->form_validation->run() == true && $this->settings_model->addCategory($data)) {
+        if ($this->form_validation->run('categories/add') && $this->settings_model->addCategory($data)) {
             $this->session->set_flashdata('message', lang("category_added"));
             admin_redirect("system_settings/categories");
         } else {
@@ -1113,7 +1109,6 @@ class system_settings extends MY_Controller
             $this->data['categories'] = $this->settings_model->getParentCategories();
             $this->data['modal_js'] = $this->site->modal_js();
             $this->load->view($this->theme . 'settings/add_category', $this->data);
-
         }
     }
 
@@ -1141,7 +1136,7 @@ class system_settings extends MY_Controller
                 'slug' => $this->input->post('slug'),
                 'description' => $this->input->post('description'),
                 'parent_id' => $this->input->post('parent'),
-                );
+            );
 
             if ($_FILES['userfile']['size'] > 0) {
                 $this->load->library('upload');
@@ -1192,7 +1187,6 @@ class system_settings extends MY_Controller
                 $this->image_lib->clear();
                 $config = NULL;
             }
-
         } elseif ($this->input->post('edit_category')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/categories");
@@ -1208,7 +1202,6 @@ class system_settings extends MY_Controller
             $this->data['categories'] = $this->settings_model->getParentCategories();
             $this->data['modal_js'] = $this->site->modal_js();
             $this->load->view($this->theme . 'settings/edit_category', $this->data);
-
         }
     }
 
@@ -1313,7 +1306,8 @@ class system_settings extends MY_Controller
         $this->form_validation->set_rules('rate', lang("tax_rate"), 'required|numeric');
 
         if ($this->form_validation->run() == true) {
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'code' => $this->input->post('code'),
                 'type' => $this->input->post('type'),
                 'rate' => $this->input->post('rate'),
@@ -1347,7 +1341,8 @@ class system_settings extends MY_Controller
 
         if ($this->form_validation->run() == true) {
 
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'code' => $this->input->post('code'),
                 'type' => $this->input->post('type'),
                 'rate' => $this->input->post('rate'),
@@ -1461,7 +1456,8 @@ class system_settings extends MY_Controller
         $this->form_validation->set_rules('percent', lang("group_percentage"), 'required|numeric');
 
         if ($this->form_validation->run() == true) {
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'percent' => $this->input->post('percent'),
             );
         } elseif ($this->input->post('add_customer_group')) {
@@ -1492,7 +1488,8 @@ class system_settings extends MY_Controller
 
         if ($this->form_validation->run() == true) {
 
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'percent' => $this->input->post('percent'),
             );
         } elseif ($this->input->post('edit_customer_group')) {
@@ -1640,7 +1637,8 @@ class system_settings extends MY_Controller
             } else {
                 $map = NULL;
             }
-            $data = array('code' => $this->input->post('code'),
+            $data = array(
+                'code' => $this->input->post('code'),
                 'name' => $this->input->post('name'),
                 'phone' => $this->input->post('phone'),
                 'email' => $this->input->post('email'),
@@ -1676,7 +1674,8 @@ class system_settings extends MY_Controller
         $this->form_validation->set_rules('map', lang("map_image"), 'xss_clean');
 
         if ($this->form_validation->run() == true) {
-            $data = array('code' => $this->input->post('code'),
+            $data = array(
+                'code' => $this->input->post('code'),
                 'name' => $this->input->post('name'),
                 'phone' => $this->input->post('phone'),
                 'email' => $this->input->post('email'),
@@ -1914,7 +1913,6 @@ class system_settings extends MY_Controller
                 'name' => $this->input->post('name'),
                 'code' => $this->input->post('code'),
             );
-
         } elseif ($this->input->post('add_expense_category')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/expense_categories");
@@ -1945,7 +1943,6 @@ class system_settings extends MY_Controller
                 'code' => $this->input->post('code'),
                 'name' => $this->input->post('name')
             );
-
         } elseif ($this->input->post('edit_expense_category')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/expense_categories");
@@ -2071,7 +2068,7 @@ class system_settings extends MY_Controller
                             $category['parent_id'] = $pcategory->id;
                         }
                         if ($c = $this->settings_model->getCategoryByCode($code)) {
-                            $updated .= '<p>'.lang('category_updated').' ('.$code.')</p>';
+                            $updated .= '<p>' . lang('category_updated') . ' (' . $code . ')</p>';
                             $this->settings_model->updateCategory($c->id, $category);
                         } else {
                             if ($category['parent_id']) {
@@ -2088,7 +2085,7 @@ class system_settings extends MY_Controller
         }
 
         if ($this->form_validation->run() == true && $this->settings_model->addCategories($categories, $subcategories)) {
-            $this->session->set_flashdata('message', lang("categories_added").$updated);
+            $this->session->set_flashdata('message', lang("categories_added") . $updated);
             admin_redirect('system_settings/categories');
         } else {
             if ((isset($categories) && empty($categories)) || (isset($subcategories) && empty($subcategories))) {
@@ -2101,14 +2098,14 @@ class system_settings extends MY_Controller
             }
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
-            $this->data['userfile'] = array('name' => 'userfile',
+            $this->data['userfile'] = array(
+                'name' => 'userfile',
                 'id' => 'userfile',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('userfile')
             );
             $this->data['modal_js'] = $this->site->modal_js();
-            $this->load->view($this->theme.'settings/import_categories', $this->data);
-
+            $this->load->view($this->theme . 'settings/import_categories', $this->data);
         }
     }
 
@@ -2154,14 +2151,14 @@ class system_settings extends MY_Controller
 
                 $rw = 2;
                 foreach ($final as $csv_ct) {
-                    if ( ! $this->settings_model->getSubcategoryByCode(trim($csv_ct['code']))) {
+                    if (!$this->settings_model->getSubcategoryByCode(trim($csv_ct['code']))) {
                         if ($parent_actegory = $this->settings_model->getCategoryByCode(trim($csv_ct['category_code']))) {
                             $data[] = array(
                                 'code' => trim($csv_ct['code']),
                                 'name' => trim($csv_ct['name']),
                                 'image' => trim($csv_ct['image']),
                                 'category_id' => $parent_actegory->id,
-                                );
+                            );
                         } else {
                             $this->session->set_flashdata('error', lang("check_category_code") . " (" . $csv_ct['category_code'] . "). " . lang("category_code_x_exist") . " " . lang("line_no") . " " . $rw);
                             admin_redirect("system_settings/categories");
@@ -2180,14 +2177,14 @@ class system_settings extends MY_Controller
         } else {
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
-            $this->data['userfile'] = array('name' => 'userfile',
+            $this->data['userfile'] = array(
+                'name' => 'userfile',
                 'id' => 'userfile',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('userfile')
             );
             $this->data['modal_js'] = $this->site->modal_js();
-            $this->load->view($this->theme.'settings/import_subcategories', $this->data);
-
+            $this->load->view($this->theme . 'settings/import_subcategories', $this->data);
         }
     }
 
@@ -2232,11 +2229,11 @@ class system_settings extends MY_Controller
                 }
 
                 foreach ($final as $csv_ct) {
-                    if ( ! $this->settings_model->getExpenseCategoryByCode(trim($csv_ct['code']))) {
+                    if (!$this->settings_model->getExpenseCategoryByCode(trim($csv_ct['code']))) {
                         $data[] = array(
                             'code' => trim($csv_ct['code']),
                             'name' => trim($csv_ct['name']),
-                            );
+                        );
                     }
                 }
             }
@@ -2250,14 +2247,14 @@ class system_settings extends MY_Controller
         } else {
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
-            $this->data['userfile'] = array('name' => 'userfile',
+            $this->data['userfile'] = array(
+                'name' => 'userfile',
                 'id' => 'userfile',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('userfile')
             );
             $this->data['modal_js'] = $this->site->modal_js();
-            $this->load->view($this->theme.'settings/import_expense_categories', $this->data);
-
+            $this->load->view($this->theme . 'settings/import_expense_categories', $this->data);
         }
     }
 
@@ -2303,8 +2300,7 @@ class system_settings extends MY_Controller
                 'base_unit' => $this->input->post('base_unit') ? $this->input->post('base_unit') : NULL,
                 'operator' => $this->input->post('base_unit') ? $this->input->post('operator') : NULL,
                 'operation_value' => $this->input->post('operation_value') ? $this->input->post('operation_value') : NULL,
-                );
-
+            );
         } elseif ($this->input->post('add_unit')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/units");
@@ -2319,7 +2315,6 @@ class system_settings extends MY_Controller
             $this->data['base_units'] = $this->site->getAllBaseUnits();
             $this->data['modal_js'] = $this->site->modal_js();
             $this->load->view($this->theme . 'settings/add_unit', $this->data);
-
         }
     }
 
@@ -2345,8 +2340,7 @@ class system_settings extends MY_Controller
                 'base_unit' => $this->input->post('base_unit') ? $this->input->post('base_unit') : NULL,
                 'operator' => $this->input->post('base_unit') ? $this->input->post('operator') : NULL,
                 'operation_value' => $this->input->post('operation_value') ? $this->input->post('operation_value') : NULL,
-                );
-
+            );
         } elseif ($this->input->post('edit_unit')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/units");
@@ -2362,7 +2356,6 @@ class system_settings extends MY_Controller
             $this->data['unit'] = $unit_details;
             $this->data['base_units'] = $this->site->getAllBaseUnits();
             $this->load->view($this->theme . 'settings/edit_unit', $this->data);
-
         }
     }
 
@@ -2529,11 +2522,10 @@ class system_settings extends MY_Controller
                 if ($this->input->post('form_action') == 'update_price') {
 
                     foreach ($_POST['val'] as $id) {
-                        $this->settings_model->setProductPriceForPriceGroup($id, $group_id, $this->input->post('price'.$id));
+                        $this->settings_model->setProductPriceForPriceGroup($id, $group_id, $this->input->post('price' . $id));
                     }
                     $this->session->set_flashdata('message', lang("products_group_price_updated"));
                     redirect($_SERVER["HTTP_REFERER"]);
-
                 } elseif ($this->input->post('form_action') == 'delete') {
 
                     foreach ($_POST['val'] as $id) {
@@ -2541,7 +2533,6 @@ class system_settings extends MY_Controller
                     }
                     $this->session->set_flashdata('message', lang("products_group_price_deleted"));
                     redirect($_SERVER["HTTP_REFERER"]);
-
                 } elseif ($this->input->post('form_action') == 'export_excel') {
 
                     $this->load->library('excel');
@@ -2659,7 +2650,7 @@ class system_settings extends MY_Controller
                 if (!$this->upload->do_upload()) {
                     $error = $this->upload->display_errors();
                     $this->session->set_flashdata('error', $error);
-                    admin_redirect("system_settings/group_product_prices/".$group_id);
+                    admin_redirect("system_settings/group_product_prices/" . $group_id);
                 }
 
                 $csv = $this->upload->file_name;
@@ -2684,39 +2675,38 @@ class system_settings extends MY_Controller
                 $rw = 2;
                 foreach ($final as $csv_pr) {
                     if ($product = $this->site->getProductByCode(trim($csv_pr['code']))) {
-                    $data[] = array(
-                        'product_id' => $product->id,
-                        'price' => $csv_pr['price'],
-                        'price_group_id' => $group_id
+                        $data[] = array(
+                            'product_id' => $product->id,
+                            'price' => $csv_pr['price'],
+                            'price_group_id' => $group_id
                         );
                     } else {
                         $this->session->set_flashdata('message', lang("check_product_code") . " (" . $csv_pr['code'] . "). " . lang("code_x_exist") . " " . lang("line_no") . " " . $rw);
-                        admin_redirect("system_settings/group_product_prices/".$group_id);
+                        admin_redirect("system_settings/group_product_prices/" . $group_id);
                     }
                     $rw++;
                 }
             }
-
         } elseif ($this->input->post('update_price')) {
             $this->session->set_flashdata('error', validation_errors());
-            admin_redirect("system_settings/group_product_prices/".$group_id);
+            admin_redirect("system_settings/group_product_prices/" . $group_id);
         }
 
         if ($this->form_validation->run() == true && !empty($data)) {
             $this->settings_model->updateGroupPrices($data);
             $this->session->set_flashdata('message', lang("price_updated"));
-            admin_redirect("system_settings/group_product_prices/".$group_id);
+            admin_redirect("system_settings/group_product_prices/" . $group_id);
         } else {
 
-            $this->data['userfile'] = array('name' => 'userfile',
+            $this->data['userfile'] = array(
+                'name' => 'userfile',
                 'id' => 'userfile',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('userfile')
             );
             $this->data['group'] = $this->site->getPriceGroupByID($group_id);
             $this->data['modal_js'] = $this->site->modal_js();
-            $this->load->view($this->theme.'settings/update_price', $this->data);
-
+            $this->load->view($this->theme . 'settings/update_price', $this->data);
         }
     }
 
@@ -2754,7 +2744,7 @@ class system_settings extends MY_Controller
                 'code' => $this->input->post('code'),
                 'slug' => $this->input->post('slug'),
                 'description' => $this->input->post('description'),
-                );
+            );
 
             if ($_FILES['userfile']['size'] > 0) {
                 $this->load->library('upload');
@@ -2788,7 +2778,6 @@ class system_settings extends MY_Controller
                 }
                 $this->image_lib->clear();
             }
-
         } elseif ($this->input->post('add_brand')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/brands");
@@ -2802,7 +2791,6 @@ class system_settings extends MY_Controller
             $this->data['error'] = validation_errors() ? validation_errors() : $this->session->flashdata('error');
             $this->data['modal_js'] = $this->site->modal_js();
             $this->load->view($this->theme . 'settings/add_brand', $this->data);
-
         }
     }
 
@@ -2827,7 +2815,7 @@ class system_settings extends MY_Controller
                 'code' => $this->input->post('code'),
                 'slug' => $this->input->post('slug'),
                 'description' => $this->input->post('description'),
-                );
+            );
 
             if ($_FILES['userfile']['size'] > 0) {
                 $this->load->library('upload');
@@ -2861,7 +2849,6 @@ class system_settings extends MY_Controller
                 }
                 $this->image_lib->clear();
             }
-
         } elseif ($this->input->post('edit_brand')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect("system_settings/brands");
@@ -2876,7 +2863,6 @@ class system_settings extends MY_Controller
             $this->data['modal_js'] = $this->site->modal_js();
             $this->data['brand'] = $brand_details;
             $this->load->view($this->theme . 'settings/edit_brand', $this->data);
-
         }
     }
 
@@ -2933,12 +2919,12 @@ class system_settings extends MY_Controller
                 }
 
                 foreach ($final as $csv_ct) {
-                    if ( ! $this->settings_model->getBrandByName(trim($csv_ct['name']))) {
+                    if (!$this->settings_model->getBrandByName(trim($csv_ct['name']))) {
                         $data[] = array(
                             'code' => trim($csv_ct['code']),
                             'name' => trim($csv_ct['name']),
                             'image' => trim($csv_ct['image']),
-                            );
+                        );
                     }
                 }
             }
@@ -2952,14 +2938,14 @@ class system_settings extends MY_Controller
         } else {
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
-            $this->data['userfile'] = array('name' => 'userfile',
+            $this->data['userfile'] = array(
+                'name' => 'userfile',
                 'id' => 'userfile',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('userfile')
             );
             $this->data['modal_js'] = $this->site->modal_js();
-            $this->load->view($this->theme.'settings/import_brands', $this->data);
-
+            $this->load->view($this->theme . 'settings/import_brands', $this->data);
         }
     }
 
@@ -3012,5 +2998,4 @@ class system_settings extends MY_Controller
             redirect($_SERVER["HTTP_REFERER"]);
         }
     }
-
 }
