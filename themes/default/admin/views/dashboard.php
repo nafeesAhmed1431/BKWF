@@ -1,742 +1,884 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
+
 <?php
-function row_status($x)
-{
-    if ($x == null) {
-        return '';
-    } elseif ($x == 'pending') {
-        return '<div class="text-center"><span class="label label-warning">' . lang($x) . '</span></div>';
-    } elseif ($x == 'completed' || $x == 'paid' || $x == 'sent' || $x == 'received') {
-        return '<div class="text-center"><span class="label label-success">' . lang($x) . '</span></div>';
-    } elseif ($x == 'partial' || $x == 'transferring') {
-        return '<div class="text-center"><span class="label label-info">' . lang($x) . '</span></div>';
-    } elseif ($x == 'due') {
-        return '<div class="text-center"><span class="label label-danger">' . lang($x) . '</span></div>';
-    } else {
-        return '<div class="text-center"><span class="label label-default">' . lang($x) . '</span></div>';
-    }
-}
-
+$proVal1 = '90';
+$proVal2 = '80';
+$proVal3 = '70';
+$proVal4 = '60';
+$proVal5 = '30';
 ?>
-<?php if (($Owner || $Admin) && $chatData) {
-    foreach ($chatData as $month_sale) {
-        $months[] = date('M-Y', strtotime($month_sale->month));
-        $msales[] = $month_sale->sales;
-        $mtax1[] = $month_sale->tax1;
-        $mtax2[] = $month_sale->tax2;
-        $mpurchases[] = $month_sale->purchases;
-        $mtax3[] = $month_sale->ptax;
+
+<style>
+    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(1)>.cardChartRowItemListItemRange>progress::before {
+        left: <?= $proVal1; ?>%;
     }
-    ?>
-    <div class="box" style="margin-bottom: 15px;">
-        <div class="box-header">
-            <h2 class="blue"><i class="fa-fw fa fa-bar-chart-o"></i><?= lang('overview_chart'); ?></h2>
-        </div>
-        <div class="box-content">
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="introtext"><?php echo lang('overview_chart_heading'); ?></p>
 
-                    <div id="ov-chart" style="width:100%; height:450px;"></div>
-                    <p class="text-center"><?= lang("chart_lable_toggle"); ?></p>
+    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(2)>.cardChartRowItemListItemRange>progress::before {
+        left: <?= $proVal2; ?>%;
+    }
+
+    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(3)>.cardChartRowItemListItemRange>progress::before {
+        left: <?= $proVal3; ?>%;
+    }
+
+    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(4)>.cardChartRowItemListItemRange>progress::before {
+        left: <?= $proVal4; ?>%;
+    }
+
+    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(5)>.cardChartRowItemListItemRange>progress::before {
+        left: <?= $proVal5; ?>%;
+    }
+</style>
+
+<section>
+    <div class="cardRow">
+        <div class="cardList">
+            <a href="#" class="cardItem">
+                <div class="cardItemIcon cardProfit">
+                    <img src="<?= $assets ?>images/icon/pie-chart.svg" alt="" class="svg">
                 </div>
-            </div>
-        </div>
-    </div>
-<?php } ?>
-<?php if ($Owner || $Admin) { ?>
-<div class="row" style="margin-bottom: 15px;">
-    <div class="col-lg-12">
-        <div class="box">
-            <div class="box-header">
-                <h2 class="blue"><i class="fa fa-th"></i><span class="break"></span><?= lang('quick_links') ?></h2>
-            </div>
-            <div class="box-content">
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bblue white quick-button small" href="<?= admin_url('products') ?>">
-                        <i class="fa fa-barcode"></i>
-
-                        <p><?= lang('products') ?></p>
-                    </a>
-                </div>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bdarkGreen white quick-button small" href="<?= admin_url('sales') ?>">
-                        <i class="fa fa-heart"></i>
-
-                        <p><?= lang('sales') ?></p>
-                    </a>
-                </div>
-
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="blightOrange white quick-button small" href="<?= admin_url('quotes') ?>">
-                        <i class="fa fa-heart-o"></i>
-
-                        <p><?= lang('quotes') ?></p>
-                    </a>
-                </div>
-
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bred white quick-button small" href="<?= admin_url('purchases') ?>">
-                        <i class="fa fa-star"></i>
-
-                        <p><?= lang('purchases') ?></p>
-                    </a>
-                </div>
-
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bpink white quick-button small" href="<?= admin_url('transfers') ?>">
-                        <i class="fa fa-star-o"></i>
-
-                        <p><?= lang('transfers') ?></p>
-                    </a>
-                </div>
-
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bgrey white quick-button small" href="<?= admin_url('customers') ?>">
-                        <i class="fa fa-users"></i>
-
-                        <p><?= lang('customers') ?></p>
-                    </a>
-                </div>
-
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bgrey white quick-button small" href="<?= admin_url('suppliers') ?>">
-                        <i class="fa fa-users"></i>
-
-                        <p><?= lang('suppliers') ?></p>
-                    </a>
-                </div>
-
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="blightBlue white quick-button small" href="<?= admin_url('notifications') ?>">
-                        <i class="fa fa-comments"></i>
-
-                        <p><?= lang('notifications') ?></p>
-                        <!--<span class="notification green">4</span>-->
-                    </a>
-                </div>
-
-                <?php if ($Owner) { ?>
-                    <div class="col-lg-1 col-md-2 col-xs-6">
-                        <a class="bblue white quick-button small" href="<?= admin_url('users') ?>">
-                            <i class="fa fa-group"></i>
-                            <p><?= lang('users') ?></p>
-                        </a>
+                <div class="cardItemContent">
+                    <div class="cardItemContentPara">
+                        <p>Profit</p>
                     </div>
-                    <div class="col-lg-1 col-md-2 col-xs-6">
-                        <a class="bblue white quick-button small" href="<?= admin_url('system_settings') ?>">
-                            <i class="fa fa-cogs"></i>
-
-                            <p><?= lang('settings') ?></p>
-                        </a>
+                    <div class="cardItemContentHeading">
+                        <h3>Rs 12,628</h3>
                     </div>
-                <?php } ?>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<?php } else { ?>
-<div class="row" style="margin-bottom: 15px;">
-    <div class="col-lg-12">
-        <div class="box">
-            <div class="box-header">
-                <h2 class="blue"><i class="fa fa-th"></i><span class="break"></span><?= lang('quick_links') ?></h2>
-            </div>
-            <div class="box-content">
-            <?php if ($GP['products-index']) { ?>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bblue white quick-button small" href="<?= admin_url('products') ?>">
-                        <i class="fa fa-barcode"></i>
-                        <p><?= lang('products') ?></p>
-                    </a>
                 </div>
-            <?php } if ($GP['sales-index']) { ?>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bdarkGreen white quick-button small" href="<?= admin_url('sales') ?>">
-                        <i class="fa fa-heart"></i>
-                        <p><?= lang('sales') ?></p>
-                    </a>
+            </a>
+            <a href="#" class="cardItem">
+                <div class="cardItemIcon cardSale">
+                    <img src="<?= $assets ?>images/icon/wallet.svg" alt="" class="svg">
                 </div>
-            <?php } if ($GP['quotes-index']) { ?>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="blightOrange white quick-button small" href="<?= admin_url('quotes') ?>">
-                        <i class="fa fa-heart-o"></i>
-                        <p><?= lang('quotes') ?></p>
-                    </a>
-                </div>
-            <?php } if ($GP['purchases-index']) { ?>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bred white quick-button small" href="<?= admin_url('purchases') ?>">
-                        <i class="fa fa-star"></i>
-                        <p><?= lang('purchases') ?></p>
-                    </a>
-                </div>
-            <?php } if ($GP['transfers-index']) { ?>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bpink white quick-button small" href="<?= admin_url('transfers') ?>">
-                        <i class="fa fa-star-o"></i>
-                        <p><?= lang('transfers') ?></p>
-                    </a>
-                </div>
-            <?php } if ($GP['customers-index']) { ?>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bgrey white quick-button small" href="<?= admin_url('customers') ?>">
-                        <i class="fa fa-users"></i>
-                        <p><?= lang('customers') ?></p>
-                    </a>
-                </div>
-            <?php } if ($GP['suppliers-index']) { ?>
-                <div class="col-lg-1 col-md-2 col-xs-6">
-                    <a class="bgrey white quick-button small" href="<?= admin_url('suppliers') ?>">
-                        <i class="fa fa-users"></i>
-
-                        <p><?= lang('suppliers') ?></p>
-                    </a>
-                </div>
-            <?php } ?>
-            <div class="clearfix"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<?php } ?>
-
-<div class="row" style="margin-bottom: 15px;">
-    <div class="col-md-12">
-        <div class="box">
-            <div class="box-header">
-                <h2 class="blue"><i class="fa-fw fa fa-tasks"></i> <?= lang('latest_five') ?></h2>
-            </div>
-            <div class="box-content">
-                <div class="row">
-                    <div class="col-md-12">
-
-                        <ul id="dbTab" class="nav nav-tabs">
-                            <?php if ($Owner || $Admin || $GP['sales-index']) { ?>
-                            <li class=""><a href="#sales"><?= lang('sales') ?></a></li>
-                            <?php } if ($Owner || $Admin || $GP['quotes-index']) { ?>
-                            <li class=""><a href="#quotes"><?= lang('quotes') ?></a></li>
-                            <?php } if ($Owner || $Admin || $GP['purchases-index']) { ?>
-                            <li class=""><a href="#purchases"><?= lang('purchases') ?></a></li>
-                            <?php } if ($Owner || $Admin || $GP['transfers-index']) { ?>
-                            <li class=""><a href="#transfers"><?= lang('transfers') ?></a></li>
-                            <?php } if ($Owner || $Admin || $GP['customers-index']) { ?>
-                            <li class=""><a href="#customers"><?= lang('customers') ?></a></li>
-                            <?php } if ($Owner || $Admin || $GP['suppliers-index']) { ?>
-                            <li class=""><a href="#suppliers"><?= lang('suppliers') ?></a></li>
-                            <?php } ?>
-                        </ul>
-
-                        <div class="tab-content">
-                        <?php if ($Owner || $Admin || $GP['sales-index']) { ?>
-
-                            <div id="sales" class="tab-pane fade in">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="table-responsive">
-                                            <table id="sales-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table_theme"
-                                                   style="margin-bottom: 0;">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width:30px !important;">#</th>
-                                                    <th><?= $this->lang->line("date"); ?></th>
-                                                    <th><?= $this->lang->line("reference_no"); ?></th>
-                                                    <th><?= $this->lang->line("customer"); ?></th>
-                                                    <th><?= $this->lang->line("status"); ?></th>
-                                                    <th><?= $this->lang->line("total"); ?></th>
-                                                    <th><?= $this->lang->line("payment_status"); ?></th>
-                                                    <th><?= $this->lang->line("paid"); ?></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php if (!empty($sales)) {
-                                                    $r = 1;
-                                                    foreach ($sales as $order) {
-                                                        echo '<tr id="' . $order->id . '" class="' . ($order->pos ? "receipt_link" : "invoice_link") . '"><td>' . $r . '</td>
-                                                            <td>' . $this->sma->hrld($order->date) . '</td>
-                                                            <td>' . $order->reference_no . '</td>
-                                                            <td>' . $order->customer . '</td>
-                                                            <td>' . row_status($order->sale_status) . '</td>
-                                                            <td class="text-right">' . $this->sma->formatMoney($order->grand_total) . '</td>
-                                                            <td>' . row_status($order->payment_status) . '</td>
-                                                            <td class="text-right">' . $this->sma->formatMoney($order->paid) . '</td>
-                                                        </tr>';
-                                                        $r++;
-                                                    }
-                                                } else { ?>
-                                                    <tr>
-                                                        <td colspan="7"
-                                                            class="dataTables_empty"><?= lang('no_data_available') ?></td>
-                                                    </tr>
-                                                <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php } if ($Owner || $Admin || $GP['quotes-index']) { ?>
-
-                            <div id="quotes" class="tab-pane fade">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="table-responsive">
-                                            <table id="quotes-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table_theme"
-                                                   style="margin-bottom: 0;">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width:30px !important;">#</th>
-                                                    <th><?= $this->lang->line("date"); ?></th>
-                                                    <th><?= $this->lang->line("reference_no"); ?></th>
-                                                    <th><?= $this->lang->line("customer"); ?></th>
-                                                    <th><?= $this->lang->line("status"); ?></th>
-                                                    <th><?= $this->lang->line("amount"); ?></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php if (!empty($quotes)) {
-                                                    $r = 1;
-                                                    foreach ($quotes as $quote) {
-                                                        echo '<tr id="' . $quote->id . '" class="quote_link"><td>' . $r . '</td>
-                                                        <td>' . $this->sma->hrld($quote->date) . '</td>
-                                                        <td>' . $quote->reference_no . '</td>
-                                                        <td>' . $quote->customer . '</td>
-                                                        <td>' . row_status($quote->status) . '</td>
-                                                        <td class="text-right">' . $this->sma->formatMoney($quote->grand_total) . '</td>
-                                                    </tr>';
-                                                        $r++;
-                                                    }
-                                                } else { ?>
-                                                    <tr>
-                                                        <td colspan="6"
-                                                            class="dataTables_empty"><?= lang('no_data_available') ?></td>
-                                                    </tr>
-                                                <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php } if ($Owner || $Admin || $GP['purchases-index']) { ?>
-
-                            <div id="purchases" class="tab-pane fade in">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="table-responsive">
-                                            <table id="purchases-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table_theme"
-                                                   style="margin-bottom: 0;">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width:30px !important;">#</th>
-                                                    <th><?= $this->lang->line("date"); ?></th>
-                                                    <th><?= $this->lang->line("reference_no"); ?></th>
-                                                    <th><?= $this->lang->line("supplier"); ?></th>
-                                                    <th><?= $this->lang->line("status"); ?></th>
-                                                    <th><?= $this->lang->line("amount"); ?></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php if (!empty($purchases)) {
-                                                    $r = 1;
-                                                    foreach ($purchases as $purchase) {
-                                                        echo '<tr id="' . $purchase->id . '" class="purchase_link"><td>' . $r . '</td>
-                                                    <td>' . $this->sma->hrld($purchase->date) . '</td>
-                                                    <td>' . $purchase->reference_no . '</td>
-                                                    <td>' . $purchase->supplier . '</td>
-                                                    <td>' . row_status($purchase->status) . '</td>
-                                                    <td class="text-right">' . $this->sma->formatMoney($purchase->grand_total) . '</td>
-                                                </tr>';
-                                                        $r++;
-                                                    }
-                                                } else { ?>
-                                                    <tr>
-                                                        <td colspan="6"
-                                                            class="dataTables_empty"><?= lang('no_data_available') ?></td>
-                                                    </tr>
-                                                <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php } if ($Owner || $Admin || $GP['transfers-index']) { ?>
-
-                            <div id="transfers" class="tab-pane fade">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="table-responsive">
-                                            <table id="transfers-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table_theme"
-                                                   style="margin-bottom: 0;">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width:30px !important;">#</th>
-                                                    <th><?= $this->lang->line("date"); ?></th>
-                                                    <th><?= $this->lang->line("reference_no"); ?></th>
-                                                    <th><?= $this->lang->line("from"); ?></th>
-                                                    <th><?= $this->lang->line("to"); ?></th>
-                                                    <th><?= $this->lang->line("status"); ?></th>
-                                                    <th><?= $this->lang->line("amount"); ?></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php if (!empty($transfers)) {
-                                                    $r = 1;
-                                                    foreach ($transfers as $transfer) {
-                                                        echo '<tr id="' . $transfer->id . '" class="transfer_link"><td>' . $r . '</td>
-                                                <td>' . $this->sma->hrld($transfer->date) . '</td>
-                                                <td>' . $transfer->transfer_no . '</td>
-                                                <td>' . $transfer->from_warehouse_name . '</td>
-                                                <td>' . $transfer->to_warehouse_name . '</td>
-                                                <td>' . row_status($transfer->status) . '</td>
-                                                <td class="text-right">' . $this->sma->formatMoney($transfer->grand_total) . '</td>
-                                            </tr>';
-                                                        $r++;
-                                                    }
-                                                } else { ?>
-                                                    <tr>
-                                                        <td colspan="7"
-                                                            class="dataTables_empty"><?= lang('no_data_available') ?></td>
-                                                    </tr>
-                                                <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php } if ($Owner || $Admin || $GP['customers-index']) { ?>
-
-                            <div id="customers" class="tab-pane fade in">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="table-responsive">
-                                            <table id="customers-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table_theme"
-                                                   style="margin-bottom: 0;">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width:30px !important;">#</th>
-                                                    <th><?= $this->lang->line("company"); ?></th>
-                                                    <th><?= $this->lang->line("name"); ?></th>
-                                                    <th><?= $this->lang->line("email"); ?></th>
-                                                    <th><?= $this->lang->line("phone"); ?></th>
-                                                    <th><?= $this->lang->line("address"); ?></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php if (!empty($customers)) {
-                                                    $r = 1;
-                                                    foreach ($customers as $customer) {
-                                                        echo '<tr id="' . $customer->id . '" class="customer_link pointer"><td>' . $r . '</td>
-                                            <td>' . $customer->company . '</td>
-                                            <td>' . $customer->name . '</td>
-                                            <td>' . $customer->email . '</td>
-                                            <td>' . $customer->phone . '</td>
-                                            <td>' . $customer->address . '</td>
-                                        </tr>';
-                                                        $r++;
-                                                    }
-                                                } else { ?>
-                                                    <tr>
-                                                        <td colspan="6"
-                                                            class="dataTables_empty"><?= lang('no_data_available') ?></td>
-                                                    </tr>
-                                                <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php } if ($Owner || $Admin || $GP['suppliers-index']) { ?>
-
-                            <div id="suppliers" class="tab-pane fade">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="table-responsive">
-                                            <table id="suppliers-tbl" cellpadding="0" cellspacing="0" border="0"
-                                                   class="table table_theme"
-                                                   style="margin-bottom: 0;">
-                                                <thead>
-                                                <tr>
-                                                    <th style="width:30px !important;">#</th>
-                                                    <th><?= $this->lang->line("company"); ?></th>
-                                                    <th><?= $this->lang->line("name"); ?></th>
-                                                    <th><?= $this->lang->line("email"); ?></th>
-                                                    <th><?= $this->lang->line("phone"); ?></th>
-                                                    <th><?= $this->lang->line("address"); ?></th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <?php if (!empty($suppliers)) {
-                                                    $r = 1;
-                                                    foreach ($suppliers as $supplier) {
-                                                        echo '<tr id="' . $supplier->id . '" class="supplier_link pointer"><td>' . $r . '</td>
-                                        <td>' . $supplier->company . '</td>
-                                        <td>' . $supplier->name . '</td>
-                                        <td>' . $supplier->email . '</td>
-                                        <td>' . $supplier->phone . '</td>
-                                        <td>' . $supplier->address . '</td>
-                                    </tr>';
-                                                        $r++;
-                                                    }
-                                                } else { ?>
-                                                    <tr>
-                                                        <td colspan="6"
-                                                            class="dataTables_empty"><?= lang('no_data_available') ?></td>
-                                                    </tr>
-                                                <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <?php } ?>
-
-                        </div>
-
-
+                <div class="cardItemContent">
+                    <div class="cardItemContentPara">
+                        <p>Sales</p>
                     </div>
-
+                    <div class="cardItemContentHeading">
+                        <h3>Rs 12,628</h3>
+                    </div>
                 </div>
-
+            </a>
+            <a href="#" class="cardItem">
+                <div class="cardItemIcon cardCustomer">
+                    <img src="<?= $assets ?>images/icon/people.svg" alt="" class="svg">
+                </div>
+                <div class="cardItemContent">
+                    <div class="cardItemContentPara">
+                        <p>Customers</p>
+                    </div>
+                    <div class="cardItemContentHeading">
+                        <h3>128</h3>
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="cardItem">
+                <div class="cardItemIcon cardProduct">
+                    <img src="<?= $assets ?>images/icon/products.svg" alt="" class="svg">
+                </div>
+                <div class="cardItemContent">
+                    <div class="cardItemContentPara">
+                        <p>Products</p>
+                    </div>
+                    <div class="cardItemContentHeading">
+                        <h3>628</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="cardList">
+            <div class="cardItem cardItemChart">
+                <div class="cardItemContent">
+                    <div class="cardItemContentPara">
+                        <p>Year Report</p>
+                    </div>
+                    <div class="cardItemContentBtn">
+                        <span>2023</span>
+                    </div>
+                    <div class="cardItemContentRange">
+                        <span><img src="<?= $assets ?>images/icon/top-arrow.svg" alt="" class="svg"></span>
+                        <span>68.2%</span>
+                    </div>
+                    <div class="cardItemContentChartHeading">
+                        <h2>Rs 84,628</h2>
+                    </div>
+                </div>
+                <div class="cardItemChart">
+                    <div id="chart"></div>
+                </div>
             </div>
         </div>
     </div>
+    <div class="cardChartRow">
+        <div class="cardChartRowItem">
+            <div id="culmnBar"></div>
+        </div>
+        <div class="cardChartRowItem">
+            <div class="cardChartRowItemHeading">
+                <h3>Top Products</h3>
+            </div>
+            <div class="cardChartRowItemList">
+                <div class="cardChartRowItemListItem">
+                    <div class="cardChartRowItemListItemHeading">
+                        <h4>Toori</h4>
+                    </div>
+                    <div class="cardChartRowItemListItemRange">
+                        <progress value="<?= $proVal1; ?>" min="0" max="100"></progress>
+                    </div>
+                </div>
+                <div class="cardChartRowItemListItem">
+                    <div class="cardChartRowItemListItemHeading">
+                        <h4>Khal Wanda</h4>
+                    </div>
+                    <div class="cardChartRowItemListItemRange">
+                        <progress value="<?= $proVal2; ?>" min="0" max="100"></progress>
+                    </div>
+                </div>
+                <div class="cardChartRowItemListItem">
+                    <div class="cardChartRowItemListItemHeading">
+                        <h4>Mix Seeds</h4>
+                    </div>
+                    <div class="cardChartRowItemListItemRange">
+                        <progress value="<?= $proVal3; ?>" min="0" max="100"></progress>
+                    </div>
+                </div>
+                <div class="cardChartRowItemListItem">
+                    <div class="cardChartRowItemListItemHeading">
+                        <h4>Chokhar</h4>
+                    </div>
+                    <div class="cardChartRowItemListItemRange">
+                        <progress value="<?= $proVal4; ?>" min="0" max="100"></progress>
+                    </div>
+                </div>
+                <div class="cardChartRowItemListItem">
+                    <div class="cardChartRowItemListItemHeading">
+                        <h4>Karra</h4>
+                    </div>
+                    <div class="cardChartRowItemListItemRange">
+                        <progress value="<?= $proVal5; ?>" min="0" max="100"></progress>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cardTabMenu">
+        <div class="cardTabMenuDiv">
+            <div class="cardTabMenuDivLink">
+                <ul>
+                    <li data-tab="1">Sales</li>
+                    <li data-tab="2">Purchases</li>
+                    <li data-tab="3">Transfers</li>
+                    <li data-tab="4">Customers</li>
+                    <li data-tab="5">Suppliers</li>
+                </ul>
+            </div>
+            <div class="cardTabMenuDivContent">
+                <div class="cardTabMenuDivContentItem" data-content="1">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Reference No</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Payment Status</th>
+                                <th>Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>1</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cardTabMenuDivContentItem" data-content="2">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Reference No</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Payment Status</th>
+                                <th>Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cardTabMenuDivContentItem" data-content="3">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Reference No</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Payment Status</th>
+                                <th>Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cardTabMenuDivContentItem" data-content="4">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Reference No</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Payment Status</th>
+                                <th>Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="cardTabMenuDivContentItem" data-content="5">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Reference No</th>
+                                <th>Customer</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>Payment Status</th>
+                                <th>Paid</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>15/11/2023 13:05</td>
+                                <td>SALE/POS2023/11/0015</td>
+                                <td>Nafees Gujjar</td>
+                                <td><span class="tableComplete">Completed</span></td>
+                                <td>Rs. 1122</td>
+                                <td><span class="tableDue">Due</span></td>
+                                <td>0.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-</div>
+<script>
+    // Function to generate a static range of data with four specified points
+    function generateStaticData() {
+        return [{
+                x: Date.now() - 5 * 60000,
+                y: 20
+            },
+            {
+                x: Date.now() - 4 * 60000,
+                y: 70
+            },
+            {
+                x: Date.now() - 3 * 60000,
+                y: 50
+            },
+            {
+                x: Date.now() - 2 * 60000,
+                y: 90
+            },
+            {
+                x: Date.now() - 1 * 60000,
+                y: 50
+            },
+            {
+                x: Date.now(),
+                y: 60
+            },
+        ];
+    }
 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.order').click(function () {
-            window.location.href = '<?=admin_url()?>orders/view/' + $(this).attr('id') + '#comments';
-        });
-        $('.invoice').click(function () {
-            window.location.href = '<?=admin_url()?>orders/view/' + $(this).attr('id');
-        });
-        $('.quote').click(function () {
-            window.location.href = '<?=admin_url()?>quotes/view/' + $(this).attr('id');
+    var options = {
+        series: [{
+            data: generateStaticData()
+        }],
+        chart: {
+            foreColor: '#000',
+            id: 'static',
+            height: 200,
+            type: 'line',
+            animations: {
+                enabled: true,
+                easing: 'linear',
+                dynamicAnimation: {
+                    speed: 1000
+                }
+            },
+            toolbar: {
+                show: false
+            },
+            zoom: {
+                enabled: false
+            },
+            dropShadow: {
+                enabled: true,
+                top: 3,
+                left: 0,
+                blur: 6,
+                opacity: 5,
+                color: '#c5c6ff'
+            },
+            sparkline: {
+                enabled: true // This will hide the axes and labels
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth',
+            lineCap: 'butt',
+            colors: '#2E83F0',
+            width: 7,
+            radius: '125px',
+            // dropShadow: '0px 6px 6px 0px #C5C6FF80',
+        },
+        title: {
+            text: '',
+            align: 'left'
+        },
+        markers: {
+            size: 0,
+            strokeWidth: 0,
+            hover: {
+                size: 0
+            }
+        },
+        xaxis: {
+            type: 'datetime',
+            labels: {
+                show: false // This will hide the X-axis labels
+            }
+        },
+        yaxis: {
+            show: false, // This will hide the Y-axis
+            max: 100,
+            min: 0
+        },
+        legend: {
+            show: false
+        },
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+</script>
+
+<script>
+    var options = {
+        colors: ['#71DD37', '#03C3EC'],
+        series: [{
+            name: 'Monthly',
+            data: [250, 175, 330, 35, 100, 45, 425, 500, 7, 75, 250, 300],
+        }, {
+            name: 'Last Year',
+            data: [90, 80, 175, 5, 90, 90, 300, 135, 90, 50, 135, 75]
+        }],
+        chart: {
+            type: 'bar',
+            height: 350,
+            toolbar: {
+                show: false
+            }
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: 12,
+                endingShape: 'rounded',
+                borderRadius: 4,
+            },
+        },
+        title: {
+            text: 'Best Selling',
+            align: 'left',
+            offsetY: -6.5,
+            style: {
+                color: '#7E828A',
+                fontSize: '14px',
+                lineHeight: '21px',
+                fontWeight: '700',
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 4,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Feb', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: {
+                style: {
+                    colors: '#7E828A',
+                    fontSize: '14px',
+                    fontWeight: 400,
+                    lineHeight: '21px',
+                }
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: '#7E828A',
+                    fontSize: '14px',
+                    fontWeight: 400,
+                    lineHeight: '21px',
+                }
+            },
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            show: false
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'left',
+            offsetY: -10,
+            markers: {
+                radius: 12,
+            },
+            labels: {
+                colors: '#7E828A',
+                fontSize: '14px',
+                lineHeight: '1',
+            },
+            style: {
+                fill: '#7E828A',
+                colors: '#7E828A',
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#culmnBar"), options);
+    chart.render();
+</script>
+
+<script>
+    $(document).ready(function() {
+        $('.cardTabMenuDivLink li:first').addClass('activeTab');
+        $('.cardTabMenuDivContentItem:first').show();
+
+        $('.cardTabMenuDivLink li').on('click', function() {
+            var tabVal = $(this).data('tab');
+            $('.cardTabMenuDivContentItem').hide();
+            $('.cardTabMenuDivLink li').removeClass('activeTab');
+            $(".cardTabMenuDivContentItem[data-content='" + tabVal + "']").show();
+            $(this).addClass('activeTab');
         });
     });
 </script>
-
-<?php if (($Owner || $Admin) && $chatData) { ?>
-    <style type="text/css" media="screen">
-        .tooltip-inner {
-            max-width: 500px;
-        }
-    </style>
-    <script src="<?= $assets; ?>js/hc/highcharts.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function (color) {
-                return {
-                    radialGradient: {cx: 0.5, cy: 0.3, r: 0.7},
-                    stops: [[0, color], [1, Highcharts.Color(color).brighten(-0.3).get('rgb')]]
-                };
-            });
-            $('#ov-chart').highcharts({
-                chart: {},
-                credits: {enabled: false},
-                title: {text: ''},
-                xAxis: {categories: <?= json_encode($months); ?>},
-                yAxis: {min: 0, title: ""},
-                tooltip: {
-                    shared: true,
-                    followPointer: true,
-                    formatter: function () {
-                        if (this.key) {
-                            return '<div class="tooltip-inner hc-tip" style="margin-bottom:0;">' + this.key + '<br><strong>' + currencyFormat(this.y) + '</strong> (' + formatNumber(this.percentage) + '%)';
-                        } else {
-                            var s = '<div class="well well-sm hc-tip" style="margin-bottom:0;"><h2 style="margin-top:0;">' + this.x + '</h2><table class="table table-striped"  style="margin-bottom:0;">';
-                            $.each(this.points, function () {
-                                s += '<tr><td style="color:{series.color};padding:0">' + this.series.name + ': </td><td style="color:{series.color};padding:0;text-align:right;"> <b>' +
-                                currencyFormat(this.y) + '</b></td></tr>';
-                            });
-                            s += '</table></div>';
-                            return s;
-                        }
-                    },
-                    useHTML: true, borderWidth: 0, shadow: false, valueDecimals: site.settings.decimals,
-                    style: {fontSize: '14px', padding: '0', color: '#000000'}
-                },
-                series: [{
-                    type: 'column',
-                    name: '<?= lang("sp_tax"); ?>',
-                    data: [<?php
-                    echo implode(', ', $mtax1);
-                    ?>]
-                },
-                    {
-                        type: 'column',
-                        name: '<?= lang("order_tax"); ?>',
-                        data: [<?php
-                    echo implode(', ', $mtax2);
-                    ?>]
-                    },
-                    {
-                        type: 'column',
-                        name: '<?= lang("sales"); ?>',
-                        data: [<?php
-                    echo implode(', ', $msales);
-                    ?>]
-                    }, {
-                        type: 'spline',
-                        name: '<?= lang("purchases"); ?>',
-                        data: [<?php
-                    echo implode(', ', $mpurchases);
-                    ?>],
-                        marker: {
-                            lineWidth: 2,
-                            states: {
-                                hover: {
-                                    lineWidth: 4
-                                }
-                            },
-                            lineColor: Highcharts.getOptions().colors[3],
-                            fillColor: 'white'
-                        }
-                    }, {
-                        type: 'spline',
-                        name: '<?= lang("pp_tax"); ?>',
-                        data: [<?php
-                    echo implode(', ', $mtax3);
-                    ?>],
-                        marker: {
-                            lineWidth: 2,
-                            states: {
-                                hover: {
-                                    lineWidth: 4
-                                }
-                            },
-                            lineColor: Highcharts.getOptions().colors[3],
-                            fillColor: 'white'
-                        }
-                    }, {
-                        type: 'pie',
-                        name: '<?= lang("stock_value"); ?>',
-                        data: [
-                            ['', 0],
-                            ['', 0],
-                            ['<?= lang("stock_value_by_price"); ?>', <?php echo $stock->stock_by_price; ?>],
-                            ['<?= lang("stock_value_by_cost"); ?>', <?php echo $stock->stock_by_cost; ?>],
-                        ],
-                        center: [80, 42],
-                        size: 80,
-                        showInLegend: false,
-                        dataLabels: {
-                            enabled: false
-                        }
-                    }]
-            });
-        });
-    </script>
-
-    <script type="text/javascript">
-        $(function () {
-            <?php if ($lmbs) { ?>
-            $('#lmbschart').highcharts({
-                chart: {type: 'column'},
-                title: {text: ''},
-                credits: {enabled: false},
-                xAxis: {type: 'category', labels: {rotation: -60, style: {fontSize: '13px'}}},
-                yAxis: {min: 0, title: {text: ''}},
-                legend: {enabled: false},
-                series: [{
-                    name: '<?=lang('sold');?>',
-                    data: [<?php
-                    foreach ($lmbs as $r) {
-                        if($r->quantity > 0) {
-                            echo "['".$r->product_name."<br>(".$r->product_code.")', ".$r->quantity."],";
-                        }
-                    }
-                    ?>],
-                    dataLabels: {
-                        enabled: true,
-                        rotation: -90,
-                        color: '#000',
-                        align: 'right',
-                        y: -25,
-                        style: {fontSize: '12px'}
-                    }
-                }]
-            });
-            <?php } if ($bs) { ?>
-            $('#bschart').highcharts({
-                chart: {type: 'column'},
-                title: {text: ''},
-                credits: {enabled: false},
-                xAxis: {type: 'category', labels: {rotation: -60, style: {fontSize: '13px'}}},
-                yAxis: {min: 0, title: {text: ''}},
-                legend: {enabled: false},
-                series: [{
-                    name: '<?=lang('sold');?>',
-                    data: [<?php
-                foreach ($bs as $r) {
-                    if($r->quantity > 0) {
-                        echo "['".$r->product_name."<br>(".$r->product_code.")', ".$r->quantity."],";
-                    }
-                }
-                ?>],
-                    dataLabels: {
-                        enabled: true,
-                        rotation: -90,
-                        color: '#000',
-                        align: 'right',
-                        y: -25,
-                        style: {fontSize: '12px'}
-                    }
-                }]
-            });
-            <?php } ?>
-        });
-    </script>
-    <div class="row" style="margin-bottom: 15px;">
-        <div class="col-sm-6">
-            <div class="box">
-                <div class="box-header">
-                    <h2 class="blue"><i
-                            class="fa-fw fa fa-line-chart"></i><?= lang('best_sellers'), ' (' . date('M-Y', time()) . ')'; ?>
-                    </h2>
-                </div>
-                <div class="box-content">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="bschart" style="width:100%; height:450px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <div class="box">
-                <div class="box-header">
-                    <h2 class="blue"><i
-                            class="fa-fw fa fa-line-chart"></i><?= lang('best_sellers') . ' (' . date('M-Y', strtotime('-1 month')) . ')'; ?>
-                    </h2>
-                </div>
-                <div class="box-content">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div id="lmbschart" style="width:100%; height:450px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php } ?>
