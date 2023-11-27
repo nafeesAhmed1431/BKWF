@@ -77,6 +77,11 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
 
         $('.sideBarcloseIcon').on('click', function() {
             $('#sidebar').toggleClass('sicebarActive');
+
+            if ($('.drop').hasClass('activeDown')) {
+                $('.drop').toggleClass('activeDown');
+                $('.drop').siblings('.down').slideToggle();
+            }
         });
 
         $(document).on("click", function(event) {
@@ -95,7 +100,10 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
         $('.drop').on('click', function() {
             $(this).toggleClass('activeDown');
             $(this).siblings('.down').slideToggle();
-            // $(this).closest('.dropdown').toggleClass('activeDropDown');
+
+            if ($(this).closest('#sidebar').hasClass('sicebarActive')) {
+                $('#sidebar').toggleClass('sicebarActive');
+            }
         });
     });
 </script>
