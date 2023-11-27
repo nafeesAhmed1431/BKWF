@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Db_model extends CI_Model
 {
@@ -168,4 +168,57 @@ class Db_model extends CI_Model
         return FALSE;
     }
 
+    public function total_products()
+    {
+        return ($this->db->select('count(id) as total_products')->from('sma_products')->get()->row())->total_products;
+    }
+
+    public function total_customers()
+    {
+        return ($this->db->select('count(id) as total_customers')->from('sma_companies')->where(['group_name' => 'customer'])->get()->row())->total_customers;
+    }
+
+    public function total_sales()
+    {
+        return ($this->db->select('SUM(total) as total_sale')
+            ->from('sma_sales')
+            ->where(['payment_status' => 'paid', 'MONTH(date)' => date('m'), 'YEAR(date)' => date('Y')])
+            ->get()->row())->total_sale;
+    }
+
+    public function total_purchases()
+    {
+        return ($this->db->select('SUM(total) as total_purchases')
+            ->from('sma_purchases')
+            ->where(['payment_status' => 'paid', 'MONTH(date)' => date('m'), 'YEAR(date)' => date('Y')])
+            ->get()->row())->total_purchases;
+    }
+
+    public function monthly_sale()
+    {
+        return $this->db->select([
+            'DATE_FORMAT(date, "%b") as x',
+            'SUM(total) as y'
+        ])
+            ->from('sma_sales')
+            ->where(['payment_status' => 'paid'])
+            ->where("YEAR(date)", date('Y'))
+            ->group_by("MONTH(date)")
+            ->get()->result();
+    }
+
+    public function yearly_sale()
+    {
+        $currentYear = date('Y');
+        $lastYear = $currentYear - 1;
+        return $this->db->select("
+                DATE_FORMAT(date, '%b') as month, 
+                SUM(CASE WHEN YEAR(date) = $lastYear THEN total ELSE 0 END) as last_year_sales,
+                SUM(CASE WHEN YEAR(date) = $currentYear THEN total ELSE 0 END) as current_year_sales")
+            ->from('sma_sales')
+            ->where(['payment_status' => 'paid'])
+            ->where_in("YEAR(date)", [$lastYear, $currentYear])
+            ->group_by("MONTH(date)")
+            ->get()->result();
+    }
 }

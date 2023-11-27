@@ -15,9 +15,7 @@ function row_status($x)
     } else {
         return '<div class="text-center"><span class="label label-default">' . lang($x) . '</span></div>';
     }
-}
-
-?>
+}?>
 <?php if (($Owner || $Admin) && $chatData) {
     foreach ($chatData as $month_sale) {
         $months[] = date('M-Y', strtotime($month_sale->month));
@@ -254,7 +252,8 @@ function row_status($x)
                                                 <?php if (!empty($sales)) {
                                                     $r = 1;
                                                     foreach ($sales as $order) {
-                                                        echo '<tr id="' . $order->id . '" class="' . ($order->pos ? "receipt_link" : "invoice_link") . '"><td>' . $r . '</td>
+                                                        echo '<tr id="' . $order->id . '" class="' . ($order->pos ? "receipt_link" : "invoice_link") . '">
+                                                            <td>' . $r . '</td>
                                                             <td>' . $this->sma->hrld($order->date) . '</td>
                                                             <td>' . $order->reference_no . '</td>
                                                             <td>' . $order->customer . '</td>

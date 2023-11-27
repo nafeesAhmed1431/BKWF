@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Welcome extends MY_Controller
 {
@@ -29,21 +29,26 @@ class Welcome extends MY_Controller
 
         $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
         $this->data['sales'] = $this->db_model->getLatestSales();
-        $this->data['quotes'] = $this->db_model->getLastestQuotes();
         $this->data['purchases'] = $this->db_model->getLatestPurchases();
         $this->data['transfers'] = $this->db_model->getLatestTransfers();
         $this->data['customers'] = $this->db_model->getLatestCustomers();
         $this->data['suppliers'] = $this->db_model->getLatestSuppliers();
-        $this->data['chatData'] = $this->db_model->getChartData();
-        $this->data['stock'] = $this->db_model->getStockValue();
         $this->data['bs'] = $this->db_model->getBestSeller();
-        $lmsdate = date('Y-m-d', strtotime('first day of last month')) . ' 00:00:00';
-        $lmedate = date('Y-m-d', strtotime('last day of last month')) . ' 23:59:59';
-        $this->data['lmbs'] = $this->db_model->getBestSeller($lmsdate, $lmedate);
-        $bc = array(array('link' => '#', 'page' => lang('dashboard')));
-        $meta = array('page_title' => lang('dashboard'), 'bc' => $bc);
+        $this->data['total_products'] = $this->db_model->total_products();
+        $this->data['total_customers'] = $this->db_model->total_customers();
+        $this->data['total_sales'] = $this->db_model->total_sales();
+        $this->data['total_purchases'] = $this->db_model->total_purchases();
+        $this->data['monthly_sale_chart'] = json_encode($this->db_model->monthly_sale());
+        $this->data['yearly_sale'] = json_encode($this->db_model->yearly_sale());
+        // __($this->data['yearly_sale']);
+        // $this->data['quotes'] = $this->db_model->getLastestQuotes();
+        // $this->data['chatData'] = $this->db_model->getChartData();
+        // $this->data['stock'] = $this->db_model->getStockValue();
+        // $lmsdate = date('Y-m-d', strtotime('first day of last month')) . ' 00:00:00';
+        // $lmedate = date('Y-m-d', strtotime('last day of last month')) . ' 23:59:59';
+        // $this->data['lmbs'] = $this->db_model->getBestSeller($lmsdate, $lmedate);
+        $meta = ['page_title' => lang('dashboard'), 'bc' => [['link' => '#', 'page' => lang('dashboard')]]];
         $this->page_construct('dashboard', $meta, $this->data);
-
     }
 
     function promotions()
@@ -82,7 +87,6 @@ class Welcome extends MY_Controller
             );
             echo stripslashes(json_encode($array));
             exit;
-
         } else {
             $error = array('error' => 'No file selected to upload!');
             $this->sma->send_json($error);
@@ -138,18 +142,18 @@ class Welcome extends MY_Controller
 
     function download($file)
     {
-        if (file_exists('./files/'.$file)) {
+        if (file_exists('./files/' . $file)) {
             $this->load->helper('download');
-            force_download('./files/'.$file, NULL);
+            force_download('./files/' . $file, NULL);
             exit();
         }
         $this->session->set_flashdata('error', lang('file_x_exist'));
         redirect($_SERVER["HTTP_REFERER"]);
     }
 
-    public function slug() {
+    public function slug()
+    {
         echo $this->sma->slug($this->input->get('title', TRUE), $this->input->get('type', TRUE));
         exit();
     }
-
 }

@@ -1,14 +1,28 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
 <?php
-$proVal1 = '90';
-$proVal2 = '80';
-$proVal3 = '70';
-$proVal4 = '60';
-$proVal5 = '30';
+// $proVal1 = '90';
+// $proVal2 = '80';
+// $proVal3 = '70';
+// $proVal4 = '60';
+// $proVal5 = '30';
+
+function row_status($x)
+{
+    return [
+        'pending' => "<div class='text-center'><span class='tablePending'>$x</span></div>",
+        'completed' => "<div class='text-center'><span class='tableComplete'>$x</span></div>",
+        'paid' => "<div class='text-center'><span class='tablePaid'>$x</span></div>",
+        'sent' => "<div class='text-center'><span class='tableSent'>$x</span></div>",
+        'received' => "<div class='text-center'><span class='tableComplete'>$x</span></div>",
+        'partial' => "<div class='text-center'><span class='tablePartial'>$x</span></div>",
+        'transfering' => "<div class='text-center'><span class='tableTransfering'>$x</span></div>",
+        'due' => "<div class='text-center'><span class='tableDue'>$x</span></div>",
+    ][$x];
+}
 ?>
 
-<style>
+<!-- <style>
     .cardChartRowItemList>.cardChartRowItemListItem:nth-child(1)>.cardChartRowItemListItemRange>progress::before {
         left: <?= $proVal1; ?>%;
     }
@@ -28,25 +42,27 @@ $proVal5 = '30';
     .cardChartRowItemList>.cardChartRowItemListItem:nth-child(5)>.cardChartRowItemListItemRange>progress::before {
         left: <?= $proVal5; ?>%;
     }
-</style>
+</style> -->
+
+
 
 <section>
     <div class="cardRow">
         <div class="cardList">
-            <a href="#" class="cardItem">
+            <a href="<?= admin_url('purchases') ?>" class="cardItem">
                 <div class="cardItemIcon cardProfit">
                     <img src="<?= $assets ?>images/icon/pie-chart.svg" alt="" class="svg">
                 </div>
                 <div class="cardItemContent">
                     <div class="cardItemContentPara">
-                        <p>Profit</p>
+                        <p>Purchases</p>
                     </div>
                     <div class="cardItemContentHeading">
-                        <h3>Rs 12,628</h3>
+                        <h3><?= $this->sma->formatMoney($total_purchases) ?></h3>
                     </div>
                 </div>
             </a>
-            <a href="#" class="cardItem">
+            <a href="<?= admin_url('sales') ?>" class="cardItem">
                 <div class="cardItemIcon cardSale">
                     <img src="<?= $assets ?>images/icon/wallet.svg" alt="" class="svg">
                 </div>
@@ -55,11 +71,11 @@ $proVal5 = '30';
                         <p>Sales</p>
                     </div>
                     <div class="cardItemContentHeading">
-                        <h3>Rs 12,628</h3>
+                        <h3><?= $this->sma->formatMoney($total_sales) ?></h3>
                     </div>
                 </div>
             </a>
-            <a href="#" class="cardItem">
+            <a href="<?= admin_url('customers') ?>" class="cardItem">
                 <div class="cardItemIcon cardCustomer">
                     <img src="<?= $assets ?>images/icon/people.svg" alt="" class="svg">
                 </div>
@@ -68,11 +84,11 @@ $proVal5 = '30';
                         <p>Customers</p>
                     </div>
                     <div class="cardItemContentHeading">
-                        <h3>128</h3>
+                        <h3><?= $total_customers ?? 0 ?></h3>
                     </div>
                 </div>
             </a>
-            <a href="#" class="cardItem">
+            <a href="<?= admin_url('products') ?>" class="cardItem">
                 <div class="cardItemIcon cardProduct">
                     <img src="<?= $assets ?>images/icon/products.svg" alt="" class="svg">
                 </div>
@@ -81,7 +97,7 @@ $proVal5 = '30';
                         <p>Products</p>
                     </div>
                     <div class="cardItemContentHeading">
-                        <h3>628</h3>
+                        <h3><?= $total_products ?? 0 ?></h3>
                     </div>
                 </div>
             </a>
@@ -93,14 +109,14 @@ $proVal5 = '30';
                         <p>Year Report</p>
                     </div>
                     <div class="cardItemContentBtn">
-                        <span>2023</span>
+                        <span><?= date('Y') ?></span>
                     </div>
                     <div class="cardItemContentRange">
                         <span><img src="<?= $assets ?>images/icon/top-arrow.svg" alt="" class="svg"></span>
-                        <span>68.2%</span>
+                        <span>99.2%</span>
                     </div>
                     <div class="cardItemContentChartHeading">
-                        <h2>Rs 84,628</h2>
+                        <h2><?= $this->sma->formatMoney($total_sales) ?></h2>
                     </div>
                 </div>
                 <div class="cardItemChart">
@@ -118,46 +134,16 @@ $proVal5 = '30';
                 <h3>Top Products</h3>
             </div>
             <div class="cardChartRowItemList">
-                <div class="cardChartRowItemListItem">
-                    <div class="cardChartRowItemListItemHeading">
-                        <h4>Toori</h4>
+                <?php foreach ($bs as $bestSelling) : ?>
+                    <div class="cardChartRowItemListItem">
+                        <div class="cardChartRowItemListItemHeading">
+                            <h4><?= $bestSelling->product_name ?></h4>
+                        </div>
+                        <div class="cardChartRowItemListItemRange">
+                            <progress value="<?= $bestSelling->quantity ?>" min="0" max="1000"></progress>
+                        </div>
                     </div>
-                    <div class="cardChartRowItemListItemRange">
-                        <progress value="<?= $proVal1; ?>" min="0" max="100"></progress>
-                    </div>
-                </div>
-                <div class="cardChartRowItemListItem">
-                    <div class="cardChartRowItemListItemHeading">
-                        <h4>Khal Wanda</h4>
-                    </div>
-                    <div class="cardChartRowItemListItemRange">
-                        <progress value="<?= $proVal2; ?>" min="0" max="100"></progress>
-                    </div>
-                </div>
-                <div class="cardChartRowItemListItem">
-                    <div class="cardChartRowItemListItemHeading">
-                        <h4>Mix Seeds</h4>
-                    </div>
-                    <div class="cardChartRowItemListItemRange">
-                        <progress value="<?= $proVal3; ?>" min="0" max="100"></progress>
-                    </div>
-                </div>
-                <div class="cardChartRowItemListItem">
-                    <div class="cardChartRowItemListItemHeading">
-                        <h4>Chokhar</h4>
-                    </div>
-                    <div class="cardChartRowItemListItemRange">
-                        <progress value="<?= $proVal4; ?>" min="0" max="100"></progress>
-                    </div>
-                </div>
-                <div class="cardChartRowItemListItem">
-                    <div class="cardChartRowItemListItemHeading">
-                        <h4>Karra</h4>
-                    </div>
-                    <div class="cardChartRowItemListItemRange">
-                        <progress value="<?= $proVal5; ?>" min="0" max="100"></progress>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -181,93 +167,25 @@ $proVal5 = '30';
                                 <th>Date</th>
                                 <th>Reference No</th>
                                 <th>Customer</th>
-                                <th>Status</th>
+                                <th class="text-center">Status</th>
                                 <th>Total</th>
                                 <th>Payment Status</th>
                                 <th>Paid</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
+                            <?php foreach ($sales as $sale) : ?>
+                                <tr id="<?= $sale->id ?>" class="receipt_link">
+                                    <td><?= $sale->id ?></td>
+                                    <td><?= $this->sma->hrld($sale->date) ?></td>
+                                    <td><?= $sale->reference_no ?></td>
+                                    <td><?= $sale->customer ?></td>
+                                    <td> <?= row_status($sale->sale_status) ?></td>
+                                    <td><?= $this->sma->formatMoney($sale->grand_total) ?></td>
+                                    <td><?= row_status($sale->payment_status) ?></td>
+                                    <td><?= $this->sma->formatMoney($sale->paid) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -278,94 +196,22 @@ $proVal5 = '30';
                                 <th>#</th>
                                 <th>Date</th>
                                 <th>Reference No</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Payment Status</th>
-                                <th>Paid</th>
+                                <th>Supplier</th>
+                                <th class="text-center">Status</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
+                            <?php foreach ($purchases as $purchase) : ?>
+                                <tr id="<?= $sale->id ?>" class="purchase_link">
+                                    <td><?= $purchase->id ?></td>
+                                    <td><?= $this->sma->hrld($purchase->date) ?></td>
+                                    <td><?= $purchase->reference_no ?></td>
+                                    <td><?= $purchase->supplier ?></td>
+                                    <td><?= row_status($purchase->status) ?></td>
+                                    <td><?= $this->sma->formatMoney($purchase->paid) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -375,95 +221,25 @@ $proVal5 = '30';
                             <tr>
                                 <th>#</th>
                                 <th>Date</th>
-                                <th>Reference No</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Payment Status</th>
-                                <th>Paid</th>
+                                <th>Transfer No</th>
+                                <th>From</th>
+                                <th>To</th>
+                                <th class="text-center">Status</th>
+                                <th>Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
+                            <?php foreach ($transfers as $transfer) : ?>
+                                <tr>
+                                    <td><?= $transfer->id ?></td>
+                                    <td><?= $this->sma->hrld($transfer->date) ?></td>
+                                    <td><?= $transfer->transfer_no ?></td>
+                                    <td><?= $transfer->from_warehouse_name ?></td>
+                                    <td><?= $transfer->to_warehouse_name ?></td>
+                                    <td><?= row_status($transfer->status) ?></td>
+                                    <td><?= $this->sma->formatMoney($transfer->grand_total) ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -472,96 +248,24 @@ $proVal5 = '30';
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Date</th>
-                                <th>Reference No</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Payment Status</th>
-                                <th>Paid</th>
+                                <th>Company</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
+                            <?php foreach ($customers as $customer) : ?>
+                                <tr>
+                                    <td><?= $customer->id ?></td>
+                                    <td><?= $customer->company ?></td>
+                                    <td><?= $customer->name ?></td>
+                                    <td><?= $customer->email ?></td>
+                                    <td><?= $customer->phone ?></td>
+                                    <td><?= $customer->address ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -570,96 +274,24 @@ $proVal5 = '30';
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Date</th>
-                                <th>Reference No</th>
-                                <th>Customer</th>
-                                <th>Status</th>
-                                <th>Total</th>
-                                <th>Payment Status</th>
-                                <th>Paid</th>
+                                <th>Company</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Address</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>15/11/2023 13:05</td>
-                                <td>SALE/POS2023/11/0015</td>
-                                <td>Nafees Gujjar</td>
-                                <td><span class="tableComplete">Completed</span></td>
-                                <td>Rs. 1122</td>
-                                <td><span class="tableDue">Due</span></td>
-                                <td>0.00</td>
-                            </tr>
+                            <?php foreach ($suppliers as $supplier) : ?>
+                                <tr>
+                                    <td><?= $supplier->id ?></td>
+                                    <td><?= $supplier->company ?></td>
+                                    <td><?= $supplier->name ?></td>
+                                    <td><?= $supplier->email ?></td>
+                                    <td><?= $supplier->phone ?></td>
+                                    <td><?= $supplier->address ?></td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
@@ -668,39 +300,13 @@ $proVal5 = '30';
     </div>
 </section>
 
+
+
 <script>
     // Function to generate a static range of data with four specified points
-    function generateStaticData() {
-        return [{
-                x: Date.now() - 5 * 60000,
-                y: 20
-            },
-            {
-                x: Date.now() - 4 * 60000,
-                y: 70
-            },
-            {
-                x: Date.now() - 3 * 60000,
-                y: 50
-            },
-            {
-                x: Date.now() - 2 * 60000,
-                y: 90
-            },
-            {
-                x: Date.now() - 1 * 60000,
-                y: 50
-            },
-            {
-                x: Date.now(),
-                y: 60
-            },
-        ];
-    }
-
-    var options = {
+    var chart = new ApexCharts(document.querySelector("#chart"), {
         series: [{
-            data: generateStaticData()
+            data: <?= $monthly_sale_chart ?>
         }],
         chart: {
             foreColor: '#000',
@@ -755,34 +361,31 @@ $proVal5 = '30';
             }
         },
         xaxis: {
-            type: 'datetime',
+            type: 'string',
             labels: {
-                show: false // This will hide the X-axis labels
+                show: true // This will hide the X-axis labels
             }
         },
         yaxis: {
-            show: false, // This will hide the Y-axis
-            max: 100,
-            min: 0
+            show: true, // This will hide the Y-axis
         },
         legend: {
-            show: false
+            show: true
         },
-    };
-
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    });
     chart.render();
 </script>
 
 <script>
-    var options = {
+    let results = <?= $yearly_sale ?>;
+    new ApexCharts(document.querySelector("#culmnBar"), {
         colors: ['#71DD37', '#03C3EC'],
         series: [{
-            name: 'Monthly',
-            data: [250, 175, 330, 35, 100, 45, 425, 500, 7, 75, 250, 300],
+            name: 'This Year',
+            data: results.map(item => item.current_year_sales),
         }, {
             name: 'Last Year',
-            data: [90, 80, 175, 5, 90, 90, 300, 135, 90, 50, 135, 75]
+            data: results.map(item => item.last_year_sales),
         }],
         chart: {
             type: 'bar',
@@ -819,7 +422,7 @@ $proVal5 = '30';
             colors: ['transparent']
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Feb', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            categories: results.map(item => item.month),
             labels: {
                 style: {
                     colors: '#7E828A',
@@ -862,10 +465,7 @@ $proVal5 = '30';
                 colors: '#7E828A',
             }
         }
-    };
-
-    var chart = new ApexCharts(document.querySelector("#culmnBar"), options);
-    chart.render();
+    }).render();
 </script>
 
 <script>

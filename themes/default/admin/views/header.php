@@ -66,7 +66,7 @@
                     <div class="sideBarLink">
                         <ul>
                             <li>
-                                <a href="#">
+                                <a href="<?= admin_url() ?>">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/dashboard.svg" class="svg" alt="">
                                     </span>
@@ -82,29 +82,39 @@
                                     <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
                                 </a>
                                 <ul class="down">
-                                    <li><a href="#"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Link 1</span></a></li>
-                                    <li><a href="#"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Link 2</span></a></li>
-                                    <li><a href="#"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Link 3</span></a></li>
+                                    <li><a href="<?= admin_url('users') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Users</span></a></li>
+                                    <li><a href="<?= admin_url('suppliers') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Suppliers</span></a></li>
+                                    <li><a href="<?= admin_url('customers') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Customers</span></a></li>
                                 </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a class="drop">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/products.svg" class="svg" alt="">
                                     </span>
                                     <span>Products</span>
+                                    <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
                                 </a>
+                                <ul class="down">
+                                    <li><a href="<?= admin_url('products') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Products</span></a></li>
+                                    <li><a href="<?= admin_url('products/add') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Add Product</span></a></li>
+                                </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a class="drop">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/purchases.svg" class="svg" alt="">
                                     </span>
                                     <span>Purchases</span>
+                                    <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
                                 </a>
+                                <ul class="down">
+                                    <li><a href="<?= admin_url('purchases') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Purchases</span></a></li>
+                                    <li><a href="<?= admin_url('purchases/add') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Add Purchase</span></a></li>
+                                </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="<?= admin_url('branches') ?>">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/branches.svg" class="svg" alt="">
                                     </span>
@@ -112,15 +122,20 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a class="drop">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/transfers.svg" class="svg" alt="">
                                     </span>
                                     <span>Transfers</span>
+                                    <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
                                 </a>
+                                <ul class="down">
+                                    <li><a href="<?= admin_url('transfers') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Transfers</span></a></li>
+                                    <li><a href="<?= admin_url('transfers/add') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Add Transfer</span></a></li>
+                                </ul>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="<?= admin_url('reports') ?>">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/reports.svg" class="svg" alt="">
                                     </span>
@@ -128,7 +143,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="<?= admin_url('system_settings') ?>">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/settings.svg" class="svg" alt="">
                                     </span>
@@ -400,7 +415,7 @@
                                 </a>
                             </div>
                             <div class="btnContentItem">
-                                <a href="#" class="headerBtn">
+                                <a href="" class="headerBtn">
                                     <div class="btnIcon">
                                         <img src="<?= $assets ?>images/icon/calculator.svg" alt="" class="svg">
                                     </div>
@@ -408,7 +423,7 @@
                                 </a>
                             </div>
                             <div class="btnContentItem">
-                                <a href="#" class="headerBtn">
+                                <a href="<?= admin_url('calendar') ?>" class="headerBtn">
                                     <div class="btnIcon">
                                         <img src="<?= $assets ?>images/icon/calendar.svg" alt="" class="svg">
                                     </div>
