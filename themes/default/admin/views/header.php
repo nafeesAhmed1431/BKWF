@@ -6,10 +6,20 @@
     <meta charset="utf-8">
     <base href="<?= site_url() ?>" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="<?= $assets ?>images/icon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="<?= $assets ?>images/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="<?= $assets ?>images/icon/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
     <title><?= $page_title ?> - <?= $Settings->site_name ?></title>
     <link rel="shortcut icon" href="<?= $assets ?>images/icon.png" />
     <link href="<?= $assets ?>styles/theme.css" rel="stylesheet" />
     <link href="<?= $assets ?>styles/style.css" rel="stylesheet" />
+    <link href="<?= $assets ?>styles/responsive.css" rel="stylesheet" />
     <script type="text/javascript" src="<?= $assets ?>js/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="<?= $assets ?>js/jquery-migrate-1.2.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
@@ -57,6 +67,9 @@
                 <div class="sideBarLeft">
                     <div class="sideBarcloseIcon">
                         <img src="<?= $assets ?>images/icon/right-arrow.svg" alt="">
+                    </div>
+                    <div class="sideBarcloseIconRes">
+                        <img src="<?= $assets ?>images/icon/close.svg" alt="">
                     </div>
                     <div class="sideBarLogo">
                         <a href="#">
@@ -157,10 +170,12 @@
             <div class="main-container" id="main-container">
                 <header id="header" class="navbar">
                     <div class="row">
-                        <div class="btnContent">
-                            <div class="sideBarcloseIcon">
+                        <div class="sideBarShowIcon">
+                            <div class="sideBarIconMobile">
                                 <img src="<?= $assets ?>images/icon/right-arrow.svg" alt="">
                             </div>
+                        </div>
+                        <div class="btnContent">
                             <div class="btnContentItem">
                                 <a href="#" class="headerBtn">
                                     <div class="btnIcon">
@@ -194,6 +209,9 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="iconHide">
+                            <img src="<?= $assets ?>images/icon/menu.svg" alt="">
+                        </div>
                         <div class="userContent">
                             <div class="userContentScreen">
                                 <img src="<?= $assets ?>images/icon/minimize.svg" class="svg" alt="">
@@ -219,6 +237,42 @@
                                                 </span>
                                                 <span>Logout</span></a></li>
                                     </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="iconShow">
+                            <div class="btnContent">
+                                <div class="btnContentItem">
+                                    <a href="#" class="headerBtn">
+                                        <div class="btnIcon">
+                                            <img src="<?= $assets ?>images/icon/pos.svg" alt="" class="svg">
+                                        </div>
+                                        POS
+                                    </a>
+                                </div>
+                                <div class="btnContentItem">
+                                    <a href="" class="headerBtn">
+                                        <div class="btnIcon">
+                                            <img src="<?= $assets ?>images/icon/calculator.svg" alt="" class="svg">
+                                        </div>
+                                        Calculator
+                                    </a>
+                                </div>
+                                <div class="btnContentItem">
+                                    <a href="<?= admin_url('calendar') ?>" class="headerBtn">
+                                        <div class="btnIcon">
+                                            <img src="<?= $assets ?>images/icon/calendar.svg" alt="" class="svg">
+                                        </div>
+                                        Calendar
+                                    </a>
+                                </div>
+                                <div class="btnContentItem">
+                                    <a href="#" class="headerBtn">
+                                        <div class="btnIcon">
+                                            <img src="<?= $assets ?>images/icon/register-detail.svg" alt="" class="svg">
+                                        </div>
+                                        Register Details
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -92,7 +92,7 @@ body {
 
 #content.sidebar-minified {
     width: 100% !important;
-    border-left: 40px solid #000;
+    /* border-left: 40px solid #000; */
     margin-left: 0 !important;
     float: left !important;
 }
@@ -3518,9 +3518,11 @@ header.navbar>.row {
 }
 
 header.navbar>.row>.btnContent {
-    width: 72%;
+    width: 68%;
+    margin-right: auto;
     display: flex;
     flex-flow: row wrap;
+    align-items: center;
 }
 
 .btnContentItem {
@@ -3604,10 +3606,11 @@ header.navbar>.row>.btnContent {
 }
 
 .userContent {
-    width: 28%;
+    width: 280px;
     display: flex;
     flex-flow: row wrap;
     align-items: stretch;
+    justify-content: end;
 }
 
 .userContent>* {
@@ -3622,7 +3625,7 @@ header.navbar>.row>.btnContent {
 }
 
 .userContentDropdown {
-    width: calc(100% - 96px);
+    width: calc(100% - 145px);
     position: relative;
 }
 
@@ -3653,9 +3656,11 @@ header.navbar>.row>.btnContent {
     background-color: #FFFFFF;
     box-shadow: 0px 2px 6px 0px #CACACA29;
     border-radius: 0px 10px 10px 0px;
+    z-index: 1000;
 }
 
-.sideBarcloseIcon {
+.sideBarcloseIcon,
+.sideBarcloseIconRes {
     position: absolute;
     top: 31px;
     right: -19px;
@@ -3841,13 +3846,13 @@ header.navbar>.row>.btnContent {
 }
 
 .dropdownArrow {
-    margin: 0 auto;
+    margin: 0 0 0 35px;
 }
 
 .userContentDown {
     position: absolute;
     top: 100%;
-    left: 0;
+    right: 0;
     z-index: 1;
     background-color: #FFFFFF;
     box-shadow: 0px 2px 6px 0px #CACACA29;
@@ -3857,7 +3862,7 @@ header.navbar>.row>.btnContent {
     transform: translateY(20%);
     border-radius: 10px;
     padding: 13px 10px 12px;
-    width: 100%;
+    width: 185px;
 }
 
 .userContentDown.downActive {
@@ -4326,6 +4331,7 @@ header.navbar>.row>.btnContent {
 
 .cardTabMenuDivContentItem {
     display: none;
+    overflow-x: auto;
 }
 
 .cardTabMenuDivContentItem>.table {
@@ -4477,13 +4483,65 @@ header.navbar>.row>.btnContent {
 
 .sideBar.sicebarActive .drop {
     position: relative;
+    width: unset !important;
 }
 
 .sideBar.sicebarActive .drop>span:nth-child(3) {
-    position: absolute;
-    top: 60%;
-    right: -5px;
-    transform: translateY(-60%);
+    margin-left: 5px;
+    width: unset;
+}
+
+.sideBarIconMobile {
+    background-color: #FFD4D1;
+    width: 38px;
+    height: 38px;
+    border-radius: 100px;
+    display: grid;
+    place-content: center;
+    border: 5px solid #F5F5F9;
+    cursor: pointer;
+}
+
+.sideBarIconMobile>* {
+    transition: 0.4s all;
+    margin-right: 3px;
+}
+
+.btnContentItem.sideBarIconMobile {
+    display: none;
+}
+
+.iconShow {
+    display: none;
+}
+
+.iconHide {
+    display: none;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 25px;
+}
+
+header.navbar>.row>.iconShow {
+    width: 100% !important;
+    margin-top: 15px;
+}
+
+header.navbar>.row>.iconShow .btnContentItem>.headerBtn {
+    font-size: 14px;
+    padding: 7px 20px;
+}
+
+header.navbar>.row>.iconShow .btnContentItem>.headerBtn .btnIcon {
+    margin-right: 12px;
+}
+
+.sideBarShowIcon {
+    display: none;
+}
+
+.sideBarcloseIconRes {
+    display: none;
 }
 
 /* dashboard end */

@@ -1,0 +1,208 @@
+@media (max-width:1300px) {
+
+    .sideBar,
+    .sideBarLeft {
+        width: 16%;
+    }
+
+    .main-container {
+        width: 84%;
+    }
+}
+
+@media (max-width:1200px) {
+
+    .sideBar,
+    .sideBarLeft {
+        width: 18%;
+    }
+
+    .main-container {
+        width: 82%;
+    }
+
+    .headerBtn {
+        padding: 7px;
+    }
+
+    .userContentNotify {
+        margin: 0 auto;
+    }
+
+    .userContentDropdown {
+        width: calc(100% - 60px);
+    }
+
+    .userContent>.userContentScreen {
+        display: none;
+    }
+
+    header.navbar>.row>*.userContent {
+        width: 200px;
+    }
+
+    .cardRow>*,
+    .cardChartRow>* {
+        width: calc(100% / 1) !important;
+    }
+}
+
+@media (max-width:1130px) {
+
+    .userContent>.userContentNotify {
+        margin: 0;
+        margin-right: auto;
+    }
+
+    .userContent>.userContentDropdown {
+        width: calc(100% - 65px);
+    }
+
+    .main-container {
+        padding: 20px 25px;
+    }
+}
+
+@media (max-width:992px) {
+
+    .btnContentItem>.headerBtn {
+        font-size: 0;
+        padding: 10px;
+    }
+
+    .btnIcon {
+        margin-right: 0;
+    }
+
+    header.navbar>.row {
+        justify-content: space-between;
+    }
+
+    header.navbar>.row>*.sideBarShowIcon {
+        width: 40px !important;
+    }
+
+    header.navbar>.row>.btnContent {
+        width: calc(100% - 30% - 25px - 40px);
+        margin-left: 25px;
+        margin-right: auto;
+    }
+
+    .btnContentItem.sideBarIconMobile {
+        display: grid;
+    }
+
+    .sideBarLeft {
+        width: 225px;
+        left: -100%;
+    }
+
+    .sideBar {
+        width: 0;
+    }
+
+    .main-container {
+        width: 100%;
+    }
+
+    .sideBarLeft.resActiveBar {
+        left: 0;
+    }
+
+    .sideBarcloseIcon {
+        display: none;
+    }
+
+    .cardRow>*,
+    .cardChartRow>* {
+        width: calc(100% / 1) !important;
+    }
+
+    .sideBarShowIcon {
+        display: block;
+    }
+
+    .sideBarcloseIconRes {
+        display: grid;
+    }
+}
+
+@media (max-width:768px) {
+    .main-container {
+        padding: 30px;
+    }
+
+    .btnContent {
+        display: none !important;
+    }
+
+    .iconHide {
+        display: flex;
+    }
+
+    .iconShow>.btnContent {
+        display: flex !important;
+    }
+
+    .iconShow>.btnContent>.btnContentItem>.headerBtn {
+        font-size: 0 !important;
+    }
+
+    .iconShow>.btnContent>.btnContentItem>.headerBtn>.btnIcon {
+        margin-right: 0 !important;
+    }
+
+    .cardItemChart,
+    .cardItemContent {
+        width: 100% !important;
+        height: unset !important;
+    }
+
+    .cardItemContent {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width:576px) {
+
+    .userContent>.userContentScreen,
+    .userContent>.userContentNotify {
+        display: none;
+    }
+
+    .userContent>.userContentDropdown {
+        width: 100%;
+    }
+
+    .userContentDrop>span:nth-child(2),
+    .dropdownArrow {
+        display: none;
+    }
+
+    header.navbar>.row>*.iconHide {
+        width: 60px;
+        margin: 0 auto 0 25px;
+    }
+
+    .sideBarLeft {
+        width: 200px;
+    }
+
+    header.navbar>.row>*.userContent {
+        width: 40px;
+    }
+
+    .iconShow>.btnContent>.btnContentItem>.headerBtn {
+        padding: 7px 10px !important;
+    }
+
+    .cardList>.cardItem {
+        width: calc(100% / 1);
+    }
+}
+
+@media (max-width:400px) {
+    header.navbar>.row>*.iconHide {
+        width: 40px;
+    }
+}

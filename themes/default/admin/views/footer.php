@@ -122,6 +122,17 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
             }
         });
 
+        $('.sideBarIconMobile').on('click', function() {
+            $('.sideBarLeft').toggleClass('resActiveBar');
+        });
+
+        $('.sideBarcloseIconRes').on('click', function() {
+            $('.sideBarLeft').toggleClass('resActiveBar');
+        });
+
+        $('.iconHide').on('click', function() {
+            $('.iconShow').slideToggle();
+        });
 
         $('.userContentScreen').on('click', function() {
             toggleFullScreen();
