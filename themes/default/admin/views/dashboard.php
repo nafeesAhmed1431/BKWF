@@ -1,11 +1,6 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 
 <?php
-// $proVal1 = '90';
-// $proVal2 = '80';
-// $proVal3 = '70';
-// $proVal4 = '60';
-// $proVal5 = '30';
 
 function row_status($x)
 {
@@ -21,28 +16,6 @@ function row_status($x)
     ][$x];
 }
 ?>
-
-<!-- <style>
-    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(1)>.cardChartRowItemListItemRange>progress::before {
-        left: <?= $proVal1; ?>%;
-    }
-
-    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(2)>.cardChartRowItemListItemRange>progress::before {
-        left: <?= $proVal2; ?>%;
-    }
-
-    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(3)>.cardChartRowItemListItemRange>progress::before {
-        left: <?= $proVal3; ?>%;
-    }
-
-    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(4)>.cardChartRowItemListItemRange>progress::before {
-        left: <?= $proVal4; ?>%;
-    }
-
-    .cardChartRowItemList>.cardChartRowItemListItem:nth-child(5)>.cardChartRowItemListItemRange>progress::before {
-        left: <?= $proVal5; ?>%;
-    }
-</style> -->
 
 
 

@@ -3761,7 +3761,7 @@ header.navbar>.row>.btnContent {
 }
 
 .sideBarLink {
-    padding: 0 30px;
+    padding: 0 20px;
     overflow: hidden;
     overflow-y: auto;
     min-height: calc(100% - 60px);
@@ -4203,8 +4203,8 @@ header.navbar>.row>.btnContent {
     border-radius: 30px;
 }
 
-.cardChartRowItemList>.cardChartRowItemListItem>.cardChartRowItemListItemRange>progress::before {
-    content: '';
+/* .cardChartRowItemList>.cardChartRowItemListItem>.cardChartRowItemListItemRange>progress::before {
+    content: attr(value);
     position: absolute;
     top: calc(50% - 0.5px);
     transform: translateY(-50%);
@@ -4213,7 +4213,7 @@ header.navbar>.row>.btnContent {
     background-color: #00D698;
     border-radius: 100px;
     margin-left: -6px;
-}
+} */
 
 .cardChartRowItemList>.cardChartRowItemListItem:nth-child(2)>.cardChartRowItemListItemRange>progress::before {
     background-color: #FF8E75;
@@ -4396,7 +4396,7 @@ header.navbar>.row>.btnContent {
     list-style: none;
     padding-left: 0;
     margin-bottom: 0;
-    padding: 7px 12px;
+    padding: 7px 10px;
 }
 
 .drop>span:nth-child(3)>* {
@@ -4441,13 +4441,12 @@ header.navbar>.row>.btnContent {
 }
 
 .drop.activeDown~ul {
-    background-color: #FFD4D1;
     border-radius: 0 0 5px 5px;
 }
 
 .drop.activeDown {
     background-color: #FFD4D1;
-    border-radius: 5px 5px 0 0;
+    /* border-radius: 5px 5px 0 0; */
 }
 
 .drop.activeDown svg * {
@@ -4474,6 +4473,17 @@ header.navbar>.row>.btnContent {
 .userContentScreen>*,
 .userContentNotify>* {
     cursor: pointer;
+}
+
+.sideBar.sicebarActive .drop {
+    position: relative;
+}
+
+.sideBar.sicebarActive .drop>span:nth-child(3) {
+    position: absolute;
+    top: 60%;
+    right: -5px;
+    transform: translateY(-60%);
 }
 
 /* dashboard end */

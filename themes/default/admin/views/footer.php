@@ -82,6 +82,11 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
                 $('.drop').toggleClass('activeDown');
                 $('.drop').siblings('.down').slideToggle();
             }
+
+            if ($(this).closest('#sidebar').hasClass('sicebarActive')) {
+                $('.drop').removeClass('activeDown');
+                $('.down').slideUp();
+            }
         });
 
         $(document).on("click", function(event) {
@@ -98,8 +103,19 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
         });
 
         $('.drop').on('click', function() {
-            $(this).toggleClass('activeDown');
-            $(this).siblings('.down').slideToggle();
+
+            if ($(this).hasClass('activeDown')) {
+
+                $('.down').slideUp();
+                $('.drop').removeClass('activeDown');
+
+            } else {
+                $('.down').slideUp();
+                $('.drop').removeClass('activeDown');
+                $(this).next('.down').slideDown();
+                $(this).addClass('activeDown');
+
+            }
 
             if ($(this).closest('#sidebar').hasClass('sicebarActive')) {
                 $('#sidebar').toggleClass('sicebarActive');
