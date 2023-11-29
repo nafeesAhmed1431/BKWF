@@ -136,7 +136,7 @@ function row_status($x)
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="center-th">#</th>
                                 <th>Date</th>
                                 <th>Reference No</th>
                                 <th>Customer</th>
@@ -149,7 +149,7 @@ function row_status($x)
                         <tbody>
                             <?php foreach ($sales as $sale) : ?>
                                 <tr id="<?= $sale->id ?>" class="receipt_link">
-                                    <td><?= $sale->id ?></td>
+                                    <td class="center-td"><?= $sale->id ?></td>
                                     <td><?= $this->sma->hrld($sale->date) ?></td>
                                     <td><?= $sale->reference_no ?></td>
                                     <td><?= $sale->customer ?></td>
@@ -166,7 +166,7 @@ function row_status($x)
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="center-th">#</th>
                                 <th>Date</th>
                                 <th>Reference No</th>
                                 <th>Supplier</th>
@@ -177,7 +177,7 @@ function row_status($x)
                         <tbody>
                             <?php foreach ($purchases as $purchase) : ?>
                                 <tr id="<?= $sale->id ?>" class="purchase_link">
-                                    <td><?= $purchase->id ?></td>
+                                    <td class="center-td"><?= $purchase->id ?></td>
                                     <td><?= $this->sma->hrld($purchase->date) ?></td>
                                     <td><?= $purchase->reference_no ?></td>
                                     <td><?= $purchase->supplier ?></td>
@@ -192,7 +192,7 @@ function row_status($x)
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="center-th">#</th>
                                 <th>Date</th>
                                 <th>Transfer No</th>
                                 <th>From</th>
@@ -204,7 +204,7 @@ function row_status($x)
                         <tbody>
                             <?php foreach ($transfers as $transfer) : ?>
                                 <tr>
-                                    <td><?= $transfer->id ?></td>
+                                    <td class="center-td"><?= $transfer->id ?></td>
                                     <td><?= $this->sma->hrld($transfer->date) ?></td>
                                     <td><?= $transfer->transfer_no ?></td>
                                     <td><?= $transfer->from_warehouse_name ?></td>
@@ -220,7 +220,7 @@ function row_status($x)
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="center-th">#</th>
                                 <th>Company</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -231,7 +231,7 @@ function row_status($x)
                         <tbody>
                             <?php foreach ($customers as $customer) : ?>
                                 <tr>
-                                    <td><?= $customer->id ?></td>
+                                    <td class="center-td"><?= $customer->id ?></td>
                                     <td><?= $customer->company ?></td>
                                     <td><?= $customer->name ?></td>
                                     <td><?= $customer->email ?></td>
@@ -246,7 +246,7 @@ function row_status($x)
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th class="center-th">#</th>
                                 <th>Company</th>
                                 <th>Name</th>
                                 <th>Email</th>
@@ -257,7 +257,7 @@ function row_status($x)
                         <tbody>
                             <?php foreach ($suppliers as $supplier) : ?>
                                 <tr>
-                                    <td><?= $supplier->id ?></td>
+                                    <td class="center-td"><?= $supplier->id ?></td>
                                     <td><?= $supplier->company ?></td>
                                     <td><?= $supplier->name ?></td>
                                     <td><?= $supplier->email ?></td>

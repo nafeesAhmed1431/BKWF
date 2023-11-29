@@ -1,56 +1,171 @@
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         'use strict';
         oTable = $('#UsrTable').dataTable({
-            "aaSorting": [[2, "asc"], [3, "asc"]],
-            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "<?= lang('all') ?>"]],
+            "aaSorting": [
+                [2, "asc"],
+                [3, "asc"]
+            ],
+            "aLengthMenu": [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "<?= lang('all') ?>"]
+            ],
             "iDisplayLength": <?= $Settings->rows_per_page ?>,
-            'bProcessing': true, 'bServerSide': true,
+            'bProcessing': true,
+            'bServerSide': true,
             'sAjaxSource': '<?= admin_url('auth/getUsers') ?>',
-            'fnServerData': function (sSource, aoData, fnCallback) {
+            'fnServerData': function(sSource, aoData, fnCallback) {
                 aoData.push({
                     "name": "<?= $this->security->get_csrf_token_name() ?>",
                     "value": "<?= $this->security->get_csrf_hash() ?>"
                 });
-                $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
+                $.ajax({
+                    'dataType': 'json',
+                    'type': 'POST',
+                    'url': sSource,
+                    'data': aoData,
+                    'success': fnCallback
+                });
             },
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            }, null, null, null, null, null, null, {"mRender": user_status}, {"bSortable": false}]
-        }).fnSetFilteringDelay().dtFilter([
-            {column_number: 1, filter_default_label: "[<?=lang('first_name');?>]", filter_type: "text", data: []},
-            {column_number: 2, filter_default_label: "[<?=lang('last_name');?>]", filter_type: "text", data: []},
-            {column_number: 3, filter_default_label: "[<?=lang('email_address');?>]", filter_type: "text", data: []},
-            {column_number: 4, filter_default_label: "[<?=lang('company');?>]", filter_type: "text", data: []},
-            {column_number: 5, filter_default_label: "[<?=lang('award_points');?>]", filter_type: "text", data: []},
-            {column_number: 6, filter_default_label: "[<?=lang('group');?>]", filter_type: "text", data: []},
+            }, null, null, null, null, null, null, {
+                "mRender": user_status
+            }, {
+                "bSortable": false
+            }]
+        }).fnSetFilteringDelay().dtFilter([{
+                column_number: 1,
+                filter_default_label: "[<?= lang('first_name'); ?>]",
+                filter_type: "text",
+                data: []
+            },
             {
-                column_number: 7, select_type: 'select2',
+                column_number: 2,
+                filter_default_label: "[<?= lang('last_name'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 3,
+                filter_default_label: "[<?= lang('email_address'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 4,
+                filter_default_label: "[<?= lang('company'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 5,
+                filter_default_label: "[<?= lang('award_points'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 6,
+                filter_default_label: "[<?= lang('group'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 7,
+                select_type: 'select2',
                 select_type_options: {
-                    placeholder: '<?=lang('status');?>',
+                    placeholder: '<?= lang('status'); ?>',
                     width: '100%',
                     style: 'width:100%;',
                     minimumResultsForSearch: -1,
                     allowClear: true
                 },
-                data: [{value: '1', label: '<?=lang('active');?>'}, {value: '0', label: '<?=lang('inactive');?>'}]
+                data: [{
+                    value: '1',
+                    label: '<?= lang('active'); ?>'
+                }, {
+                    value: '0',
+                    label: '<?= lang('inactive'); ?>'
+                }]
             }
         ], "footer");
     });
 </script>
-<style>.table td:nth-child(6) {
-        text-align: right;
-        width: 10%;
-    }
 
-    .table td:nth-child(8) {
-        text-align: center;
-    }</style>
 <?php if ($Owner) {
     echo admin_form_open('auth/user_actions', 'id="action-form"');
 } ?>
-<div class="box">
+
+<section>
+    <div class="tableRow">
+        <div class="tableRowItem">
+            <div class="tableRowHeading">
+                <h2><?= lang('users'); ?></h2>
+            </div>
+            <div class="tableRowInput">
+                <input type="search" class="customSearchInput" placeholder="Search">
+            </div>
+            <div class="tableRowBtn">
+                <a href="#" class="ankerBtn">Add User</a>
+            </div>
+        </div>
+        <div class="tableRowItem">
+            <div class="cardTabMenuDivContentItem">
+                <table class="table display dTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th><?php echo lang('first_name'); ?></th>
+                            <th><?php echo lang('last_name'); ?></th>
+                            <th><?php echo lang('email_address'); ?></th>
+                            <th><?php echo lang('company'); ?></th>
+                            <th><?php echo lang('award_points'); ?></th>
+                            <th><?php echo lang('group'); ?></th>
+                            <th><?php echo lang('status'); ?></th>
+                            <th><?php echo lang('actions'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Nafess</td>
+                            <td>Gujjar</td>
+                            <td>nafess@gmail.com</td>
+                            <td>ALS</td>
+                            <td>Rank 1</td>
+                            <td>Back-End</td>
+                            <td><span class="tableComplete">Senior</span></td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/view.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Qais</td>
+                            <td>Butt</td>
+                            <td>qais@gmail.com</td>
+                            <td>ALS</td>
+                            <td>Rank 2</td>
+                            <td>Back-End</td>
+                            <td><span class="tableComplete">Senior</span></td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/view.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-users"></i><?= lang('users'); ?></h2>
 
@@ -74,42 +189,41 @@
                 <p class="introtext"><?= lang('list_results'); ?></p>
 
                 <div class="table-responsive">
-                    <table id="UsrTable" cellpadding="0" cellspacing="0" border="0"
-                           class="table table_theme">
+                    <table id="UsrTable" cellpadding="0" cellspacing="0" border="0" class="table table_theme">
                         <thead>
-                        <tr>
-                            <th style="min-width:30px; width: 30px; text-align: center;">
-                                <input class="checkbox checkth" type="checkbox" name="check"/>
-                            </th>
-                            <th class="col-xs-2"><?php echo lang('first_name'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('last_name'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('email_address'); ?></th>
-                            <th class="col-xs-2"><?php echo lang('company'); ?></th>
-                            <th class="col-xs-1"><?php echo lang('award_points'); ?></th>
-                            <th class="col-xs-1"><?php echo lang('group'); ?></th>
-                            <th style="width:100px;"><?php echo lang('status'); ?></th>
-                            <th style="width:80px;"><?php echo lang('actions'); ?></th>
-                        </tr>
+                            <tr>
+                                <th style="min-width:30px; width: 30px; text-align: center;">
+                                    <input class="checkbox checkth" type="checkbox" name="check" />
+                                </th>
+                                <th class="col-xs-2"><?php echo lang('first_name'); ?></th>
+                                <th class="col-xs-2"><?php echo lang('last_name'); ?></th>
+                                <th class="col-xs-2"><?php echo lang('email_address'); ?></th>
+                                <th class="col-xs-2"><?php echo lang('company'); ?></th>
+                                <th class="col-xs-1"><?php echo lang('award_points'); ?></th>
+                                <th class="col-xs-1"><?php echo lang('group'); ?></th>
+                                <th style="width:100px;"><?php echo lang('status'); ?></th>
+                                <th style="width:80px;"><?php echo lang('actions'); ?></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td colspan="8" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
-                        </tr>
+                            <tr>
+                                <td colspan="8" class="dataTables_empty"><?= lang('loading_data_from_server') ?></td>
+                            </tr>
                         </tbody>
                         <tfoot class="dtFilter">
-                        <tr class="active">
-                            <th style="min-width:30px; width: 30px; text-align: center;">
-                                <input class="checkbox checkft" type="checkbox" name="check"/>
-                            </th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th style="width:100px;"></th>
-                            <th style="width:85px;"><?= lang("actions"); ?></th>
-                        </tr>
+                            <tr class="active">
+                                <th style="min-width:30px; width: 30px; text-align: center;">
+                                    <input class="checkbox checkft" type="checkbox" name="check" />
+                                </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="width:100px;"></th>
+                                <th style="width:85px;"><?= lang("actions"); ?></th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -118,20 +232,20 @@
 
         </div>
     </div>
-</div>
+</div> -->
+
 <?php if ($Owner) { ?>
     <div style="display: none;">
-        <input type="hidden" name="form_action" value="" id="form_action"/>
+        <input type="hidden" name="form_action" value="" id="form_action" />
         <?= form_submit('performAction', 'performAction', 'id="action-form-submit"') ?>
     </div>
     <?= form_close() ?>
 
     <script language="javascript">
-        $(document).ready(function () {
-            $('#set_admin').click(function () {
+        $(document).ready(function() {
+            $('#set_admin').click(function() {
                 $('#usr-form-btn').trigger('click');
             });
-
         });
     </script>
 

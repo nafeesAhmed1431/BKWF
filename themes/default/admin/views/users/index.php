@@ -1,4 +1,5 @@
 <link rel="stylesheet" href="<?= base_url('themes/default/admin/assets/styles/sweetalert2.css') ?>">
+
 <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-users"></i><?= lang('users'); ?></h2>

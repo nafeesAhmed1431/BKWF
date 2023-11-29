@@ -45,6 +45,7 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
 <script type="text/javascript" src="<?= $assets ?>js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<?= $assets ?>js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?= $assets ?>js/jquery.dataTables.dtFilter.min.js"></script>
+<!-- <script type="text/javascript" src="<?= $assets ?>js/dataTables.responsive.js"></script> -->
 <script type="text/javascript" src="<?= $assets ?>js/select2.min.js"></script>
 <script type="text/javascript" src="<?= $assets ?>js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<?= $assets ?>js/bootstrapValidator.min.js"></script>
@@ -132,6 +133,27 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
 
         $('.iconHide').on('click', function() {
             $('.iconShow').slideToggle();
+        });
+
+        var dt = $('.dTable').DataTable({
+            "lengthMenu": [10],
+            "pageLength": 10,
+            "lengthChange": false,
+            "info": false,
+            "language": {
+                "search": "",
+                "searchPlaceholder": "Search",
+                "paginate": {
+                    "next": "Next",
+                    "previous": "Previous"
+                },
+            },
+            "responsive": true,
+            "scrollX": true,
+        });
+        $('.customSearchInput').on('input', function() {
+            var searchValue = $(this).val();
+            dt.search(searchValue).draw();
         });
 
         $('.userContentScreen').on('click', function() {

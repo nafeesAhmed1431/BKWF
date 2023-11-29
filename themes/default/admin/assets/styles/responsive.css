@@ -8,6 +8,22 @@
     .main-container {
         width: 84%;
     }
+
+    .dataTables_scroll {
+        overflow-x: auto;
+    }
+
+    .dataTables_scroll>* {
+        width: 1004px !important;
+    }
+
+    .dataTables_scroll>* .dataTables_scrollHeadInner table {
+        width: 100%;
+    }
+
+    .tableRowItem>.cardTabMenuDivContentItem {
+        overflow: unset;
+    }
 }
 
 @media (max-width:1200px) {
@@ -161,6 +177,30 @@
     .cardItemContent {
         margin-bottom: 15px;
     }
+
+    .tableRowItem {
+        justify-content: space-between;
+    }
+
+    .tableRowHeading {
+        order: 1;
+    }
+
+    .tableRowBtn {
+        order: 2;
+    }
+
+    .tableRowInput {
+        order: 3;
+        width: 100%;
+        display: flex;
+        justify-content: end;
+        margin-top: 35px;
+    }
+
+    .tableRowInput>* {
+        width: 50%;
+    }
 }
 
 @media (max-width:576px) {
@@ -198,6 +238,30 @@
 
     .cardList>.cardItem {
         width: calc(100% / 1);
+    }
+
+    .dataTables_paginate>.pagination {
+        justify-content: center;
+    }
+
+    .dataTables_paginate>.pagination>li.prev>a,
+    .dataTables_paginate>.pagination>li.next>a {
+        font-size: 0;
+        padding: 5px 15px;
+        background-position: center;
+    }
+
+    .tableRowInput>* {
+        width: 75%;
+    }
+
+    .tableRowBtn>* {
+        padding: 12px 45px;
+    }
+
+    .tableRowInput>* {
+        padding: 10px 20px 11px;
+        font-size: 13px;
     }
 }
 
