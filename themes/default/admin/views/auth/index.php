@@ -127,12 +127,12 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Nafess</td>
-                            <td>Gujjar</td>
-                            <td>nafess@gmail.com</td>
+                            <td>Test</td>
+                            <td>Test</td>
+                            <td>test@gmail.com</td>
                             <td>ALS</td>
                             <td>Rank 1</td>
-                            <td>Back-End</td>
+                            <td>Testing</td>
                             <td><span class="tableComplete">Senior</span></td>
                             <td>
                                 <ul class="icon">
