@@ -3879,6 +3879,7 @@ header.navbar>.row>.btnContent {
 
 .userContentDown>ul>li {
     margin: 7px 0;
+    width: 100%;
 }
 
 .userContentDown>ul span>svg {
