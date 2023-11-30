@@ -1,28 +1,61 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         oTable = $('#TOData').dataTable({
-            "aaSorting": [[1, "desc"], [2, "desc"]],
-            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "<?= lang('all') ?>"]],
+            "aaSorting": [
+                [1, "desc"],
+                [2, "desc"]
+            ],
+            "aLengthMenu": [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "<?= lang('all') ?>"]
+            ],
             "iDisplayLength": <?= $Settings->rows_per_page ?>,
-            'bProcessing': true, 'bServerSide': true,
+            'bProcessing': true,
+            'bServerSide': true,
             'sAjaxSource': '<?= admin_url('transfers/getTransfers') ?>',
-            'fnServerData': function (sSource, aoData, fnCallback) {
+            'fnServerData': function(sSource, aoData, fnCallback) {
                 aoData.push({
                     "name": "<?= $this->security->get_csrf_token_name() ?>",
                     "value": "<?= $this->security->get_csrf_hash() ?>"
                 });
-                $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
+                $.ajax({
+                    'dataType': 'json',
+                    'type': 'POST',
+                    'url': sSource,
+                    'data': aoData,
+                    'success': fnCallback
+                });
             },
-            "aoColumns": [{"bSortable": false,"mRender": checkbox}, {"mRender": fld}, null, null, null, {"mRender": currencyFormat}, {"mRender": currencyFormat}, {"mRender": currencyFormat}, {"mRender": row_status}, {"bSortable": false,"mRender": attachment}, {"bSortable": false}],
-            'fnRowCallback': function (nRow, aData, iDisplayIndex) {
+            "aoColumns": [{
+                "bSortable": false,
+                "mRender": checkbox
+            }, {
+                "mRender": fld
+            }, null, null, null, {
+                "mRender": currencyFormat
+            }, {
+                "mRender": currencyFormat
+            }, {
+                "mRender": currencyFormat
+            }, {
+                "mRender": row_status
+            }, {
+                "bSortable": false,
+                "mRender": attachment
+            }, {
+                "bSortable": false
+            }],
+            'fnRowCallback': function(nRow, aData, iDisplayIndex) {
                 var oSettings = oTable.fnSettings();
                 nRow.id = aData[0];
                 nRow.className = "transfer_link";
                 return nRow;
             },
-            "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
-                var row_total = 0, tax = 0, gtotal = 0;
+            "fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
+                var row_total = 0,
+                    tax = 0,
+                    gtotal = 0;
                 for (var i = 0; i < aaData.length; i++) {
                     row_total += parseFloat(aaData[aiDisplay[i]][5]);
                     tax += parseFloat(aaData[aiDisplay[i]][6]);
@@ -33,27 +66,113 @@
                 nCells[6].innerHTML = currencyFormat(formatMoney(tax));
                 nCells[7].innerHTML = currencyFormat(formatMoney(gtotal));
             }
-        }).fnSetFilteringDelay().dtFilter([
-            {column_number: 1, filter_default_label: "[<?=lang('date');?> (yyyy-mm-dd)]", filter_type: "text", data: []},
-            {column_number: 2, filter_default_label: "[<?=lang('ref_no');?>]", filter_type: "text", data: []},
+        }).fnSetFilteringDelay().dtFilter([{
+                column_number: 1,
+                filter_default_label: "[<?= lang('date'); ?> (yyyy-mm-dd)]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 2,
+                filter_default_label: "[<?= lang('ref_no'); ?>]",
+                filter_type: "text",
+                data: []
+            },
             {
                 column_number: 3,
-                filter_default_label: "[<?=lang("warehouse").' ('.lang('from').')';?>]",
-                filter_type: "text", data: []
+                filter_default_label: "[<?= lang("warehouse") . ' (' . lang('from') . ')'; ?>]",
+                filter_type: "text",
+                data: []
             },
             {
                 column_number: 4,
-                filter_default_label: "[<?=lang("warehouse").' ('.lang('to').')';?>]",
-                filter_type: "text", data: []
+                filter_default_label: "[<?= lang("warehouse") . ' (' . lang('to') . ')'; ?>]",
+                filter_type: "text",
+                data: []
             },
-            {column_number: 8, filter_default_label: "[<?=lang('status');?>]", filter_type: "text", data: []},
+            {
+                column_number: 8,
+                filter_default_label: "[<?= lang('status'); ?>]",
+                filter_type: "text",
+                data: []
+            },
         ], "footer");
     });
 </script>
 <?php if ($Owner || $GP['bulk_actions']) {
     echo admin_form_open('transfers/transfer_actions', 'id="action-form"');
 } ?>
-<div class="box">
+
+<section>
+    <div class="tableRow">
+        <div class="tableRowItem">
+            <div class="tableRowHeading">
+                <h2><?= lang('Branches'); ?></h2>
+            </div>
+            <div class="tableRowInput">
+                <input type="search" class="customSearchInput" placeholder="Search">
+            </div>
+            <div class="tableRowBtn">
+                <a href="#" class="ankerBtn">Add Branche</a>
+            </div>
+        </div>
+        <div class="tableRowItem">
+            <div class="cardTabMenuDivContentItem">
+                <table class="table display dTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th><?= lang("date"); ?></th>
+                            <th><?= lang("ref_no"); ?></th>
+                            <th><?= lang("warehouse") . ' (' . lang('from') . ')'; ?></th>
+                            <th><?= lang("warehouse") . ' (' . lang('to') . ')'; ?></th>
+                            <th><?= lang("total"); ?></th>
+                            <th><?= lang("product_tax"); ?></th>
+                            <th><?= lang("grand_total"); ?></th>
+                            <th><?= lang("status"); ?></th>
+                            <th><?php echo lang('Actions'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Test</td>
+                            <td>Gujranwala</td>
+                            <td>test@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>0987654321</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td><span class="tableComplete">Check</span></td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Qais</td>
+                            <td>Gujranwala</td>
+                            <td>qais@gmail.com</td>
+                            <td>0987654321</td>
+                            <td>1234567890</td>
+                            <td>N/A</td>
+                            <td>N/A</td>
+                            <td><span class="tableComplete">Check</span></td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-star-o"></i><?= lang('transfers'); ?></h2>
 
@@ -76,7 +195,7 @@
                         </li>
                         <li>
                             <a href="#" id="combine" data-action="combine">
-                                <i class="fa fa-file-pdf-o"></i> <?=lang('combine_to_pdf')?>
+                                <i class="fa fa-file-pdf-o"></i> <?= lang('combine_to_pdf') ?>
                             </a>
                         </li>
                         <li class="divider"></li>
@@ -138,10 +257,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
 <?php if ($Owner || $GP['bulk_actions']) { ?>
     <div style="display: none;">
-        <input type="hidden" name="form_action" value="" id="form_action"/>
+        <input type="hidden" name="form_action" value="" id="form_action" />
         <?= form_submit('performAction', 'performAction', 'id="action-form-submit"') ?>
     </div>
     <?= form_close() ?>

@@ -4645,11 +4645,19 @@ table td .icon {
 }
 
 table td .icon li {
-    margin: 0 5px;
+    margin: 5px;
+}
+
+table td .icon li svg {
+    height: 16px;
 }
 
 table td .icon li:first-child {
     margin-left: 0;
+}
+
+table td .icon li:hover svg * {
+    fill: #FFD4D1;
 }
 
 table td .icon li:first-child:hover svg * {
@@ -4814,6 +4822,11 @@ table td .icon li a svg * {
 .tableRowHeading {
     display: flex;
     align-items: center;
+}
+
+.tableImg>* {
+    width: 75%;
+    aspect-ratio: 1/1;
 }
 
 /* dashboard end */

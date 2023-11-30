@@ -1,20 +1,32 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         oTable = $('#SupData').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "<?= lang('all') ?>"]],
+            "aaSorting": [
+                [1, "asc"]
+            ],
+            "aLengthMenu": [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "<?= lang('all') ?>"]
+            ],
             "iDisplayLength": <?= $Settings->rows_per_page ?>,
-            'bProcessing': true, 'bServerSide': true,
+            'bProcessing': true,
+            'bServerSide': true,
             'sAjaxSource': '<?= admin_url('suppliers/getSuppliers') ?>',
-            'fnServerData': function (sSource, aoData, fnCallback) {
+            'fnServerData': function(sSource, aoData, fnCallback) {
                 aoData.push({
                     "name": "<?= $this->security->get_csrf_token_name() ?>",
                     "value": "<?= $this->security->get_csrf_hash() ?>"
                 });
-                $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
+                $.ajax({
+                    'dataType': 'json',
+                    'type': 'POST',
+                    'url': sSource,
+                    'data': aoData,
+                    'success': fnCallback
+                });
             },
-            'fnRowCallback': function (nRow, aData, iDisplayIndex) {
+            'fnRowCallback': function(nRow, aData, iDisplayIndex) {
                 nRow.id = aData[0];
                 nRow.className = "supplier_details_link";
                 return nRow;
@@ -22,23 +34,140 @@
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            }, null, null, null, null, null, null, null, null, {"bSortable": false}]
-        }).dtFilter([
-            {column_number: 1, filter_default_label: "[<?=lang('company');?>]", filter_type: "text", data: []},
-            {column_number: 2, filter_default_label: "[<?=lang('name');?>]", filter_type: "text", data: []},
-            {column_number: 3, filter_default_label: "[<?=lang('email_address');?>]", filter_type: "text", data: []},
-            {column_number: 4, filter_default_label: "[<?=lang('phone');?>]", filter_type: "text", data: []},
-            {column_number: 5, filter_default_label: "[<?=lang('city');?>]", filter_type: "text", data: []},
-            {column_number: 6, filter_default_label: "[<?=lang('country');?>]", filter_type: "text", data: []},
-            {column_number: 7, filter_default_label: "[<?=lang('vat_no');?>]", filter_type: "text", data: []},
-            {column_number: 8, filter_default_label: "[<?=lang('gst_no');?>]", filter_type: "text", data: []},
+            }, null, null, null, null, null, null, null, null, {
+                "bSortable": false
+            }]
+        }).dtFilter([{
+                column_number: 1,
+                filter_default_label: "[<?= lang('company'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 2,
+                filter_default_label: "[<?= lang('name'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 3,
+                filter_default_label: "[<?= lang('email_address'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 4,
+                filter_default_label: "[<?= lang('phone'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 5,
+                filter_default_label: "[<?= lang('city'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 6,
+                filter_default_label: "[<?= lang('country'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 7,
+                filter_default_label: "[<?= lang('vat_no'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 8,
+                filter_default_label: "[<?= lang('gst_no'); ?>]",
+                filter_type: "text",
+                data: []
+            },
         ], "footer");
     });
 </script>
 <?php if ($Owner || $GP['bulk_actions']) {
     echo admin_form_open('suppliers/supplier_actions', 'id="action-form"');
 } ?>
-<div class="box">
+
+<section>
+    <div class="tableRow">
+        <div class="tableRowItem">
+            <div class="tableRowHeading">
+                <h2><?= lang('suppliers'); ?></h2>
+            </div>
+            <div class="tableRowInput">
+                <input type="search" class="customSearchInput" placeholder="Search">
+            </div>
+            <div class="tableRowBtn">
+                <a href="#" class="ankerBtn">Add Supplier</a>
+            </div>
+        </div>
+        <div class="tableRowItem">
+            <div class="cardTabMenuDivContentItem">
+                <table class="table display dTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th><?php echo lang('company'); ?></th>
+                            <th><?php echo lang('name'); ?></th>
+                            <th><?php echo lang('email_address'); ?></th>
+                            <th><?php echo lang('phone'); ?></th>
+                            <th><?php echo lang('city'); ?></th>
+                            <th><?php echo lang('country'); ?></th>
+                            <th><?php echo lang('vat_no'); ?></th>
+                            <th><?php echo lang('gst_no'); ?></th>
+                            <th><?php echo lang('actions'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ALS</td>
+                            <td>Test</td>
+                            <td>test@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>Gujranwala</td>
+                            <td>Pakistan</td>
+                            <td>1234567890</td>
+                            <td>1234567890</td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/money-bill.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/list.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/user.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/add.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ALS</td>
+                            <td>Qais</td>
+                            <td>qais@gmail.com</td>
+                            <td>0987654321</td>
+                            <td>Patoki</td>
+                            <td>Pakistan</td>
+                            <td>0987654321</td>
+                            <td>0987654321</td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/money-bill.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/list.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/user.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/add.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-users"></i><?= lang('suppliers'); ?></h2>
 
@@ -50,17 +179,10 @@
                     </a>
                     <ul class="dropdown-menu pull-right tasks-menus" role="menu" aria-labelledby="dLabel">
                         <li>
-                            <!-- <a href="<?= admin_url('suppliers/add'); ?>" data-toggle="modal" data-target="#myModal" id="add">
-                                <i class="fa fa-plus-circle"></i> <?= lang("add_supplier"); ?>
-                            </a> -->
-                            <a <?php if($count <= 50){ ?> href="<?= admin_url('suppliers/add'); ?>" data-toggle="modal" data-target="#myModal" <?php }else{ ?> onclick="alert('You cannot add more than 50 customers please contact to administrator!');" <?php } ?> id="add"><i class="fa fa-plus-circle"></i> <?= lang("add_supplier"); ?></a>
+                            <a <?php if ($count <= 50) { ?> href="<?= admin_url('suppliers/add'); ?>" data-toggle="modal" data-target="#myModal" <?php } else { ?> onclick="alert('You cannot add more than 50 customers please contact to administrator!');" <?php } ?> id="add"><i class="fa fa-plus-circle"></i> <?= lang("add_supplier"); ?></a>
                         </li>
                         <li>
-                            <!-- <a href="<?= admin_url('suppliers/import_csv'); ?>" data-toggle="modal" data-target="#myModal">
-                                <i class="fa fa-plus-circle"></i> <?= lang("import_by_csv"); ?>
-
-                            </a> -->
-                            <a <?php if($count <= 50){ ?> href="<?= admin_url('suppliers/import_csv'); ?>" data-toggle="modal" data-target="#myModal" <?php }else{ ?> onclick="alert('You cannot add more than 50 customers please contact to administrator!');" <?php } ?> id="add"><i class="fa fa-plus-circle"></i> <?= lang("import_by_csv"); ?></a>
+                            <a <?php if ($count <= 50) { ?> href="<?= admin_url('suppliers/import_csv'); ?>" data-toggle="modal" data-target="#myModal" <?php } else { ?> onclick="alert('You cannot add more than 50 customers please contact to administrator!');" <?php } ?> id="add"><i class="fa fa-plus-circle"></i> <?= lang("import_by_csv"); ?></a>
                         </li>
                         <li>
                             <a href="#" id="excel" data-action="export_excel">
@@ -123,10 +245,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
 <?php if ($Owner || $GP['bulk_actions']) { ?>
     <div style="display: none;">
-        <input type="hidden" name="form_action" value="" id="form_action"/>
+        <input type="hidden" name="form_action" value="" id="form_action" />
         <?= form_submit('performAction', 'performAction', 'id="action-form-submit"') ?>
     </div>
     <?= form_close() ?>
@@ -135,5 +258,3 @@
     echo '<script>$(document).ready(function(){$("#add").trigger("click");});</script>';
 }
 ?>
-
-

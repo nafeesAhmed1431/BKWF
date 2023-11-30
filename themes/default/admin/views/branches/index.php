@@ -1,9 +1,70 @@
-<style>
-    .text-small {
-        font-size: 12px;
-    }
-</style>
-<div class="box">
+<section>
+    <div class="tableRow">
+        <div class="tableRowItem">
+            <div class="tableRowHeading">
+                <h2><?= lang('Branches'); ?></h2>
+            </div>
+            <div class="tableRowInput">
+                <input type="search" class="customSearchInput" placeholder="Search">
+            </div>
+            <div class="tableRowBtn">
+                <a href="#" class="ankerBtn">Add Branche</a>
+            </div>
+        </div>
+        <div class="tableRowItem">
+            <div class="cardTabMenuDivContentItem">
+                <table class="table display dTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th><?php echo lang('Name'); ?></th>
+                            <th><?php echo lang('City'); ?></th>
+                            <th><?php echo lang('State'); ?></th>
+                            <th><?php echo lang('Phone'); ?></th>
+                            <th><?php echo lang('Mobile'); ?></th>
+                            <th><?php echo lang('Address'); ?></th>
+                            <th><?php echo lang('Live'); ?></th>
+                            <th><?php echo lang('Actions'); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Test</td>
+                            <td>Gujranwala</td>
+                            <td>test@gmail.com</td>
+                            <td>1234567890</td>
+                            <td>0987654321</td>
+                            <td>N/A</td>
+                            <td><span class="tableComplete">Check</span></td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Qais</td>
+                            <td>Gujranwala</td>
+                            <td>qais@gmail.com</td>
+                            <td>0987654321</td>
+                            <td>1234567890</td>
+                            <td>N/A</td>
+                            <td><span class="tableComplete">Check</span></td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa fa-home"></i>Branches</h2>
         <div class="box-icon">
@@ -60,7 +121,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="modal fade" id="branchModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
