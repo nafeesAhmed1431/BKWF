@@ -114,6 +114,20 @@
                                 </ul>
                             </li>
                             <li>
+                                <a class="drop">
+                                    <span>
+                                        <img src="<?= $assets ?>images/icon/purchases.svg" class="svg" alt="">
+                                    </span>
+                                    <span>Sales</span>
+                                    <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
+                                </a>
+                                <ul class="down">
+                                    <li><a href="<?= admin_url('sales') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Sales</span></a></li>
+                                    <li><a href="<?= admin_url('sales/add') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Add Sale</span></a></li>
+                                    <li><a href="<?= admin_url('pos/sales') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>POS Sales</span></a></li>
+                                </ul>
+                            </li>
+                            <li>
                                 <a href="<?= admin_url('branches') ?>">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/branches.svg" class="svg" alt="">
@@ -407,7 +421,7 @@
 
                         <div class="btnContent">
                             <div class="btnContentItem">
-                                <a href="#" class="headerBtn">
+                                <a href="<?= admin_url('pos') ?>" class="headerBtn">
                                     <div class="btnIcon">
                                         <img src="<?= $assets ?>images/icon/pos.svg" alt="" class="svg">
                                     </div>
@@ -431,12 +445,15 @@
                                 </a>
                             </div>
                             <div class="btnContentItem">
-                                <a href="#" class="headerBtn">
+                                <a href="#" class="headerBtn" id="register_details" title="" data-placement="bottom" data-html="true" href="<?= admin_url('pos/register_details') ?>" data-toggle="modal" data-target="#myModal" data-original-title="<span>Register Details</span>" tabindex="-1">
                                     <div class="btnIcon">
                                         <img src="<?= $assets ?>images/icon/register-detail.svg" alt="" class="svg">
                                     </div>
                                     Register Details
                                 </a>
+                                <!-- <a class="btn bdarkGreen pos-tip" id="register_details" title="" data-placement="bottom" data-html="true" href="http://pcook.adroitlight.com/admin/pos/register_details" data-toggle="modal" data-target="#myModal" data-original-title="<span>Register Details</span>" tabindex="-1">
+                                    <i class="fa fa-check-circle"></i>
+                                </a> -->
                             </div>
                         </div>
                         <div class="userContent">
@@ -452,15 +469,16 @@
                                     <span>Admin</span>
                                     <span class="dropdownArrow"><img src="<?= $assets ?>images/icon/down-arrow.svg" alt=""></span>
                                 </div>
+
                                 <div class="userContentDown">
                                     <ul>
-                                        <li><a href="#"><span><img class="svg" src="<?= $assets ?>images/icon/profile.svg" alt="">
+                                        <li><a href="<?= admin_url('users/profile/' . $this->session->userdata('user_id')) ?>"><span><img class="svg" src="<?= $assets ?>images/icon/profile.svg" alt="">
                                                 </span>
                                                 <span>Profile</span></a></li>
-                                        <li><a href="#"><span><img class="svg" src="<?= $assets ?>images/icon/change-password.svg" alt="">
+                                        <li><a href="<?= admin_url("users/profile/" . ($this->session->userdata('user_id')) . "/#cpassword") ?>"><span><img class="svg" src="<?= $assets ?>images/icon/change-password.svg" alt="">
                                                 </span>
                                                 <span>Change Password</span></a></li>
-                                        <li><a href="#"><span><img class="svg" src="<?= $assets ?>images/icon/logout.svg" alt="">
+                                        <li><a href="<?= admin_url('logout') ?>"><span><img class="svg" src="<?= $assets ?>images/icon/logout.svg" alt="">
                                                 </span>
                                                 <span>Logout</span></a></li>
                                     </ul>

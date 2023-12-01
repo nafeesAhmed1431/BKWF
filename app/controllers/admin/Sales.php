@@ -56,6 +56,7 @@ class Sales extends MY_Controller
             $user = $this->site->getUser();
             $warehouse_id = $user->warehouse_id;
         }
+
         $detail_link = anchor('admin/sales/view/$1', '<i class="fa fa-file-text-o"></i> ' . lang('sale_details'));
         $duplicate_link = anchor('admin/sales/add?sale_id=$1', '<i class="fa fa-plus-circle"></i> ' . lang('duplicate_sale'));
         $payments_link = anchor('admin/sales/payments/$1', '<i class="fa fa-money"></i> ' . lang('view_payments'), 'data-toggle="modal" data-target="#myModal"');
@@ -91,12 +92,15 @@ class Sales extends MY_Controller
         </div></div>';
         //$action = '<div class="text-center">' . $detail_link . ' ' . $edit_link . ' ' . $email_link . ' ' . $delete_link . '</div>';
 
+
+
         $this->load->library('datatables');
+
         if ($warehouse_id) {
             $this->datatables
-                ->select("{$this->db->dbprefix('sales')}.id as id, DATE_FORMAT({$this->db->dbprefix('sales')}.date, '%Y-%m-%d %T') as date, reference_no, biller, {$this->db->dbprefix('sales')}.customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status, {$this->db->dbprefix('sales')}.attachment, return_id")
-                ->from('sales')
-                ->where('warehouse_id', $warehouse_id);
+            ->select("{$this->db->dbprefix('sales')}.id as id, DATE_FORMAT({$this->db->dbprefix('sales')}.date, '%Y-%m-%d %T') as date, reference_no, biller, {$this->db->dbprefix('sales')}.customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status, {$this->db->dbprefix('sales')}.attachment, return_id")
+            ->from('sales')
+            ->where('warehouse_id', $warehouse_id);
         } else {
             $this->datatables
                 ->select("{$this->db->dbprefix('sales')}.id as id, DATE_FORMAT({$this->db->dbprefix('sales')}.date, '%Y-%m-%d %T') as date, reference_no, biller, {$this->db->dbprefix('sales')}.customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status, {$this->db->dbprefix('sales')}.attachment, return_id")
@@ -109,18 +113,21 @@ class Sales extends MY_Controller
         }
         if ($this->input->get('delivery') == 'no') {
             $this->datatables->join('deliveries', 'deliveries.sale_id=sales.id', 'left')
-                ->where('sales.sale_status', 'completed')->where('sales.payment_status', 'paid')
-                ->where("({$this->db->dbprefix('deliveries')}.status != 'delivered' OR {$this->db->dbprefix('deliveries')}.status IS NULL)", NULL);
+            ->where('sales.sale_status', 'completed')->where('sales.payment_status', 'paid')
+            ->where("({$this->db->dbprefix('deliveries')}.status != 'delivered' OR {$this->db->dbprefix('deliveries')}.status IS NULL)", NULL);
         }
         if ($this->input->get('attachment') == 'yes') {
             $this->datatables->where('payment_status !=', 'paid')->where('attachment !=', NULL);
         }
-        $this->datatables->where('pos !=', 1); // ->where('sale_status !=', 'returned');
+        
+        $this->datatables->where('pos !=', 1);
+
         if (!$this->Customer && !$this->Supplier && !$this->Owner && !$this->Admin && !$this->session->userdata('view_right')) {
             $this->datatables->where('created_by', $this->session->userdata('user_id'));
         } elseif ($this->Customer) {
             $this->datatables->where('customer_id', $this->session->userdata('user_id'));
         }
+
         $this->datatables->add_column("Actions", $action, "id");
         echo $this->datatables->generate();
     }
@@ -376,6 +383,7 @@ class Sales extends MY_Controller
 
     public function add($quote_id = null)
     {
+        // exit(print_r(["<pre>", $this->input->post()]));
         $this->sma->checkPermissions();
         $sale_id = $this->input->get('sale_id') ? $this->input->get('sale_id') : NULL;
 
@@ -387,11 +395,9 @@ class Sales extends MY_Controller
 
         if ($this->form_validation->run() == true) {
             $reference = $this->input->post('reference_no') ? $this->input->post('reference_no') : $this->site->getReference('so');
-            if ($this->Owner || $this->Admin) {
-                $date = $this->sma->fld(trim($this->input->post('date')));
-            } else {
-                $date = date('Y-m-d H:i:s');
-            }
+            // if ($this->Owner || $this->Admin) { $date = $this->sma->fld(trim($this->input->post('date'))); } else { $date = date('Y-m-d H:i:s');}
+            $date = ($this->Owner || $this->Admin) ? $this->sma->fld(trim($this->input->post('date'))) : date('Y-m-d H:i:s');
+
             $warehouse_id = $this->input->post('warehouse');
             $customer_id = $this->input->post('customer');
             $biller_id = $this->input->post('biller');
@@ -627,7 +633,6 @@ class Sales extends MY_Controller
             $this->session->set_flashdata('message', lang("sale_added"));
             admin_redirect("sales");
         } else {
-
             if ($quote_id || $sale_id) {
                 if ($quote_id) {
                     $this->data['quote'] = $this->sales_model->getQuoteByID($quote_id);
