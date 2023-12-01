@@ -62,6 +62,8 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
 
 <script>
     $(document).ready(function() {
+        $('.select2Dropdown').select2();
+
         $('img.svg').each(function() {
             var $img = $(this);
             var imgID = $img.attr('id');

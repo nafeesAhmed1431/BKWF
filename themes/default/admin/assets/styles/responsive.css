@@ -61,6 +61,14 @@
     .cardChartRow>* {
         width: calc(100% / 1) !important;
     }
+
+    .fullFormItemsList>.fullFormItemsListGroup {
+        width: calc(100% / 2 - 30px);
+    }
+
+    .fullFormItemsListGroup.fullFormItemsListGroupIcon {
+        width: calc(100% / 1 - 30px);
+    }
 }
 
 @media (max-width:1130px) {
@@ -201,6 +209,28 @@
     .tableRowInput>* {
         width: 50%;
     }
+
+    .fullFormItemsList>.fullFormItemsListGroup {
+        width: calc(100% / 1);
+    }
+
+    .fullFormItemsListGroup.fullFormItemsListGroupIcon {
+        width: calc(100% / 1);
+    }
+
+    .fullFormItemsListGroupInputGroup.fullFormItemsListGroupInputGroupIcon>.fullFormItemsListGroupInput {
+        width: calc(100% / 1);
+    }
+
+    .fullFormItemsListGroupInputGroup.fullFormItemsListGroupInputGroupIcon>.fullFormItemsListGroupInputIcon {
+        width: 100%;
+        margin: 25px 0;
+    }
+
+    .fullFormItemsListGroupInputIcon>* {
+        margin-bottom: -8px;
+        transform: rotate(90deg);
+    }
 }
 
 @media (max-width:576px) {
@@ -262,6 +292,23 @@
     .tableRowInput>* {
         padding: 10px 20px 11px;
         font-size: 13px;
+    }
+
+    .fullFormItemsListGroupInput .select2-container--default .select2-selection--single .select2-selection__rendered {
+        text-overflow: ellipsis;
+        width: 100% !important;
+    }
+
+    .fullFormItemsList>.fullFormItemsListGroup {
+        margin: 10px 0px;
+    }
+
+    .fullForm {
+        padding: 30px 25px 40px;
+    }
+
+    .main-container {
+        padding: 15px;
     }
 }
 

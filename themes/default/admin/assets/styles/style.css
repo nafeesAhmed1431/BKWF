@@ -4832,3 +4832,129 @@ table td .icon li a svg * {
 }
 
 /* dashboard end */
+
+/* system setting start */
+
+.fullForm {
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 6px 0px #CACACA29;
+    border-radius: 10px;
+    padding: 30px 30px 40px;
+}
+
+.fullFormItems {
+    margin-bottom: 25px;
+}
+
+.fullFormItemsHeading {
+    margin-bottom: 30px;
+}
+
+.fullFormItemsHeading>* {
+    font-size: 18px;
+    line-height: 27px;
+    font-weight: 700;
+    color: #F2655C;
+    margin: 0;
+}
+
+.fullFormItemsList {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: stretch;
+}
+
+.fullFormItemsList>.fullFormItemsListGroup {
+    width: calc(100% / 3 - 30px);
+    margin: 15px 15px;
+}
+
+.fullFormItemsListGroupLabel {
+    margin-bottom: 10px;
+}
+
+.fullFormItemsListGroupLabel>* {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+    color: #585858;
+    margin: 0;
+}
+
+.fullFormItemsListGroupInput>input,
+.systemInput {
+    border: 1px solid #D3D3D3;
+    background-color: #FAFAFA;
+    border-radius: 5px;
+    height: 35px;
+    outline: none;
+    padding: 6px 12px;
+
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+    color: #585858;
+    width: 100%;
+}
+
+.fullFormItemsListGroupInput .select2-container--default .select2-selection--single {
+    border: 1px solid #D3D3D3;
+    background-color: #FAFAFA;
+    border-radius: 5px;
+    height: 35px;
+}
+
+.fullFormItemsListGroupInput .select2-container--default .select2-selection--single .select2-selection__rendered {
+    font-size: 14px;
+    line-height: 21px;
+    font-weight: 400;
+    color: #585858;
+    padding: 0;
+    padding: 6px 12px;
+}
+
+.fullFormItemsListGroupInput .select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.fullFormItemsListGroupInputGroup {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.fullFormItemsListGroupInputGroupInput {
+    width: calc(100% / 2 - 15px);
+}
+
+.fullFormItemsListGroupInput>.select2.select2-container {
+    width: 100% !important;
+}
+
+.fullFormItemsListGroupInputGroup.fullFormItemsListGroupInputGroupIcon>.fullFormItemsListGroupInput {
+    width: calc(100% / 2 - 10%);
+}
+
+.fullFormItemsListGroupInputGroup.fullFormItemsListGroupInputGroupIcon>.fullFormItemsListGroupInputIcon {
+    width: 10%;
+}
+
+.fullFormItemsListGroup.fullFormItemsListGroupIcon {
+    width: calc(100% / 1 - 30px);
+}
+
+.fullFormItemsListGroupInputIcon {
+    display: grid;
+    place-content: center;
+}
+
+.fullFormItemsListGroupInputIcon>* {
+    margin-top: 16px;
+}
+
+.fullFormItemsListGroupInputGroup.fullFormItemsListGroupInputGroupIcon>.fullFormItemsListGroupInput>input {
+    margin-top: 5px;
+}
+
+/* system setting end */
