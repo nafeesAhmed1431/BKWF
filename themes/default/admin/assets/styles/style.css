@@ -3692,6 +3692,7 @@ header.navbar>.row>.btnContent {
 
 .sideBarLink>ul>li {
     margin: 7px 0;
+    width: 100%;
 }
 
 .sideBarLink>ul>li>a {
