@@ -40,13 +40,6 @@ class Welcome extends MY_Controller
         $this->data['total_purchases'] = $this->db_model->total_purchases();
         $this->data['monthly_sale_chart'] = json_encode($this->db_model->monthly_sale());
         $this->data['yearly_sale'] = json_encode($this->db_model->yearly_sale());
-        // __($this->data['yearly_sale']);
-        // $this->data['quotes'] = $this->db_model->getLastestQuotes();
-        // $this->data['chatData'] = $this->db_model->getChartData();
-        // $this->data['stock'] = $this->db_model->getStockValue();
-        // $lmsdate = date('Y-m-d', strtotime('first day of last month')) . ' 00:00:00';
-        // $lmedate = date('Y-m-d', strtotime('last day of last month')) . ' 23:59:59';
-        // $this->data['lmbs'] = $this->db_model->getBestSeller($lmsdate, $lmedate);
         $meta = ['page_title' => lang('dashboard'), 'bc' => [['link' => '#', 'page' => lang('dashboard')]]];
         $this->page_construct('dashboard', $meta, $this->data);
     }

@@ -93,6 +93,16 @@
     });
 </script>
 
+<style>
+    .table td:nth-child(6) {
+        text-align: right;
+        width: 10%;
+    }
+
+    .table td:nth-child(8) {
+        text-align: center;
+    }
+</style>
 <?php if ($Owner) {
     echo admin_form_open('auth/user_actions', 'id="action-form"');
 } ?>

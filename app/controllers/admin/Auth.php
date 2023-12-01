@@ -36,10 +36,13 @@ class Auth extends MY_Controller
         }
 
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
-
-        $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => '#', 'page' => lang('users')));
-        $meta = array('page_title' => lang('users'), 'bc' => $bc);
-        $this->page_construct('auth/index', $meta, $this->data);
+        $this->page_construct('auth/index', [
+            'page_title' => lang('Users'),
+            'bc' => [
+                ['link' => base_url(), 'page' => lang('home')],
+                ['link' => "#", 'page' => lang('users')]
+            ]
+        ], $this->data);    
     }
 
     function getUsers()

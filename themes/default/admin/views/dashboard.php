@@ -1,5 +1,4 @@
 <?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-
 <?php
 
 function row_status($x)
@@ -354,12 +353,13 @@ function row_status($x)
     new ApexCharts(document.querySelector("#culmnBar"), {
         colors: ['#71DD37', '#03C3EC'],
         series: [{
-            name: 'This Year',
-            data: results.map(item => item.current_year_sales),
-        }, {
-            name: 'Last Year',
-            data: results.map(item => item.last_year_sales),
-        }],
+                name: 'Last Year',
+                data: results.map(item => item.last_year_sales),
+            },
+            {
+                name: 'This Year',
+                data: results.map(item => item.current_year_sales),
+            }],
         chart: {
             type: 'bar',
             height: 350,
@@ -376,7 +376,7 @@ function row_status($x)
             },
         },
         title: {
-            text: 'Best Selling',
+            text: 'Yearly Sales',
             align: 'left',
             offsetY: -6.5,
             style: {
@@ -445,7 +445,6 @@ function row_status($x)
     $(document).ready(function() {
         $('.cardTabMenuDivLink li:first').addClass('activeTab');
         $('.cardTabMenuDivContentItem:first').show();
-
         $('.cardTabMenuDivLink li').on('click', function() {
             var tabVal = $(this).data('tab');
             $('.cardTabMenuDivContentItem').hide();
