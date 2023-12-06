@@ -194,6 +194,17 @@ class Db_model extends CI_Model
             ->get()->row())->total_purchases;
     }
 
+    public function total_expenses()
+    {
+        return $this->db->select("expenses.id as id, date, reference, expense_categories.name as category, amount, note, attachment, CONCAT(users.first_name, ' ', users.last_name) as user")
+            ->from('sma_expenses as expenses')
+            ->join('sma_users as users', 'users.id = expenses.created_by', 'left')
+            ->join('sma_expense_categories as expense_categories', 'expense_categories.id = expenses.category_id', 'left')
+            ->group_by('expenses.id')
+            ->get()
+            ->result();
+    }
+
     public function monthly_sale()
     {
         return $this->db->select([
@@ -205,6 +216,19 @@ class Db_model extends CI_Model
             ->where("YEAR(date)", date('Y'))
             ->group_by("MONTH(date)")
             ->get()->result();
+    }
+
+    public function expense_trends_chart()
+    {
+        $result = $this->db->select('DATE_FORMAT(date, "%b") as month, expense_categories.name as category, SUM(amount) as val')
+            ->from('sma_expenses')
+            ->join('sma_expense_categories', 'sma_expenses.category_id = sma_expense_categories.id')
+            ->group_by(['month', 'category'])
+            ->order_by('date', 'ACS')
+            ->get()
+            ->result();
+
+        return $result;
     }
 
     public function yearly_sale()

@@ -27,7 +27,7 @@
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <!--[if lt IE 9]>
-    <script src="<?= $assets ?>js/jquery.js"></script>
+    <script src="<= $assets ?>js/jquery.js"></script>
     <![endif]-->
     <noscript>
         <style type="text/css">
@@ -124,7 +124,19 @@
                                 </a>
                                 <ul class="down">
                                     <li><a href="<?= admin_url('purchases') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Purchases</span></a></li>
-                                    <li><a href="<?= admin_url('purchases/add') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Add Purchase</span></a></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <a class="drop">
+                                    <span>
+                                        <img src="<?= $assets ?>images/icon/purchases.svg" class="svg" alt="">
+                                    </span>
+                                    <span>Expenses</span>
+                                    <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
+                                </a>
+                                <ul class="down">
+                                    <li><a href="<?= admin_url('purchases/expenses') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Expenses</span></a></li>
+                                    <li><a href="<?= admin_url('system_settings/expense_categories') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Categories</span></a></li>
                                 </ul>
                             </li>
                             <li>
@@ -163,20 +175,32 @@
                                 </ul>
                             </li>
                             <li>
-                                <a href="<?= admin_url('reports') ?>">
+                                <a class="drop">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/reports.svg" class="svg" alt="">
                                     </span>
                                     <span>Reports</span>
+                                    <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
                                 </a>
+                                <ul class="down">
+                                    <li><a href="<?= admin_url('reports/products') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Product Reports</span></a></li>
+                                    <li><a href="<?= admin_url('reports/sales') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Sales Reports</span></a></li>
+                                    <li><a href="<?= admin_url('reports/purchases') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Purchase Reports</span></a></li>
+                                    <li><a href="<?= admin_url('reports/expenses') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Expense Reports</span></a></li>
+                                </ul>
                             </li>
                             <li>
-                                <a href="<?= admin_url('system_settings') ?>">
+                                <a class="drop">
                                     <span>
                                         <img src="<?= $assets ?>images/icon/settings.svg" class="svg" alt="">
                                     </span>
                                     <span>Settings</span>
+                                    <span><img src="<?= $assets ?>images/icon/down-arrow.svg" class="svg" alt=""></span>
                                 </a>
+                                <ul class="down">
+                                    <li><a href="<?= admin_url('system_settings') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>System</span></a></li>
+                                    <li><a href="<?= admin_url('system_settings/user_groups') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>Permissions</span></a></li>
+                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -185,11 +209,6 @@
             <div class="main-container" id="main-container">
                 <header id="header" class="navbar">
                     <div class="row">
-                        <div class="sideBarShowIcon">
-                            <div class="sideBarIconMobile">
-                                <img src="<?= $assets ?>images/icon/right-arrow.svg" alt="">
-                            </div>
-                        </div>
                         <div class="btnContent">
                             <div class="btnContentItem">
                                 <a href="<?= admin_url('pos') ?>" class="headerBtn">

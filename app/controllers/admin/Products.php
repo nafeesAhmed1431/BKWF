@@ -1314,12 +1314,14 @@ class Products extends MY_Controller
             $id = $this->input->get('id');
         }
 
-        if ($this->products_model->deleteProduct($id)) {
+        // if ($this->products_model->deleteProduct($id)) {
+        if (true) {
             if ($this->input->is_ajax_request()) {
-                $this->sma->send_json(array('error' => 0, 'msg' => lang("product_deleted")));
+                $this->sma->send_json(['status' => true, 'error' => 0, 'msg' => lang("product_deleted")]);
+            } else {
+                $this->session->set_flashdata('message', lang('product_deleted'));
+                admin_redirect('welcome');
             }
-            $this->session->set_flashdata('message', lang('product_deleted'));
-            admin_redirect('welcome');
         }
     }
 
@@ -2798,15 +2800,41 @@ class Products extends MY_Controller
     {
         $this->form_validation->set_rules('unit_name', 'Unit Name', 'trim|required|alpha');
         $this->form_validation->set_rules('unit_symbol', 'Unit Symbol', 'trim|required|alpha');
-        if ($this->form_validation->run()) {
-            echo json_encode([
-                'status' => true
-            ]);
-        } else {
-            echo json_encode([
-                'status' => false,
-                'errors' => $this->form_validation->error_array()
-            ]);
+        echo json_encode($this->form_validation->run() ? ['status' => true] : ['status' => false, 'errors' => $this->form_validation->error_array()]);
+    }
+
+    // Ajax Products
+    function get_ajax_products()
+    {
+        $wh = (int)$this->input->get('ware_house');
+        $products = $this->db
+            ->select([
+                'product.id',
+                'product.code',
+                'product.name',
+                'product.cost',
+                'product.price',
+                $wh > 0 ? 'wh_products.quantity'  : 'product.quantity',
+                'product.alert_quantity',
+                'product.image',
+                'unit.name as unit',
+                'brand.name as brand',
+                'category.name as category'
+            ])
+            ->from('sma_products as product')
+            ->join('sma_brands as brand', 'product.brand = brand.id')
+            ->join('sma_categories as category', 'product.category_id = category.id')
+            ->join('sma_units as unit', 'product.unit = unit.id');
+
+        if ($wh > 0) {
+            $products
+                ->join('sma_warehouses_products as wh_products', 'product.id = wh_products.product_id AND wh_products.warehouse_id = ' . $wh, 'left')
+                ->where('wh_products.quantity !=', 0);
         }
+
+        echo json_encode([
+            'status' => true,
+            'products' => $products->get()->result()
+        ]);
     }
 }
