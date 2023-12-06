@@ -219,8 +219,6 @@
         $('#branchModal').modal('hide');
         $('#REData tbody').empty();
         $('#REData tbody').html(tr);
-
-
     }
 
     $('.add_branch').on('click', function() {

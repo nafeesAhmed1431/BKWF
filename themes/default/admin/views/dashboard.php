@@ -92,14 +92,14 @@ function row_status($x)
                     </div>
                 </div>
                 <div class="cardItemChart">
-                    <div id="chart"></div>
+                    <div id="yearReport"></div>
                 </div>
             </div>
         </div>
     </div>
     <div class="cardChartRow">
         <div class="cardChartRowItem">
-            <div id="culmnBar"></div>
+            <div id="yearlySale"></div>
         </div>
         <div class="cardChartRowItem">
             <div class="cardChartRowItemHeading">
@@ -119,12 +119,19 @@ function row_status($x)
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12">
+            <div id="expenseChart"></div>
+        </div>
+    </div>
+
     <div class="cardTabMenu">
         <div class="cardTabMenuDiv">
             <div class="cardTabMenuDivLink">
                 <ul>
                     <li data-tab="1">Sales</li>
                     <li data-tab="2">Purchases</li>
+                    <li data-tab="6">Expenses</li>
                     <li data-tab="3">Transfers</li>
                     <li data-tab="4">Customers</li>
                     <li data-tab="5">Suppliers</li>
@@ -267,6 +274,32 @@ function row_status($x)
                         </tbody>
                     </table>
                 </div>
+                <div class="cardTabMenuDivContentItem" data-content="6">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Reference</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Note</th>
+                                <th>Created By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($expenses as $expense) : ?>
+                                <tr>
+                                    <td><?= $this->sma->hrld($expense->date) ?></td>
+                                    <td><?= $expense->reference ?></td>
+                                    <td><?= $expense->category ?></td>
+                                    <td><?= $this->sma->formatMoney($expense->amount) ?></td>
+                                    <td><?= $expense->note ?></td>
+                                    <td><?= $expense->user ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -276,7 +309,7 @@ function row_status($x)
 
 <script>
     // Function to generate a static range of data with four specified points
-    var chart = new ApexCharts(document.querySelector("#chart"), {
+    var chart = new ApexCharts(document.querySelector("#yearReport"), {
         series: [{
             data: <?= $monthly_sale_chart ?>
         }],
@@ -350,7 +383,7 @@ function row_status($x)
 
 <script>
     let results = <?= $yearly_sale ?>;
-    new ApexCharts(document.querySelector("#culmnBar"), {
+    new ApexCharts(document.querySelector("#yearlySale"), {
         colors: ['#71DD37', '#03C3EC'],
         series: [{
                 name: 'Last Year',
@@ -359,7 +392,8 @@ function row_status($x)
             {
                 name: 'This Year',
                 data: results.map(item => item.current_year_sales),
-            }],
+            }
+        ],
         chart: {
             type: 'bar',
             height: 350,
@@ -439,6 +473,82 @@ function row_status($x)
             }
         }
     }).render();
+</script>
+
+
+<script>
+    let inputData = <?= $expense_trends ?>;
+    let uniqueMonths = Array.from(new Set(inputData.map(item => item.month)));
+    let series = Array.from(new Set(inputData.map(item => item.category))).map(category => ({
+        name: category,
+        data: uniqueMonths.map(month => {
+            let item = inputData.find(entry => entry.month === month && entry.category === category);
+            return item ? parseFloat(item.val) : 0;
+        })
+    }));
+
+
+    var options = {
+        series: series,
+        chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                dataLabels: {
+                    total: {
+                        enabled: true,
+                        offsetX: 0,
+                        style: {
+                            fontSize: '13px',
+                            fontWeight: 900
+                        }
+                    }
+                }
+            },
+        },
+        stroke: {
+            width: 1,
+            colors: ['#fff']
+        },
+        title: {
+            text: 'Expense Trends'
+        },
+        xaxis: {
+            categories: uniqueMonths,
+            labels: {
+                formatter: function(val) {
+                    return val + "K"
+                }
+            }
+        },
+        yaxis: {
+            title: {
+                text: undefined
+            },
+        },
+        tooltip: {
+            y: {
+                formatter: function(val) {
+                    return val + "K"
+                }
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        legend: {
+            position: 'top',
+            horizontalAlign: 'left',
+            offsetX: 40
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#expenseChart"), options);
+    chart.render();
 </script>
 
 <script>

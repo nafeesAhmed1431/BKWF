@@ -2998,4 +2998,12 @@ class system_settings extends MY_Controller
             redirect($_SERVER["HTTP_REFERER"]);
         }
     }
+
+    // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    public function get_ajax_warehouses(){
+        $this->sma->send_json([
+            'status'=>true,
+            'data' => $this->db->select('id,name')->from('sma_warehouses')->get()->result()
+        ]);
+    }
 }

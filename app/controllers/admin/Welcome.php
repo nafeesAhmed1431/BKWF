@@ -33,6 +33,7 @@ class Welcome extends MY_Controller
         $this->data['transfers'] = $this->db_model->getLatestTransfers();
         $this->data['customers'] = $this->db_model->getLatestCustomers();
         $this->data['suppliers'] = $this->db_model->getLatestSuppliers();
+        $this->data['expenses'] = $this->db_model->total_expenses();
         $this->data['bs'] = $this->db_model->getBestSeller();
         $this->data['total_products'] = $this->db_model->total_products();
         $this->data['total_customers'] = $this->db_model->total_customers();
@@ -40,6 +41,8 @@ class Welcome extends MY_Controller
         $this->data['total_purchases'] = $this->db_model->total_purchases();
         $this->data['monthly_sale_chart'] = json_encode($this->db_model->monthly_sale());
         $this->data['yearly_sale'] = json_encode($this->db_model->yearly_sale());
+        $this->data['expense_trends'] = json_encode($this->db_model->expense_trends_chart());
+
         $meta = ['page_title' => lang('dashboard'), 'bc' => [['link' => '#', 'page' => lang('dashboard')]]];
         $this->page_construct('dashboard', $meta, $this->data);
     }
