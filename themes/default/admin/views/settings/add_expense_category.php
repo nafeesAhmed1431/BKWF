@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
@@ -11,14 +11,26 @@
         <div class="modal-body">
             <p><?= lang('enter_info'); ?></p>
 
-            <div class="form-group">
-                <?= lang('category_code', 'code'); ?>
-                <?= form_input('code', '', 'class="form-control" id="code" required="required"'); ?>
+            <div class="fullFormItems">
+                <div class="fullFormItemsListGroup">
+                    <div class="fullFormItemsListGroupLabel">
+                        <?= lang('category_code', 'code'); ?>
+                    </div>
+                    <div class="fullFormItemsListGroupInput">
+                        <?= form_input('code', '', 'class="form-control" id="code" required="required"'); ?>
+                    </div>
+                </div>
             </div>
+            <div class="fullFormItems" style="margin-bottom: 0;">
 
-            <div class="form-group">
-                <?= lang('category_name', 'name'); ?>
-                <?= form_input('name', '', 'class="form-control" id="name" required="required"'); ?>
+                <div class="fullFormItemsListGroup">
+                    <div class="fullFormItemsListGroupLabel">
+                        <?= lang('category_name', 'name'); ?>
+                    </div>
+                    <div class="fullFormItemsListGroupInput">
+                        <?= form_input('name', '', 'class="form-control" id="name" required="required"'); ?>
+                    </div>
+                </div>
             </div>
 
         </div>

@@ -196,7 +196,7 @@ $s2_file_date = $this->parser->parse_string($s2_lang_file, $s2_data, true);
         r_u_sure = "<?= lang('r_u_sure') ?>";
     <?= $s2_file_date ?>
     $.extend(true, $.fn.dataTable.defaults, {
-        "oLanguage": <?= $dt_lang ?>
+        // "oLanguage": <?= $dt_lang ?>
     });
     $.fn.datetimepicker.dates['sma'] = <?= $dp_lang ?>;
     $(window).load(function() {

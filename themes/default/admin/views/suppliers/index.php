@@ -102,7 +102,8 @@
                 <input type="search" class="customSearchInput" placeholder="Search">
             </div>
             <div class="tableRowBtn">
-                <a href="#" class="ankerBtn">Add Supplier</a>
+                <!-- <a href="#" class="ankerBtn">Add Supplier</a> -->
+                <a <?php if ($count <= 50) { ?> href="<?= admin_url('suppliers/add'); ?>" data-toggle="modal" data-target="#myModal" <?php } else { ?> onclick="alert('You cannot add more than 50 customers please contact to administrator!');" <?php } ?> id="add">Add Supplier</a>
             </div>
         </div>
         <div class="tableRowItem">
