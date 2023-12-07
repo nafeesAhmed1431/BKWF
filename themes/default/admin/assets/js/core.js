@@ -1185,7 +1185,7 @@ function fixAddItemnTotals() {
             $('.addIcon').addClass('fa-2x');
         }
         if (windowpos <= ($(document).height() - $(window).height() - 120)) {
-            bt.css('position', 'sticky').css('bottom', 0).css('width', bt.parent('form').width()).css('zIndex', 2);
+            bt.css('position', 'fixed').css('bottom', 0).css('width', bt.parent('form').width()).css('zIndex', 2);
         } else {
             bt.css('position', 'static').css('width', ai.parent('form').width()).css('zIndex', 2);
         }

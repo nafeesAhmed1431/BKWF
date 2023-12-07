@@ -69,10 +69,6 @@
     .fullFormItemsListGroup.fullFormItemsListGroupIcon {
         width: calc(100% / 1 - 30px);
     }
-
-    .fullFormItemsListGroup.fullFormItemsListGroupFull {
-        width: calc(100% / 1 - 30px);
-    }
 }
 
 @media (max-width:1130px) {
@@ -234,11 +230,6 @@
     .fullFormItemsListGroupInputIcon>* {
         margin-bottom: -8px;
         transform: rotate(90deg);
-    }
-
-    .fullFormItemsListGroup.fullFormItemsListGroupMargin>.fullFormItemsList>.fullFormItemsListGroup {
-        width: calc(100% / 1 - 0px);
-        margin: 15px 15px;
     }
 }
 

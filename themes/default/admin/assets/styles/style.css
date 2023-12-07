@@ -1857,9 +1857,8 @@ div.DTFC_LeftFootWrapper table {
 }
 
 .stick {
-    position: sticky;
+    position: fixed;
     top: 0px;
-    z-index: 10 !important;
 }
 
 .bold {
@@ -3237,17 +3236,17 @@ img.calculator-trigger {
 input.form-control,
 .select2-container.form-control>a,
 .select2-search input {
-    background-color: #fdfdff;
+    background-color: #fdfdff !important;
     height: 38px;
-    border-color: #e4e6fc;
-    box-shadow: none;
-    border-radius: 4px;
-    padding: 8px 12px;
-    /* font-size: 1rem; */
-    line-height: 1.5;
-    color: #495057;
-    transition: border-color .15s ease-in-out;
-    outline: none;
+    border-color: #e4e6fc !important;
+    box-shadow: none !important;
+    border-radius: 4px !important;
+    padding: 8px 12px !important;
+    /* font-size: 1rem !important; */
+    line-height: 1.5 !important;
+    color: #495057 !important;
+    transition: border-color .15s ease-in-out !important;
+    outline: none !important;
 }
 
 .select2-search input {
@@ -3547,7 +3546,7 @@ header.navbar>.row>.btnContent {
 
 .sideBar {
     /* min-width: calc(100% - 1152px); */
-    width: 16%;
+    width: 15%;
     min-height: 100vh;
     max-height: 100%;
     transition: 0.4s all;
@@ -3555,7 +3554,7 @@ header.navbar>.row>.btnContent {
 
 .main-container {
     /* min-width: calc(100% - 214px); */
-    width: 84%;
+    width: 85%;
     padding: 20px 41px;
     transition: 0.4s all;
 }
@@ -3650,7 +3649,7 @@ header.navbar>.row>.btnContent {
     position: fixed;
     top: 0;
     left: 0;
-    width: 16%;
+    width: 15%;
     height: 100%;
     padding: 20px 0;
     transition: 0.4s all;
@@ -4620,8 +4619,8 @@ header.navbar>.row>.iconShow .btnContentItem>.headerBtn .btnIcon {
     font-size: 14px;
     line-height: 1;
     font-weight: 400;
-    color: #EE4036 !important;
-    text-decoration: none !important;
+    color: #EE4036;
+    text-decoration: none;
     height: 100%;
     display: flex;
     align-items: center;
@@ -4883,14 +4882,10 @@ table td .icon li a svg * {
 }
 
 .fullFormItemsListGroupInput>input,
-.fullFormItemsListGroupInput>.input-group>input,
-.fullFormItemsListGroupInput>textarea,
-.redactor_box,
-.systemInput,
-.select2Dropdown {
+.systemInput {
     border: 1px solid #D3D3D3;
     background-color: #FAFAFA;
-    border-radius: 5px !important;
+    border-radius: 5px;
     height: 35px;
     outline: none;
     padding: 6px 12px;
@@ -4900,21 +4895,6 @@ table td .icon li a svg * {
     font-weight: 400;
     color: #585858;
     width: 100%;
-}
-
-.redactor_box{
-    height: unset;
-}
-
-.redactor_editor, .redactor_editor:focus{
-    background-color: transparent !important;
-}
-
-.fullFormItemsListGroupInput>textarea {
-    height: unset;
-    resize: none;
-    box-shadow: none !important;
-    border-radius: 5px !important;
 }
 
 .fullFormItemsListGroupInput .select2-container--default .select2-selection--single {
@@ -4977,162 +4957,8 @@ table td .icon li a svg * {
     margin-top: 5px;
 }
 
-.fullFormItemsListGroupInput+.fullFormItemsListGroupLabel {
-    margin-bottom: 5px;
-}
-
-.fullFormItemsListGroupFlex {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: end;
-}
-
-.fullFormItemsListGroupFlex>.fullFormItemsListGroupInput {
-    margin-bottom: 7px;
-    margin-right: 8px;
-}
-
-.modal-content,
-.popover,
-.tooltip-inner {
-    border-radius: 7px;
-    padding: 20px 30px;
-}
-
-.modal-header {
-    border-bottom: 1px solid transparent;
-}
-
-.modal-footer {
-    border-top: 1px solid transparent;
-}
-
-.modal-title {
-    font-size: 18px;
-    line-height: 27px;
-    font-weight: 700;
-    color: #F2655C;
-    margin: 0;
-}
-
-.form-group>label {
-    font-size: 14px;
-    line-height: 21px;
-    font-weight: 400;
-    color: #585858;
-    margin: 0;
-    margin-bottom: 10px;
-}
-
-.fullFormItemsListGroupInput {
-    position: relative;
-    z-index: 1;
-}
-
-.fullFormItemsListGroupInput>.input-group-addon.pointer,
-.fullFormItemsListGroupInput .input-group-addon {
-    position: absolute;
-    inset: 0 0 0 calc(100% - 35px);
-    height: 35px;
-    width: 35px;
-    display: grid;
-    place-content: center;
-    z-index: 10;
-    background-color: transparent;
-    border-color: transparent;
-    border-radius: 0 5px 5px 0 !important;
-}
-
-.fullFormItemsListGroupCheckInput {
-    display: flex;
-    align-items: center;
-}
-
-.fullFormItemsListGroupCheckInput>.fullFormItemsListGroupLabel {
-    margin-bottom: 0;
-}
-
-.fullFormItemsListGroupCheckInput>.fullFormItemsListGroupInput>input {
-    margin-top: 0;
-}
-
-.fullFormItemsFull {
-    width: 100%;
-}
-
-.fullFormItemsListGroup.fullFormItemsListGroupMargin {
-    width: 100% !important;
-    margin: 0;
-}
-
-.fullFormItemsListGroup.fullFormItemsListGroupMargin>.fullFormItemsList {
-    align-items: center;
-}
-
-.fullFormItemsListGroup.fullFormItemsListGroupMargin>.fullFormItemsList>.fullFormItemsListGroup {
-    width: calc(100% / 3 - 45px);
-    margin: 15px 15px;
-}
-
-.fullFormItemsListGroupBtn {
-    margin: 15px;
-    margin-right: 7px;
-}
-
-.fullFormItemsListGroup.fullFormItemsListGroupFull {
-    width: calc(100% / 2 - 30px);
-}
-
-.fullFormItemsListGroupCheckInput>.fullFormItemsListGroupLabel {
-    margin-left: 10px;
-}
-
-.fullFormItemsListGroupInput>.input-group {
-    width: 100%;
-}
-
-input[type=file]:focus,
-input[type=radio]:focus,
-input[type=checkbox]:focus {
-    outline: thin dotted;
-    outline: 0px auto -webkit-focus-ring-color !important;
-    outline-offset: 0 !important;
-}
-
-input[type=file],
-input[type=radio],
-input[type=checkbox] {
-    cursor: pointer !important;
-}
-
-input[type=file]::-webkit-file-upload-button {
-    background-color: transparent !important;
-    border: 0px solid transparent;
-}
-
-.fullFormItemsListGroup.fullFormItemsListGroupCheckInput {
-    align-items: end;
-}
-
-.fullFormItemsListGroup.fullFormItemsListGroupCheckInput>* {
-    margin-bottom: 8px;
-}
-
-.fullFormItemsListGroupCheckInput>.fullFormItemsListGroupInput>input {
-    height: unset;
-}
-
-.fullFormItemsList>.control-group.table-group {
-    width: 100%;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow {
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-}
-
-.select2-container .select2-selection--single {
-    height: 35px !important;
-}
-
 /* system setting end */
+
+#content section>div:first-child {
+    width: 100% !important;
+}
