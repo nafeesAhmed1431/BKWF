@@ -11,7 +11,7 @@
             </div>
             <div class="tableRowBtn">
                 <!-- <a href="#" class="ankerBtn">Add Customer</a> -->
-                <a <?php if ($count <= 50) { ?> href="<?= admin_url('customers/add'); ?>" data-toggle="modal" data-target="#myModal" <?php } else { ?> onclick="alert('You cannot add more than 50 customers please contact to administrator!');" <?php } ?> id="add">Add Customer</a>
+                <a class="ankerBtn" href="<?=admin_url('customers/add')?>" data-toggle="modal" data-target="#myModal"><span class="text"> Add Customer</span></a>
             </div>
         </div>
         <div class="tableRowItem">

@@ -317,4 +317,36 @@
 
                     </div>
                 </header>
+                <div class="col-md-12">
+                    <?php if ($message) { ?>
+                        <div class="alert alert-success">
+                            <button data-dismiss="alert" class="close" type="button">×</button>
+                            <?= $message; ?>
+                        </div>
+                    <?php } ?>
+                    <?php if ($error) { ?>
+                        <div class="alert alert-danger">
+                            <button data-dismiss="alert" class="close" type="button">×</button>
+                            <?= $error; ?>
+                        </div>
+                    <?php } ?>
+                    <?php if ($warning) { ?>
+                        <div class="alert alert-warning">
+                            <button data-dismiss="alert" class="close" type="button">×</button>
+                            <?= $warning; ?>
+                        </div>
+                    <?php } ?>
+                    <?php
+                    if ($info) {
+                        foreach ($info as $n) {
+                            if (!$this->session->userdata('hidden' . $n->id)) {
+                    ?>
+                                <div class="alert alert-info">
+                                    <a href="#" id="<?= $n->id ?>" class="close hideComment external" data-dismiss="alert">&times;</a>
+                                    <?= $n->comment; ?>
+                                </div>
+                    <?php }
+                        }
+                    } ?>
+                </div>
                 <div id="content">
