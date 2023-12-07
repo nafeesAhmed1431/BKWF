@@ -36,13 +36,7 @@ class Auth extends MY_Controller
         }
 
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
-        $this->page_construct('auth/index', [
-            'page_title' => lang('Users'),
-            'bc' => [
-                ['link' => base_url(), 'page' => lang('home')],
-                ['link' => "#", 'page' => lang('users')]
-            ]
-        ], $this->data);    
+        $this->page_construct('auth/index', ['page_title' => lang('Users'), 'bc' => [['link' => base_url(), 'page' => lang('home')], ['link' => "#", 'page' => lang('users')]]], $this->data);
     }
 
     function getUsers()
@@ -68,7 +62,7 @@ class Auth extends MY_Controller
         echo $this->datatables->generate();
     }
 
-    function getUsers_new()
+    function get_ajax_users()
     {
         if (!$this->Owner) {
             $this->session->set_flashdata('warning', lang('access_denied'));
@@ -1021,6 +1015,16 @@ class Auth extends MY_Controller
             //echo lang("user_deleted");
             $this->session->set_flashdata('message', 'user_deleted');
             redirect($_SERVER["HTTP_REFERER"]);
+        }
+    }
+
+    function delete_user()
+    {
+        if ($this->input->is_ajax_request()) {
+            echo json_encode([
+                // 'status' => $this->auth_model->delete_user($this->input->post('id'))
+                'status' => true
+            ]);
         }
     }
 

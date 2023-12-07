@@ -23,7 +23,7 @@
         </div>
         <div class="tableRowItem">
             <div class="cardTabMenuDivContentItem">
-                <table class="table display user_table" style="width:100%">
+                <table class="table display products_table" style="width:100%">
                     <thead>
                         <tr>
                             <th><?= $this->lang->line("image"); ?></th>
@@ -52,6 +52,7 @@
     $(document).ready(function() {
         load_products();
         load_warehouses();
+        let table;
     });
 
     function load_warehouses() {
@@ -72,6 +73,33 @@
         load_products($(this).val());
     });
 
+    function load_products_old(wh = 0) {
+        $.ajax({
+            url: `${base_url}admin/products/get_ajax_products`,
+            method: 'GET',
+            dataType: 'json',
+            data: {
+                ware_house: wh
+            },
+            success: res => {
+                if (res.status) {
+                    if ($.fn.DataTable.isDataTable('.products_table')) {
+                        var table = $('.products_table').DataTable();
+                        table.clear().rows.add(res.products.map(product => [])).draw();
+                    } else {
+                        $('.products_table tbody').html(function() {
+                            return res.products.length > 0 ? res.products.map(product => make_product_tr(product)) : "<tr><td class='text-center' colspan='11' ><h2 class='text-daner'>No Product Found!!!</h2></td></tr>";
+                        });
+                        var table = $('.products_table').dataTable();
+                    }
+                }
+            },
+            error: res => {
+                // Handle errors
+            }
+        });
+    }
+
     function load_products(wh = 0) {
         $.ajax({
             url: `${base_url}admin/products/get_ajax_products`,
@@ -82,14 +110,73 @@
             },
             success: res => {
                 if (res.status) {
-                    $('.products_table tbody').html(function() {
-                        return res.products.length > 0 ? res.products.map(product => make_product_tr(product)) : "<tr><td class='text-center' colspan='11' ><h2 class='text-daner'>No Product Found!!!</h2></td></tr>";
-                    });
+                    if ($.fn.DataTable.isDataTable('.products_table')) {
+                        var table = $('.products_table').DataTable();
+                        table.clear();
+                        table.rows.add(res.products);
+                        table.draw();
+                    } else {
+                        $('.products_table').DataTable({
+                            data: res.products,
+                            createdRow: function(row, data, dataIndex) { $(row).addClass('product_link').attr('id', data.id); },
+                            language: { emptyTable: "No Products Found !!!" },
+                            columns: [
+                                {
+                                    data: 'image',
+                                    render: function(data, type, row) {
+                                        return `<div class="tableImg"><img src="${base_url}/assets/uploads/thumbs/${data}" alt=""></div>`;
+                                    }
+                                },
+                                {
+                                    data: 'code'
+                                },
+                                {
+                                    data: 'name'
+                                },
+                                {
+                                    data: 'brand'
+                                },
+                                {
+                                    data: 'category'
+                                },
+                                {
+                                    data: 'cost'
+                                },
+                                {
+                                    data: 'price'
+                                },
+                                {
+                                    data: 'quantity'
+                                },
+                                {
+                                    data: 'unit'
+                                },
+                                {
+                                    data: "alert_quantity"
+                                },
+                                {
+                                    data: null,
+                                    render: function(data, type, row) {
+                                        return `
+                                        <ul class="icon">
+                                            <li><a href="${base_url}admin/products/edit/${row.id}"><img src="${assets}/images/icon/edit.svg" class="svg" alt=""></a></li>
+                                            <li><a href="javascript:void(0)" class="delete_product" data-id="${row.id}"><img src="${assets}/images/icon/delete.svg" class="svg" alt=""></a></li>
+                                        </ul>
+                                    `;
+                                    }
+                                }
+                            ]
+                        });
+                    }
                 }
             },
-            errors: res => {}
+            error: res => {
+                // Handle errors
+            }
         });
     }
+
+
 
     function make_product_tr(product) {
         return `

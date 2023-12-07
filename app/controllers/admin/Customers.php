@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Customers extends MY_Controller
 {
@@ -28,7 +28,7 @@ class Customers extends MY_Controller
         $this->data['action'] = $action;
         $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => '#', 'page' => lang('customers')));
         $meta = array('page_title' => lang('customers'), 'bc' => $bc);
-		$count = $this->companies_model->getUserCount("customer");
+        $count = $this->companies_model->getUserCount("customer");
         $this->data['count'] = $count;
         $this->page_construct('customers/index', $meta, $this->data);
     }
@@ -46,12 +46,27 @@ class Customers extends MY_Controller
         echo $this->datatables->generate();
     }
 
+    function get_ajax_customers()
+    {
+        if ($this->input->is_ajax_request()) {
+            echo json_encode([
+                'status' => true,
+                'data' =>    $this->db
+                    ->select("id, company, name, email, phone, price_group_name, customer_group_name, vat_no, gst_no, deposit_amount, award_points")
+                    ->from("sma_companies")
+                    ->where('group_name', 'customer')
+                    ->get()
+                    ->result()
+            ]);
+        }
+    }
+
     function view($id = NULL)
     {
         $this->sma->checkPermissions('index', true);
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
         $this->data['customer'] = $this->companies_model->getCompanyByID($id);
-        $this->load->view($this->theme.'customers/view',$this->data);
+        $this->load->view($this->theme . 'customers/view', $this->data);
     }
 
     function add()
@@ -63,7 +78,8 @@ class Customers extends MY_Controller
         if ($this->form_validation->run('companies/add') == true) {
             $cg = $this->site->getCustomerGroupByID($this->input->post('customer_group'));
             $pg = $this->site->getPriceGroupByID($this->input->post('price_group'));
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'email' => $this->input->post('email'),
                 'group_id' => '3',
                 'group_name' => 'customer',
@@ -121,7 +137,8 @@ class Customers extends MY_Controller
         if ($this->form_validation->run('companies/add') == true) {
             $cg = $this->site->getCustomerGroupByID($this->input->post('customer_group'));
             $pg = $this->site->getPriceGroupByID($this->input->post('price_group'));
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'email' => $this->input->post('email'),
                 'group_id' => '3',
                 'group_name' => 'customer',
@@ -178,7 +195,6 @@ class Customers extends MY_Controller
         $this->data['company'] = $this->companies_model->getCompanyByID($company_id);
         $this->data['users'] = $this->companies_model->getCompanyUsers($company_id);
         $this->load->view($this->theme . 'customers/users', $this->data);
-
     }
 
     function add_user($company_id = NULL)
@@ -301,16 +317,16 @@ class Customers extends MY_Controller
                         'price_group_name' => (!empty($price_group)) ? $price_group->name : NULL,
                     ];
                     if (empty($customer['company']) || empty($customer['name']) || empty($customer['email'])) {
-                        $this->session->set_flashdata('error', lang('company').', '.lang('name').', '.lang('email').' '.lang('are_required'). ' (' . lang('line_no') . ' ' . $rw . ')');
+                        $this->session->set_flashdata('error', lang('company') . ', ' . lang('name') . ', ' . lang('email') . ' ' . lang('are_required') . ' (' . lang('line_no') . ' ' . $rw . ')');
                         admin_redirect("customers");
                     } else {
                         if ($this->Settings->indian_gst && empty($customer['state'])) {
-                            $this->session->set_flashdata('error', lang('state').' '.lang('is_required'). ' (' . lang('line_no') . ' ' . $rw . ')');
+                            $this->session->set_flashdata('error', lang('state') . ' ' . lang('is_required') . ' (' . lang('line_no') . ' ' . $rw . ')');
                             admin_redirect("customers");
                         }
                         if ($customer_details = $this->companies_model->getCompanyByEmail($customer['email'])) {
                             if ($customer_details->group_id == 3) {
-                                $updated .= '<p>'.lang('customer_updated').' ('.$customer['email'].')</p>';
+                                $updated .= '<p>' . lang('customer_updated') . ' (' . $customer['email'] . ')</p>';
                                 $this->companies_model->updateCompany($customer_details->id, $customer);
                             }
                         } else {
@@ -322,7 +338,6 @@ class Customers extends MY_Controller
 
                 // $this->sma->print_arrays($data, $updated);
             }
-
         } elseif ($this->input->post('import')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect('customers');
@@ -330,7 +345,7 @@ class Customers extends MY_Controller
 
         if ($this->form_validation->run() == true && !empty($data)) {
             if ($this->companies_model->addCompanies($data)) {
-                $this->session->set_flashdata('message', lang("customers_added").$updated);
+                $this->session->set_flashdata('message', lang("customers_added") . $updated);
                 admin_redirect('customers');
             }
         } else {
@@ -365,6 +380,18 @@ class Customers extends MY_Controller
             $this->sma->send_json(array('error' => 0, 'msg' => lang("customer_deleted")));
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("customer_x_deleted_have_sales")));
+        }
+    }
+
+    function delete_customer()
+    {
+        if ($this->input->is_ajax_request()) {
+            // $st = $this->companies_model->deleteCustomer($this->input->post('id'));
+            $st = true;
+            $this->sma->send_json([
+                'status' => $st,
+                'msg' => $st ? "Deleted Successfully." : "This Customer have Sales."
+            ]);
         }
     }
 
@@ -512,7 +539,6 @@ class Customers extends MY_Controller
         $this->data['modal_js'] = $this->site->modal_js();
         $this->data['company'] = $this->companies_model->getCompanyByID($company_id);
         $this->load->view($this->theme . 'customers/deposits', $this->data);
-
     }
 
     function get_deposits($company_id = NULL)
@@ -523,9 +549,9 @@ class Customers extends MY_Controller
             ->select("deposits.id as id, date, amount, paid_by, CONCAT({$this->db->dbprefix('users')}.first_name, ' ', {$this->db->dbprefix('users')}.last_name) as created_by", false)
             ->from("deposits")
             ->join('users', 'users.id=deposits.created_by', 'left')
-            ->where($this->db->dbprefix('deposits').'.company_id', $company_id)
+            ->where($this->db->dbprefix('deposits') . '.company_id', $company_id)
             ->add_column("Actions", "<div class=\"text-center\"><a class=\"tip\" title='" . lang("deposit_note") . "' href='" . admin_url('customers/deposit_note/$1') . "' data-toggle='modal' data-target='#myModal2'><i class=\"fa fa-file-text-o\"></i></a> <a class=\"tip\" title='" . lang("edit_deposit") . "' href='" . admin_url('customers/edit_deposit/$1') . "' data-toggle='modal' data-target='#myModal2'><i class=\"fa fa-edit\"></i></a> <a href='#' class='tip po' title='<b>" . lang("delete_deposit") . "</b>' data-content=\"<p>" . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete' href='" . admin_url('customers/delete_deposit/$1') . "'>" . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i></a></div>", "id")
-        ->unset_column('id');
+            ->unset_column('id');
         echo $this->datatables->generate();
     }
 
@@ -560,9 +586,8 @@ class Customers extends MY_Controller
             );
 
             $cdata = array(
-                'deposit_amount' => ($company->deposit_amount+$this->input->post('amount'))
+                'deposit_amount' => ($company->deposit_amount + $this->input->post('amount'))
             );
-
         } elseif ($this->input->post('add_deposit')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect('customers');
@@ -612,9 +637,8 @@ class Customers extends MY_Controller
             );
 
             $cdata = array(
-                'deposit_amount' => (($company->deposit_amount-$deposit->amount)+$this->input->post('amount'))
+                'deposit_amount' => (($company->deposit_amount - $deposit->amount) + $this->input->post('amount'))
             );
-
         } elseif ($this->input->post('edit_deposit')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect('customers');
@@ -658,7 +682,6 @@ class Customers extends MY_Controller
         $this->data['company'] = $this->companies_model->getCompanyByID($company_id);
         $this->data['addresses'] = $this->companies_model->getCompanyAddresses($company_id);
         $this->load->view($this->theme . 'customers/addresses', $this->data);
-
     }
 
     function add_address($company_id = NULL)
@@ -684,7 +707,6 @@ class Customers extends MY_Controller
                 'phone' => $this->input->post('phone'),
                 'company_id' => $company->id,
             );
-
         } elseif ($this->input->post('add_address')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect('customers');
@@ -723,7 +745,6 @@ class Customers extends MY_Controller
                 'phone' => $this->input->post('phone'),
                 'updated_at' => date('Y-m-d H:i:s'),
             );
-
         } elseif ($this->input->post('edit_address')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect('customers');
@@ -749,5 +770,4 @@ class Customers extends MY_Controller
             admin_redirect("customers");
         }
     }
-
 }

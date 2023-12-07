@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Suppliers extends MY_Controller
 {
@@ -48,6 +48,20 @@ class Suppliers extends MY_Controller
         echo $this->datatables->generate();
     }
 
+    function get_ajax_suppliers()
+    {
+        if ($this->input->is_ajax_request()) {
+            echo json_encode([
+                'status' => true,
+                'data' =>    $this->db->select("id, company, name, email, phone, city, country, vat_no, gst_no")
+                    ->from("sma_companies")
+                    ->where('group_name', 'supplier')
+                    ->get()
+                    ->result()
+            ]);
+        }
+    }
+
 
     function balance($action = NULL)
     {
@@ -65,16 +79,16 @@ class Suppliers extends MY_Controller
     function getSupplierBalance($supplier)
     {
         $this->sma->checkPermissions('index');
-        
+
         $this->load->library('datatables');
         $this->datatables
             ->select($this->db->dbprefix('companies') . ".id as id, {$this->db->dbprefix('companies')}.company as company, {$this->db->dbprefix('companies')}.name as name, {$this->db->dbprefix('companies')}.email as email, {$this->db->dbprefix('companies')}.phone as phone, {$this->db->dbprefix('companies')}.city as city, {$this->db->dbprefix('companies')}.country as country, (({$this->db->dbprefix('purchases')}.grand_total)-({$this->db->dbprefix('purchases')}.paid)) as balance, (CASE WHEN (({$this->db->dbprefix('purchases')}.grand_total)-({$this->db->dbprefix('purchases')}.paid)) > 0 THEN 'payable' WHEN (({$this->db->dbprefix('purchases')}.grand_total)-({$this->db->dbprefix('purchases')}.paid)) < 0 THEN 'receiveable' ELSE '' END) as balancetype")
             ->from("companies")
             ->join("purchases", "companies.id=purchases.supplier_id", 'left')
-            ->where($this->db->dbprefix('companies') .'.group_name', 'supplier')
-            ->where($this->db->dbprefix('companies') .'.id', $supplier)
-            ->where($this->db->dbprefix('companies') .'.type', "payable")
-            ->or_where($this->db->dbprefix('companies') .'.type', "receiveable");
+            ->where($this->db->dbprefix('companies') . '.group_name', 'supplier')
+            ->where($this->db->dbprefix('companies') . '.id', $supplier)
+            ->where($this->db->dbprefix('companies') . '.type', "payable")
+            ->or_where($this->db->dbprefix('companies') . '.type', "receiveable");
         //->unset_column('id');
         echo $this->datatables->generate();
     }
@@ -84,7 +98,7 @@ class Suppliers extends MY_Controller
         $this->sma->checkPermissions('index', true);
         $this->data['error'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('error');
         $this->data['supplier'] = $this->companies_model->getCompanyByID($id);
-        $this->load->view($this->theme.'suppliers/view',$this->data);
+        $this->load->view($this->theme . 'suppliers/view', $this->data);
     }
 
     function add()
@@ -95,16 +109,17 @@ class Suppliers extends MY_Controller
 
         if ($this->form_validation->run('companies/add') == true) {
             $amount = $this->input->post('opening_balance');
-            if($this->input->post('opening_balance') < 0){
+            if ($this->input->post('opening_balance') < 0) {
                 $type = "receiveable";
-            }else if($this->input->post('opening_balance') > 0){
+            } else if ($this->input->post('opening_balance') > 0) {
                 $type = "payable";
-            }else{
+            } else {
                 $type = null;
                 $amount = 0;
             }
-            
-            $data = array('name' => $this->input->post('name'),
+
+            $data = array(
+                'name' => $this->input->post('name'),
                 'email' => $this->input->post('email'),
                 'group_id' => '4',
                 'group_name' => 'supplier',
@@ -132,7 +147,7 @@ class Suppliers extends MY_Controller
         }
 
         if ($this->form_validation->run() == true && $sid = $this->companies_model->addCompany($data)) {
-            if($type != null){
+            if ($type != null) {
                 $reference = $this->site->getReference('po');
                 $date = date('Y-m-d H:i:s');
                 $warehouse_id = 1;
@@ -247,7 +262,8 @@ class Suppliers extends MY_Controller
                 $order_tax = $this->site->calculateOrderTax($this->input->post('order_tax'), ($total + $product_tax - $order_discount));
                 $total_tax = $this->sma->formatDecimal(($product_tax + $order_tax), 4);
                 $grand_total = $this->sma->formatDecimal(($total + $total_tax + $this->sma->formatDecimal($shipping) - $order_discount), 4);
-                $dataPurchase = array('reference_no' => $reference,
+                $dataPurchase = array(
+                    'reference_no' => $reference,
                     'date' => $date,
                     'supplier_id' => $supplier_id,
                     'supplier' => $supplier,
@@ -278,7 +294,7 @@ class Suppliers extends MY_Controller
                 }
 
                 $dataPurchase['attachment'] = "";
-                
+
                 if ($this->purchases_model->addPurchase($dataPurchase, $products)) {
                     $this->session->set_userdata('remove_pols', 1);
                     $this->session->set_flashdata('message', $this->lang->line("purchase_added"));
@@ -309,7 +325,8 @@ class Suppliers extends MY_Controller
         }
 
         if ($this->form_validation->run('companies/add') == true) {
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'email' => $this->input->post('email'),
                 'group_id' => '4',
                 'group_name' => 'supplier',
@@ -359,7 +376,6 @@ class Suppliers extends MY_Controller
         $this->data['company'] = $this->companies_model->getCompanyByID($company_id);
         $this->data['users'] = $this->companies_model->getCompanyUsers($company_id);
         $this->load->view($this->theme . 'suppliers/users', $this->data);
-
     }
 
     function add_user($company_id = NULL)
@@ -476,16 +492,16 @@ class Suppliers extends MY_Controller
                         'group_name'    => 'supplier',
                     ];
                     if (empty($supplier['company']) || empty($supplier['name']) || empty($supplier['email'])) {
-                        $this->session->set_flashdata('error', lang('company').', '.lang('name').', '.lang('email').' '.lang('are_required'). ' (' . lang('line_no') . ' ' . $rw . ')');
+                        $this->session->set_flashdata('error', lang('company') . ', ' . lang('name') . ', ' . lang('email') . ' ' . lang('are_required') . ' (' . lang('line_no') . ' ' . $rw . ')');
                         admin_redirect("suppliers");
                     } else {
                         if ($this->Settings->indian_gst && empty($supplier['state'])) {
-                            $this->session->set_flashdata('error', lang('state').' '.lang('is_required'). ' (' . lang('line_no') . ' ' . $rw . ')');
+                            $this->session->set_flashdata('error', lang('state') . ' ' . lang('is_required') . ' (' . lang('line_no') . ' ' . $rw . ')');
                             admin_redirect("suppliers");
                         }
                         if ($supplier_details = $this->companies_model->getCompanyByEmail($supplier['email'])) {
                             if ($supplier_details->group_id == 4) {
-                                $updated .= '<p>'.lang('supplier_updated').' ('.$supplier['email'].')</p>';
+                                $updated .= '<p>' . lang('supplier_updated') . ' (' . $supplier['email'] . ')</p>';
                                 $this->companies_model->updateCompany($supplier_details->id, $supplier);
                             }
                         } else {
@@ -497,7 +513,6 @@ class Suppliers extends MY_Controller
 
                 // $this->sma->print_arrays($data, $updated);
             }
-
         } elseif ($this->input->post('import')) {
             $this->session->set_flashdata('error', validation_errors());
             admin_redirect('suppliers');
@@ -505,7 +520,7 @@ class Suppliers extends MY_Controller
 
         if ($this->form_validation->run() == true && !empty($data)) {
             if ($this->companies_model->addCompanies($data)) {
-                $this->session->set_flashdata('message', $this->lang->line("suppliers_added").$updated);
+                $this->session->set_flashdata('message', $this->lang->line("suppliers_added") . $updated);
                 admin_redirect('suppliers');
             }
         } else {
@@ -536,6 +551,18 @@ class Suppliers extends MY_Controller
             $this->sma->send_json(array('error' => 0, 'msg' => lang("supplier_deleted")));
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("supplier_x_deleted_have_purchases")));
+        }
+    }
+
+    function delete_supplier()
+    {
+        if ($this->input->is_ajax_request()) {
+            // $st = $this->companies_model->deleteSupplier($this->input->post('id'));
+            $st = false;
+            $this->sma->send_json([
+                'status' => $st,
+                'msg' => $st ? "Deleted Successfully." : "This Supplier have Purchases."
+            ]);
         }
     }
 
@@ -648,5 +675,4 @@ class Suppliers extends MY_Controller
             redirect($_SERVER["HTTP_REFERER"]);
         }
     }
-
 }
