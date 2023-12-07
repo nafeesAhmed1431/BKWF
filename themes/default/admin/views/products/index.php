@@ -176,8 +176,6 @@
         });
     }
 
-
-
     function make_product_tr(product) {
         return `
                 <tr class="product_link" id="${product.id}">

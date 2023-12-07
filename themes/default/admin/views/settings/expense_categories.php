@@ -1,25 +1,89 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         $('#CategoryTable').dataTable({
-            "aaSorting": [[1, "asc"]],
-            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "<?= lang('all') ?>"]],
+            "aaSorting": [
+                [1, "asc"]
+            ],
+            "aLengthMenu": [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "<?= lang('all') ?>"]
+            ],
             "iDisplayLength": <?= $Settings->rows_per_page ?>,
-            'bProcessing': true, 'bServerSide': true,
+            'bProcessing': true,
+            'bServerSide': true,
             'sAjaxSource': '<?= admin_url('system_settings/getExpenseCategories') ?>',
-            'fnServerData': function (sSource, aoData, fnCallback) {
+            'fnServerData': function(sSource, aoData, fnCallback) {
                 aoData.push({
                     "name": "<?= $this->security->get_csrf_token_name() ?>",
                     "value": "<?= $this->security->get_csrf_hash() ?>"
                 });
-                $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
+                $.ajax({
+                    'dataType': 'json',
+                    'type': 'POST',
+                    'url': sSource,
+                    'data': aoData,
+                    'success': fnCallback
+                });
             },
-            "aoColumns": [{"bSortable": false, "mRender": checkbox}, null, null, {"bSortable": false}]
+            "aoColumns": [{
+                "bSortable": false,
+                "mRender": checkbox
+            }, null, null, {
+                "bSortable": false
+            }]
         });
     });
 </script>
 <?= admin_form_open('system_settings/expense_category_actions', 'id="action-form"') ?>
-<div class="box">
+
+<section>
+    <div class="tableRow">
+        <div class="tableRowItem">
+            <div class="tableRowHeading">
+                <h2>
+                    <?= lang('expense_categories'); ?>
+                </h2>
+            </div>
+            <div class="tableRowInput">
+                <input type="search" class="customSearchInput" placeholder="Search">
+            </div>
+            <div class="tableRowBtn">
+                <a href="<?php echo admin_url('system_settings/add_expense_category'); ?>" data-toggle="modal" data-target="#myModal"><?= lang('add_expense_category') ?></a>
+            </div>
+        </div>
+        <div class="tableRowItem">
+            <div class="cardTabMenuDivContentItem">
+                <table class="table display dTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th><?= $this->lang->line("category_code"); ?></th>
+                            <th><?= $this->lang->line("category_name"); ?></th>
+                            <th><?= $this->lang->line("actions"); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <?= $this->lang->line("category_code"); ?>
+                            </td>
+                            <td>
+                                <?= $this->lang->line("category_name"); ?>
+                            </td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-folder-open"></i><?= lang('expense_categories'); ?></h2>
 
@@ -65,7 +129,7 @@
                         <thead>
                             <tr>
                                 <th style="min-width:30px; width: 30px; text-align: center;">
-                                    <input class="checkbox checkth" type="checkbox" name="check"/>
+                                    <input class="checkbox checkth" type="checkbox" name="check" />
                                 </th>
                                 <th><?= $this->lang->line("category_code"); ?></th>
                                 <th><?= $this->lang->line("category_name"); ?></th>
@@ -84,29 +148,29 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div style="display: none;">
-    <input type="hidden" name="form_action" value="" id="form_action"/>
+    <input type="hidden" name="form_action" value="" id="form_action" />
     <?= form_submit('submit', 'submit', 'id="action-form-submit"') ?>
 </div>
 <?= form_close() ?>
 <script language="javascript">
-    $(document).ready(function () {
+    $(document).ready(function() {
 
-        $('#delete').click(function (e) {
+        $('#delete').click(function(e) {
             e.preventDefault();
             $('#form_action').val($(this).attr('data-action'));
             $('#action-form-submit').trigger('click');
         });
 
-        $('#excel').click(function (e) {
+        $('#excel').click(function(e) {
             e.preventDefault();
             $('#form_action').val($(this).attr('data-action'));
             $('#action-form-submit').trigger('click');
         });
 
-        $('#pdf').click(function (e) {
+        $('#pdf').click(function(e) {
             e.preventDefault();
             $('#form_action').val($(this).attr('data-action'));
             $('#action-form-submit').trigger('click');
@@ -114,4 +178,3 @@
 
     });
 </script>
-

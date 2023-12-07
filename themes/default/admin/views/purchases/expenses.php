@@ -1,6 +1,6 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
         function attachment(x) {
             if (x != null) {
                 return '<a href="' + site.url + 'assets/uploads/' + x + '" target="_blank"><i class="fa fa-chain"></i></a>';
@@ -9,32 +9,50 @@
         }
 
         oTable = $('#EXPData').dataTable({
-            "aaSorting": [[1, "desc"]],
-            "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "<?= lang('all') ?>"]],
+            "aaSorting": [
+                [1, "desc"]
+            ],
+            "aLengthMenu": [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, "<?= lang('all') ?>"]
+            ],
             "iDisplayLength": <?= $Settings->rows_per_page ?>,
-            'bProcessing': true, 'bServerSide': true,
+            'bProcessing': true,
+            'bServerSide': true,
             'sAjaxSource': '<?= admin_url('purchases/getExpenses'); ?>',
-            'fnServerData': function (sSource, aoData, fnCallback) {
+            'fnServerData': function(sSource, aoData, fnCallback) {
                 aoData.push({
                     "name": "<?= $this->security->get_csrf_token_name() ?>",
                     "value": "<?= $this->security->get_csrf_hash() ?>"
                 });
-                $.ajax({'dataType': 'json', 'type': 'POST', 'url': sSource, 'data': aoData, 'success': fnCallback});
+                $.ajax({
+                    'dataType': 'json',
+                    'type': 'POST',
+                    'url': sSource,
+                    'data': aoData,
+                    'success': fnCallback
+                });
             },
             "aoColumns": [{
                 "bSortable": false,
                 "mRender": checkbox
-            }, {"mRender": fld}, null, null, {"mRender": currencyFormat}, null, null, {
+            }, {
+                "mRender": fld
+            }, null, null, {
+                "mRender": currencyFormat
+            }, null, null, {
                 "bSortable": false,
                 "mRender": attachment
-            }, {"bSortable": false}],
-            'fnRowCallback': function (nRow, aData, iDisplayIndex) {
+            }, {
+                "bSortable": false
+            }],
+            'fnRowCallback': function(nRow, aData, iDisplayIndex) {
                 var oSettings = oTable.fnSettings();
                 nRow.id = aData[0];
                 nRow.className = "expense_link";
                 return nRow;
             },
-            "fnFooterCallback": function (nRow, aaData, iStart, iEnd, aiDisplay) {
+            "fnFooterCallback": function(nRow, aaData, iStart, iEnd, aiDisplay) {
                 var total = 0;
                 for (var i = 0; i < aaData.length; i++) {
                     total += parseFloat(aaData[aiDisplay[i]][4]);
@@ -42,22 +60,142 @@
                 var nCells = nRow.getElementsByTagName('th');
                 nCells[4].innerHTML = currencyFormat(total);
             }
-        }).fnSetFilteringDelay().dtFilter([
-            {column_number: 1, filter_default_label: "[<?=lang('date');?> (yyyy-mm-dd)]", filter_type: "text", data: []},
-            {column_number: 2, filter_default_label: "[<?=lang('reference');?>]", filter_type: "text", data: []},
-            {column_number: 3, filter_default_label: "[<?=lang('category');?>]", filter_type: "text", data: []},
-            {column_number: 5, filter_default_label: "[<?=lang('note');?>]", filter_type: "text", data: []},
-            {column_number: 6, filter_default_label: "[<?=lang('created_by');?>]", filter_type: "text", data: []},
+        }).fnSetFilteringDelay().dtFilter([{
+                column_number: 1,
+                filter_default_label: "[<?= lang('date'); ?> (yyyy-mm-dd)]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 2,
+                filter_default_label: "[<?= lang('reference'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 3,
+                filter_default_label: "[<?= lang('category'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 5,
+                filter_default_label: "[<?= lang('note'); ?>]",
+                filter_type: "text",
+                data: []
+            },
+            {
+                column_number: 6,
+                filter_default_label: "[<?= lang('created_by'); ?>]",
+                filter_type: "text",
+                data: []
+            },
         ], "footer");
 
     });
-
 </script>
 
 <?php if ($Owner) {
     echo admin_form_open('purchases/expense_actions', 'id="action-form"');
 } ?>
-<div class="box">
+
+<section>
+    <div class="tableRow">
+        <div class="tableRowItem">
+            <div class="tableRowHeading">
+                <h2>
+                    <?= lang('expenses'); ?>
+                </h2>
+            </div>
+            <div class="tableRowInput">
+                <input type="search" class="customSearchInput" placeholder="Search">
+            </div>
+            <div class="tableRowBtn">
+                <!-- <a href="#" class="ankerBtn">Add Purchase</a> -->
+                <a href="<?= admin_url('purchases/add_expense') ?>" data-toggle="modal" data-target="#myModal"><?= lang('add_expense') ?></a>
+            </div>
+        </div>
+        <div class="tableRowItem">
+            <div class="cardTabMenuDivContentItem">
+                <table class="table display dTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th><?= lang("date"); ?></th>
+                            <th><?= lang("reference"); ?></th>
+                            <th><?= lang("category"); ?></th>
+                            <th><?= lang("amount"); ?></th>
+                            <th><?= lang("note"); ?></th>
+                            <th><?= lang("created_by"); ?></th>
+                            <th><?= lang("actions"); ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>14/11/2023</span>
+                                <span>15:25:00</span>
+                            </td>
+                            <td>
+                                <span>PO2023/</span>
+                                <span>11/0032</span>
+                            </td>
+                            <td>Test</td>
+                            <td>
+                                <span class="tableComplete">
+                                    Received
+                                </span>
+                            </td>
+                            <td>0.0</td>
+                            <td>
+                                <span class="tableComplete">
+                                    Paid
+                                </span>
+                            </td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/view.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>14/11/2023</span>
+                                <span>15:25:00</span>
+                            </td>
+                            <td>
+                                <span>PO2023/</span>
+                                <span>11/0032</span>
+                            </td>
+                            <td>Test</td>
+                            <td>
+                                <span class="tableComplete">
+                                    Received
+                                </span>
+                            </td>
+                            <td>0.0</td>
+                            <td>
+                                <span class="tableComplete">
+                                    Paid
+                                </span>
+                            </td>
+                            <td>
+                                <ul class="icon">
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/view.svg" class="svg" alt=""></a></li>
+                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-dollar"></i><?= lang('expenses'); ?></h2>
 
@@ -80,9 +218,7 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#" class="bpo" title="<b><?= $this->lang->line("delete_expenses") ?></b>"
-                                data-content="<p><?= lang('r_u_sure') ?></p><button type='button' class='btn btn-danger' id='delete' data-action='delete'><?= lang('i_m_sure') ?></a> <button class='btn bpo-close'><?= lang('no') ?></button>"
-                                data-html="true" data-placement="left">
+                            <a href="#" class="bpo" title="<b><?= $this->lang->line("delete_expenses") ?></b>" data-content="<p><?= lang('r_u_sure') ?></p><button type='button' class='btn btn-danger' id='delete' data-action='delete'><?= lang('i_m_sure') ?></a> <button class='btn bpo-close'><?= lang('no') ?></button>" data-html="true" data-placement="left">
                                 <i class="fa fa-trash-o"></i> <?= lang('delete_expenses') ?>
                             </a>
                         </li>
@@ -98,54 +234,54 @@
                 <p class="introtext"><?= lang('list_results'); ?></p>
 
                 <div class="table-responsive">
-                    <table id="EXPData" cellpadding="0" cellspacing="0" border="0"
-                           class="table table_theme">
+                    <table id="EXPData" cellpadding="0" cellspacing="0" border="0" class="table table_theme">
                         <thead>
-                        <tr class="active">
-                            <th style="min-width:30px; width: 30px; text-align: center;">
-                                <input class="checkbox checkft" type="checkbox" name="check"/>
-                            </th>
-                            <th class="col-xs-2"><?= lang("date"); ?></th>
-                            <th class="col-xs-2"><?= lang("reference"); ?></th>
-                            <th class="col-xs-2"><?= lang("category"); ?></th>
-                            <th class="col-xs-1"><?= lang("amount"); ?></th>
-                            <th class="col-xs-3"><?= lang("note"); ?></th>
-                            <th class="col-xs-2"><?= lang("created_by"); ?></th>
-                            <th style="min-width:30px; width: 30px; text-align: center;"><i class="fa fa-chain"></i>
-                            </th>
-                            <th style="width:100px;"><?= lang("actions"); ?></th>
-                        </tr>
+                            <tr class="active">
+                                <th style="min-width:30px; width: 30px; text-align: center;">
+                                    <input class="checkbox checkft" type="checkbox" name="check" />
+                                </th>
+                                <th class="col-xs-2"></th>
+                                <th class="col-xs-2"></th>
+                                <th class="col-xs-2"></th>
+                                <th class="col-xs-1"></th>
+                                <th class="col-xs-3"></th>
+                                <th class="col-xs-2"></th>
+                                <th style="min-width:30px; width: 30px; text-align: center;"><i class="fa fa-chain"></i>
+                                </th>
+                                <th style="width:100px;"></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td colspan="8" class="dataTables_empty"><?= lang('loading_data_from_server'); ?></td>
-                        </tr>
+                            <tr>
+                                <td colspan="8" class="dataTables_empty"><?= lang('loading_data_from_server'); ?></td>
+                            </tr>
                         </tbody>
                         <tfoot class="dtFilter">
-                        <tr class="active">
-                            <th style="min-width:30px; width: 30px; text-align: center;">
-                                <input class="checkbox checkft" type="checkbox" name="check"/>
-                            </th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th style="min-width:30px; width: 30px; text-align: center;"><i class="fa fa-chain"></i>
-                            </th>
-                            <th style="width:100px; text-align: center;"><?= lang("actions"); ?></th>
-                        </tr>
+                            <tr class="active">
+                                <th style="min-width:30px; width: 30px; text-align: center;">
+                                    <input class="checkbox checkft" type="checkbox" name="check" />
+                                </th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="min-width:30px; width: 30px; text-align: center;"><i class="fa fa-chain"></i>
+                                </th>
+                                <th style="width:100px; text-align: center;"><?= lang("actions"); ?></th>
+                            </tr>
                         </tfoot>
                     </table>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</div> -->
+
 <?php if ($Owner) { ?>
     <div style="display: none;">
-        <input type="hidden" name="form_action" value="" id="form_action"/>
+        <input type="hidden" name="form_action" value="" id="form_action" />
         <?= form_submit('performAction', 'performAction', 'id="action-form-submit"') ?>
     </div>
     <?= form_close() ?>
