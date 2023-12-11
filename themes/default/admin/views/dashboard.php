@@ -119,7 +119,8 @@ function row_status($x)
             </div>
         </div>
     </div>
-    <div class="row">
+
+    <div class="cardTabMenu">
         <div class="col-12">
             <div id="expenseChart"></div>
         </div>
@@ -494,6 +495,9 @@ function row_status($x)
             type: 'bar',
             height: 350,
             stacked: true,
+            toolbar: {
+                show: false
+            },
         },
         plotOptions: {
             bar: {

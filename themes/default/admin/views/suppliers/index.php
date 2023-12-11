@@ -10,7 +10,7 @@
             </div>
             <div class="tableRowBtn">
                 <a class="ankerBtn" href="<?= admin_url('suppliers/add') ?>" data-toggle="modal" data-target="#myModal">
-                    <i class="fa fa-plus-circle"></i><span class="text"> Add Supplier</span>
+                    <span class="text"> Add Supplier</span>
                 </a>
             </div>
         </div>
