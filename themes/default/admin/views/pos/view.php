@@ -114,7 +114,7 @@
                     <?php
                 } ?>
             </div>
-            <div id="receipt-data">
+            <div id="receipt-data" class="container">
                 <div class="row">
                     <div class="row">
                         <div class="col-lg-4">

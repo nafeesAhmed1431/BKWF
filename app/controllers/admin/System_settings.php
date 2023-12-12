@@ -1901,6 +1901,20 @@ class system_settings extends MY_Controller
         echo $this->datatables->generate();
     }
 
+    function get_ajax_expense_categories()
+    {
+        $categories = $this->db
+            ->select("id, code, name")
+            ->from("sma_expense_categories")
+            ->get()
+            ->result();
+
+        echo json_encode([
+            'status' => !empty($categories),
+            'categories' => $categories,
+        ]);
+    }
+
     function add_expense_category()
     {
 
@@ -1959,7 +1973,7 @@ class system_settings extends MY_Controller
         }
     }
 
-    function delete_expense_category($id = NULL)
+    function delete_expense_category_old($id = NULL)
     {
 
         if ($this->settings_model->hasExpenseCategoryRecord($id)) {
@@ -1968,6 +1982,19 @@ class system_settings extends MY_Controller
 
         if ($this->settings_model->deleteExpenseCategory($id)) {
             $this->sma->send_json(array('error' => 0, 'msg' => lang("expense_category_deleted")));
+        }
+    }
+
+    function delete_expense_category($id = NULL)
+    {
+        $id = $this->input->post('id');
+        if ($this->settings_model->hasExpenseCategoryRecord($id)) {
+            echo json_encode(['status' => false]);
+            exit;
+        }
+        if ($this->settings_model->deleteExpenseCategory($id)) {
+            echo json_encode(['status' => true]);
+            exit;
         }
     }
 
@@ -3000,9 +3027,10 @@ class system_settings extends MY_Controller
     }
 
     // ------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-    public function get_ajax_warehouses(){
+    public function get_ajax_warehouses()
+    {
         $this->sma->send_json([
-            'status'=>true,
+            'status' => true,
             'data' => $this->db->select('id,name')->from('sma_warehouses')->get()->result()
         ]);
     }

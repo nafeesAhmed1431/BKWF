@@ -109,6 +109,23 @@ class Purchases extends MY_Controller
         echo $this->datatables->generate();
     }
 
+    function get_ajax_purchases()
+    {
+        $purchases = $this->db
+            ->select([
+                "id", "DATE_FORMAT(date, '%Y-%m-%d %T') as date",
+                "reference_no", "supplier", "status",
+                "grand_total", "paid",
+                "(grand_total-paid) as balance",
+                "payment_status", "attachment",
+            ])
+            ->from('purchases')->get()->result();
+        echo json_encode([
+            'status' => !empty($purchases),
+            'purchases' => $purchases
+        ]);
+    }
+
     /* ----------------------------------------------------------------------------- */
 
     public function modal_view($purchase_id = null)
@@ -1544,7 +1561,7 @@ class Purchases extends MY_Controller
                 'note' => $this->sma->clear_tags($this->input->post('note')),
             );
 
-            
+
             if ($_FILES['userfile']['size'] > 0) {
                 $this->load->library('upload');
                 $config['upload_path'] = $this->digital_upload_path;
@@ -1710,9 +1727,9 @@ class Purchases extends MY_Controller
             $meta = array('page_title' => lang('Cash Management'), 'bc' => $bc);
             $this->data['head'] = $this->purchases_model->get_cash_head();
             $this->page_construct('purchases/cash_management', $meta, $this->data);
-            else :
-                if ($this->form_validation->run() == TRUE) : 
-                    $data = [
+        else :
+            if ($this->form_validation->run() == TRUE) :
+                $data = [
                     'cash_inhand' => $this->input->post('cash_in_hand'),
                     'total_cash_in' => $this->input->post('cash_in_hand'),
                     'opening_date' => date('Y-m-d'),
@@ -1720,7 +1737,7 @@ class Purchases extends MY_Controller
                 ];
                 $management_data = [
                     'date' => date('Y-m-d h:s'),
-                    'reference' => 'OB '.'('.date('Y-m-d').')',
+                    'reference' => 'OB ' . '(' . date('Y-m-d') . ')',
                     'amount' => $this->input->post('cash_in_hand'),
                     'type' => 'Overall Cash',
                     'category_id' => 'Cash In Hand',
@@ -1759,7 +1776,7 @@ class Purchases extends MY_Controller
             <li>' . $edit_link . '</li>
             <li>' . $delete_link . '</li>
         </ul>
-    </div></div>';
+        </div></div>';
 
         $this->load->library('datatables');
 
@@ -1776,6 +1793,22 @@ class Purchases extends MY_Controller
         //$this->datatables->edit_column("attachment", $attachment_link, "attachment");
         $this->datatables->add_column("Actions", $action, "id");
         echo $this->datatables->generate();
+    }
+
+    function get_ajax_expenses()
+    {
+        $expenses = $this->db
+            ->select($this->db->dbprefix('expenses') . ".id as id, date, reference, {$this->db->dbprefix('expense_categories')}.name as category, amount, note, CONCAT({$this->db->dbprefix('users')}.first_name, ' ', {$this->db->dbprefix('users')}.last_name) as user, attachment", false)
+            ->from('expenses')
+            ->join('users', 'users.id=expenses.created_by', 'left')
+            ->join('expense_categories', 'expense_categories.id=expenses.category_id', 'left')
+            ->group_by('expenses.id')
+            ->get()
+            ->result();
+        echo json_encode([
+            'status' => !empty($expenses),
+            'expenses' => $expenses
+        ]);
     }
 
     public function getCash()

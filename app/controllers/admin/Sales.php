@@ -98,9 +98,9 @@ class Sales extends MY_Controller
 
         if ($warehouse_id) {
             $this->datatables
-            ->select("{$this->db->dbprefix('sales')}.id as id, DATE_FORMAT({$this->db->dbprefix('sales')}.date, '%Y-%m-%d %T') as date, reference_no, biller, {$this->db->dbprefix('sales')}.customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status, {$this->db->dbprefix('sales')}.attachment, return_id")
-            ->from('sales')
-            ->where('warehouse_id', $warehouse_id);
+                ->select("{$this->db->dbprefix('sales')}.id as id, DATE_FORMAT({$this->db->dbprefix('sales')}.date, '%Y-%m-%d %T') as date, reference_no, biller, {$this->db->dbprefix('sales')}.customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status, {$this->db->dbprefix('sales')}.attachment, return_id")
+                ->from('sales')
+                ->where('warehouse_id', $warehouse_id);
         } else {
             $this->datatables
                 ->select("{$this->db->dbprefix('sales')}.id as id, DATE_FORMAT({$this->db->dbprefix('sales')}.date, '%Y-%m-%d %T') as date, reference_no, biller, {$this->db->dbprefix('sales')}.customer, sale_status, grand_total, paid, (grand_total-paid) as balance, payment_status, {$this->db->dbprefix('sales')}.attachment, return_id")
@@ -113,13 +113,13 @@ class Sales extends MY_Controller
         }
         if ($this->input->get('delivery') == 'no') {
             $this->datatables->join('deliveries', 'deliveries.sale_id=sales.id', 'left')
-            ->where('sales.sale_status', 'completed')->where('sales.payment_status', 'paid')
-            ->where("({$this->db->dbprefix('deliveries')}.status != 'delivered' OR {$this->db->dbprefix('deliveries')}.status IS NULL)", NULL);
+                ->where('sales.sale_status', 'completed')->where('sales.payment_status', 'paid')
+                ->where("({$this->db->dbprefix('deliveries')}.status != 'delivered' OR {$this->db->dbprefix('deliveries')}.status IS NULL)", NULL);
         }
         if ($this->input->get('attachment') == 'yes') {
             $this->datatables->where('payment_status !=', 'paid')->where('attachment !=', NULL);
         }
-        
+
         $this->datatables->where('pos !=', 1);
 
         if (!$this->Customer && !$this->Supplier && !$this->Owner && !$this->Admin && !$this->session->userdata('view_right')) {
@@ -130,6 +130,27 @@ class Sales extends MY_Controller
 
         $this->datatables->add_column("Actions", $action, "id");
         echo $this->datatables->generate();
+    }
+
+    public function get_ajax_sales()
+    {
+        $sales =
+            $this->db
+            ->select([
+                "sale.id as id",
+                "DATE_FORMAT(sale.date, '%Y-%m-%d %T') as date",
+                "reference_no", "biller", "payment_status",
+                "sale.customer", "sale_status",
+                "grand_total", "paid",
+                "(grand_total - paid) as balance",
+                "sale.attachment", "return_id",
+            ])
+            ->from('sma_sales as sale')
+            ->get()->result();
+        echo json_encode([
+            'status' => true,
+            'sales' => $sales
+        ]);
     }
 
     public function modal_view($id = null)
