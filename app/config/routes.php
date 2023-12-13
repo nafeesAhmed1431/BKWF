@@ -28,7 +28,8 @@ $route['shop/(:any)/(:any)'] = 'shop/shop/$1/$2';
 $route['shop/(:any)/(:any)/(:any)'] = 'shop/shop/$1/$2/$3';
 
 // Auth routes
-$route['login'] = 'main/login';
+// $route['login'] = 'main/login';
+$route['login'] = 'admin/auth/login';
 $route['logout'] = 'main/logout';
 $route['profile'] = 'main/profile';
 $route['register'] = 'main/register';

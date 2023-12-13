@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Transfers extends MY_Controller
 {
@@ -61,7 +61,7 @@ class Transfers extends MY_Controller
             <li>' . $print_barcode . '</li>
             <li>' . $delete_link . '</li>
         </ul>
-    </div></div>';
+        </div></div>';
 
         $this->load->library('datatables');
 
@@ -79,6 +79,28 @@ class Transfers extends MY_Controller
             ->unset_column('fcode')
             ->unset_column('tcode');
         echo $this->datatables->generate();
+    }
+
+    function get_ajax_transfers()
+    {
+        $transfers = $this->db
+            ->select([
+                "id", "date", "transfer_no",
+                "from_warehouse_name as fname",
+                "from_warehouse_code as fcode",
+                "to_warehouse_name as tname",
+                "to_warehouse_code as tcode",
+                "total", "total_tax", "grand_total",
+                "status", "attachment"
+            ])
+            ->from('sma_transfers')
+            ->get()
+            ->result();
+
+        echo json_encode([
+            'status' => !empty($transfers),
+            'transfers' => $transfers
+        ]);
     }
 
     function add()
@@ -129,12 +151,12 @@ class Transfers extends MY_Controller
                 if (isset($item_code) && isset($real_unit_cost) && isset($unit_cost) && isset($item_quantity)) {
                     $product_details = $this->transfers_model->getProductByCode($item_code);
                     // if (!$this->Settings->overselling) {
-                        $warehouse_quantity = $this->transfers_model->getWarehouseProduct($from_warehouse_details->id, $product_details->id, $item_option);
-                        if ($warehouse_quantity->quantity < $item_quantity) {
-                            $this->session->set_flashdata('error', lang("no_match_found") . " (" . lang('product_name') . " <strong>" . $product_details->name . "</strong> " . lang('product_code') . " <strong>" . $product_details->code . "</strong>)");
-                            admin_redirect("transfers/add");
-                        }
-                   // }
+                    $warehouse_quantity = $this->transfers_model->getWarehouseProduct($from_warehouse_details->id, $product_details->id, $item_option);
+                    if ($warehouse_quantity->quantity < $item_quantity) {
+                        $this->session->set_flashdata('error', lang("no_match_found") . " (" . lang('product_name') . " <strong>" . $product_details->name . "</strong> " . lang('product_code') . " <strong>" . $product_details->code . "</strong>)");
+                        admin_redirect("transfers/add");
+                    }
+                    // }
 
                     $pr_item_tax = $item_tax = 0;
                     $tax = "";
@@ -194,7 +216,8 @@ class Transfers extends MY_Controller
             }
 
             $grand_total = $this->sma->formatDecimal(($total + $shipping + $product_tax), 4);
-            $data = array('transfer_no' => $transfer_no,
+            $data = array(
+                'transfer_no' => $transfer_no,
                 'date' => $date,
                 'from_warehouse_id' => $from_warehouse,
                 'from_warehouse_code' => $from_warehouse_code,
@@ -245,12 +268,14 @@ class Transfers extends MY_Controller
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
 
-            $this->data['name'] = array('name' => 'name',
+            $this->data['name'] = array(
+                'name' => 'name',
                 'id' => 'name',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('name'),
             );
-            $this->data['quantity'] = array('name' => 'quantity',
+            $this->data['quantity'] = array(
+                'name' => 'quantity',
                 'id' => 'quantity',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('quantity'),
@@ -382,7 +407,8 @@ class Transfers extends MY_Controller
             }
 
             $grand_total = $this->sma->formatDecimal(($total + $shipping + $product_tax), 4);
-            $data = array('transfer_no' => $transfer_no,
+            $data = array(
+                'transfer_no' => $transfer_no,
                 'date' => $date,
                 'from_warehouse_id' => $from_warehouse,
                 'from_warehouse_code' => $from_warehouse_code,
@@ -454,13 +480,13 @@ class Transfers extends MY_Controller
                 $row->ordered_quantity = $item->quantity;
                 $row->quantity += $item->quantity_balance;
                 $row->cost = $item->net_unit_cost;
-                $row->unit_cost = $item->net_unit_cost+($item->item_tax/$item->quantity);
+                $row->unit_cost = $item->net_unit_cost + ($item->item_tax / $item->quantity);
                 $row->real_unit_cost = $item->real_unit_cost;
                 $row->tax_rate = $item->tax_rate_id;
                 $row->option = $item->option_id;
                 $options = $this->transfers_model->getProductOptions($row->id, $this->data['transfer']->from_warehouse_id, FALSE);
                 $pis = $this->site->getPurchasedItems($item->product_id, $item->warehouse_id, $item->option_id);
-                if($pis) {
+                if ($pis) {
                     foreach ($pis as $pi) {
                         $row->quantity += $pi->quantity_balance;
                     }
@@ -470,13 +496,13 @@ class Transfers extends MY_Controller
                     $option_quantity = 0;
                     foreach ($options as $option) {
                         $pis = $this->site->getPurchasedItems($row->id, $item->warehouse_id, $item->option_id);
-                        if($pis){
+                        if ($pis) {
                             foreach ($pis as $pi) {
                                 $option_quantity += $pi->quantity_balance;
                             }
                         }
                         $option_quantity += $item->quantity;
-                        if($option->quantity > $option_quantity) {
+                        if ($option->quantity > $option_quantity) {
                             $option->quantity = $option_quantity;
                         }
                     }
@@ -486,8 +512,10 @@ class Transfers extends MY_Controller
                 $tax_rate = $this->site->getTaxRateByID($row->tax_rate);
                 $ri = $this->Settings->item_addition ? $row->id : $c;
 
-                $pr[$ri] = array('id' => $c, 'item_id' => $row->id, 'label' => $row->name . " (" . $row->code . ")",
-                    'row' => $row, 'tax_rate' => $tax_rate, 'units' => $units, 'options' => $options);
+                $pr[$ri] = array(
+                    'id' => $c, 'item_id' => $row->id, 'label' => $row->name . " (" . $row->code . ")",
+                    'row' => $row, 'tax_rate' => $tax_rate, 'units' => $units, 'options' => $options
+                );
                 $c++;
             }
 
@@ -660,7 +688,8 @@ class Transfers extends MY_Controller
                 krsort($products);
             }
             $grand_total = $total + $shipping + $product_tax;
-            $data = array('transfer_no' => $transfer_no,
+            $data = array(
+                'transfer_no' => $transfer_no,
                 'date' => $date,
                 'from_warehouse_id' => $from_warehouse,
                 'from_warehouse_code' => $from_warehouse_code,
@@ -711,12 +740,14 @@ class Transfers extends MY_Controller
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
 
-            $this->data['name'] = array('name' => 'name',
+            $this->data['name'] = array(
+                'name' => 'name',
                 'id' => 'name',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('name'),
             );
-            $this->data['quantity'] = array('name' => 'quantity',
+            $this->data['quantity'] = array(
+                'name' => 'quantity',
                 'id' => 'quantity',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('quantity'),
@@ -772,7 +803,7 @@ class Transfers extends MY_Controller
         $this->data['created_by'] = $this->site->getUser($transfer->created_by);
         $name = lang("transfer") . "_" . str_replace('/', '_', $transfer->transfer_no) . ".pdf";
         $html = $this->load->view($this->theme . 'transfers/pdf', $this->data, TRUE);
-        if (! $this->Settings->barcode_img) {
+        if (!$this->Settings->barcode_img) {
             $html = preg_replace("'\<\?xml(.*)\?\>'", '', $html);
         }
         if ($view) {
@@ -782,7 +813,6 @@ class Transfers extends MY_Controller
         } else {
             $this->sma->generate_pdf($html, $name);
         }
-
     }
 
     public function combine_pdf($transfers_id)
@@ -811,7 +841,6 @@ class Transfers extends MY_Controller
 
         $name = lang("transfers") . ".pdf";
         $this->sma->generate_pdf($html, $name);
-
     }
 
     function email($transfer_id = NULL)
@@ -866,13 +895,11 @@ class Transfers extends MY_Controller
                 $this->session->set_flashdata('error', $e->getMessage());
                 redirect($_SERVER["HTTP_REFERER"]);
             }
-
         } elseif ($this->input->post('send_email')) {
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
             $this->session->set_flashdata('error', $this->data['error']);
             redirect($_SERVER["HTTP_REFERER"]);
-
         } else {
 
             $this->data['error'] = (validation_errors() ? validation_errors() : $this->session->flashdata('error'));
@@ -882,12 +909,14 @@ class Transfers extends MY_Controller
             } else {
                 $transfer_temp = file_get_contents('./themes/default/admin/views/email_templates/transfer.html');
             }
-            $this->data['subject'] = array('name' => 'subject',
+            $this->data['subject'] = array(
+                'name' => 'subject',
                 'id' => 'subject',
                 'type' => 'text',
-                'value' => $this->form_validation->set_value('subject', lang('transfer_order').' (' . $transfer->transfer_no . ') '.lang('from').' ' . $transfer->from_warehouse_name),
+                'value' => $this->form_validation->set_value('subject', lang('transfer_order') . ' (' . $transfer->transfer_no . ') ' . lang('from') . ' ' . $transfer->from_warehouse_name),
             );
-            $this->data['note'] = array('name' => 'note',
+            $this->data['note'] = array(
+                'name' => 'note',
                 'id' => 'note',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('note', $transfer_temp),
@@ -897,7 +926,6 @@ class Transfers extends MY_Controller
             $this->data['id'] = $transfer_id;
             $this->data['modal_js'] = $this->site->modal_js();
             $this->load->view($this->theme . 'transfers/email', $this->data);
-
         }
     }
 
@@ -910,7 +938,7 @@ class Transfers extends MY_Controller
         }
 
         if ($this->transfers_model->deleteTransfer($id)) {
-            if($this->input->is_ajax_request()) {
+            if ($this->input->is_ajax_request()) {
                 $this->sma->send_json(array('error' => 0, 'msg' => lang("transfer_deleted")));
             }
             $this->session->set_flashdata('message', lang('transfer_deleted'));
@@ -962,7 +990,7 @@ class Transfers extends MY_Controller
                 }
                 $row->option = $option_id;
                 $pis = $this->site->getPurchasedItems($row->id, $warehouse_id, $row->option);
-                if($pis){
+                if ($pis) {
                     foreach ($pis as $pi) {
                         $row->quantity += $pi->quantity_balance;
                     }
@@ -971,12 +999,12 @@ class Transfers extends MY_Controller
                     $option_quantity = 0;
                     foreach ($options as $option) {
                         $pis = $this->site->getPurchasedItems($row->id, $warehouse_id, $row->option);
-                        if($pis){
+                        if ($pis) {
                             foreach ($pis as $pi) {
                                 $option_quantity += $pi->quantity_balance;
                             }
                         }
-                        if($option->quantity > $option_quantity) {
+                        if ($option->quantity > $option_quantity) {
                             $option->quantity = $option_quantity;
                         }
                     }
@@ -988,8 +1016,10 @@ class Transfers extends MY_Controller
                 $units = $this->site->getUnitsByBUID($row->base_unit);
                 $tax_rate = $this->site->getTaxRateByID($row->tax_rate);
 
-                $pr[] = array('id' => sha1($c.$r), 'item_id' => $row->id, 'label' => $row->name . " (" . $row->code . ")",
-                    'row' => $row, 'tax_rate' => $tax_rate, 'units' => $units, 'options' => $options);
+                $pr[] = array(
+                    'id' => sha1($c . $r), 'item_id' => $row->id, 'label' => $row->name . " (" . $row->code . ")",
+                    'row' => $row, 'tax_rate' => $tax_rate, 'units' => $units, 'options' => $options
+                );
                 $r++;
             }
             $this->sma->send_json($pr);
@@ -1017,11 +1047,9 @@ class Transfers extends MY_Controller
                     }
                     $this->session->set_flashdata('message', lang("transfers_deleted"));
                     redirect($_SERVER["HTTP_REFERER"]);
-
                 } elseif ($this->input->post('form_action') == 'combine') {
 
                     $html = $this->combine_pdf($_POST['val']);
-
                 } elseif ($this->input->post('form_action') == 'export_excel') {
 
                     $this->load->library('excel');
@@ -1083,9 +1111,7 @@ class Transfers extends MY_Controller
 
             $this->data['inv'] = $this->transfers_model->getTransferByID($id);
             $this->data['modal_js'] = $this->site->modal_js();
-            $this->load->view($this->theme.'transfers/update_status', $this->data);
-
+            $this->load->view($this->theme . 'transfers/update_status', $this->data);
         }
     }
-
 }

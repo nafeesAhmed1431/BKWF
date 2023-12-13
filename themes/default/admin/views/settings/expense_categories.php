@@ -82,7 +82,7 @@
                                     render: function(row) {
                                         return `
                                                 <ul class="icon">
-                                                    <li><a href="${base_url}admin/system_settings/edit_expense_category/${row.id}"><img src="${assets}images/icon/edit.svg" class="svg" alt=""></a></li>
+                                                    <li><a href="${base_url}admin/system_settings/edit_expense_category/${row.id}" data-toggle="modal" data-target="#myModal" class="tip" title="" data-original-title="Edit Expense Category" ><img src="${assets}images/icon/edit.svg" class="svg" alt=""></a></li>
                                                     <li><a href="javascript:void(0)" class="delete_category" data-id="${row.id}"><img src="${assets}/images/icon/delete.svg" class="svg" alt=""></a></li>
                                                 </ul>`;
                                     }

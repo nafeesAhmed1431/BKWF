@@ -69,6 +69,12 @@
                         <div class="login_form_content">
                             <p>Bilal Khal Wanda Factory</p>
                         </div>
+                        <?php if (!empty($this->session->flashdata('error'))) : ?>
+                            <div class="alert alert-danger">
+                                <button data-dismiss="alert" class="close" type="button">×</button>
+                                <?= $this->session->flashdata('error') ?>
+                            </div>
+                        <?php endif; ?>
                         <form action="<?= admin_url('auth/login') ?>" data-toggle="validator" method="post" accept-charset="utf-8">
                             <div class="form-group emailInput">
                                 <label for="identity">Username/Email</label>

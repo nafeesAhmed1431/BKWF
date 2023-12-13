@@ -8,7 +8,7 @@
                 <input type="search" class="customSearchInput" placeholder="Search">
             </div>
             <div class="tableRowBtn">
-                <a href="#" class="ankerBtn">Add Branche</a>
+                <a href="javascript:void(0)" class="add_branch ankerBtn">Add Branch</a>
             </div>
         </div>
         <div class="tableRowItem">
@@ -27,36 +27,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Test</td>
-                            <td>Gujranwala</td>
-                            <td>test@gmail.com</td>
-                            <td>1234567890</td>
-                            <td>0987654321</td>
-                            <td>N/A</td>
-                            <td><span class="tableComplete">Check</span></td>
-                            <td>
-                                <ul class="icon">
-                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
-                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Qais</td>
-                            <td>Gujranwala</td>
-                            <td>qais@gmail.com</td>
-                            <td>0987654321</td>
-                            <td>1234567890</td>
-                            <td>N/A</td>
-                            <td><span class="tableComplete">Check</span></td>
-                            <td>
-                                <ul class="icon">
-                                    <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
-                                    <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
-                                </ul>
-                            </td>
-                        </tr>
+                        <?php if (!empty($branches)) : ?>
+                            <?php foreach ($branches as $branch) : ?>
+                                <tr>
+                                    <td><?= $branch->name ?></td>
+                                    <td><?= $branch->city ?></td>
+                                    <td><?= $branch->state ?></td>
+                                    <td><?= $branch->phone ?></td>
+                                    <td><?= $branch->mobile ?></td>
+                                    <td><?= $branch->address ?></td>
+                                    <td><a href="javascript:void(0)" data-id="<?= $branch->id ?>" data-status="<?= $branch->active ?>" class="<?= $branch->active ? "deactivate" : "activate" ?>_branch"> <span class="fa fa-<?= $branch->active ? "check" : "times" ?>"></span></a></td>
+                                    <td>
+                                        <ul class="icon">
+                                            <li><a href="javascript:void(0)" data-id="<?= $branch->id ?>" class="edit_branch"> <img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                            <li><a href="javascript:void(0)" data-id="<?= $branch->id ?>" class="delete_branch"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
