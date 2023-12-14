@@ -677,9 +677,9 @@ select.form-control option {
     background: #000000 !important;
 }
 
-.clearfix {
+/* .clearfix {
     *zoom: 1;
-}
+} */
 
 .clearfix:before,
 .clearfix:after {
@@ -3861,7 +3861,7 @@ header.navbar>.row>.btnContent {
     position: absolute;
     top: 100%;
     right: 0;
-    z-index: 1;
+    z-index: 10;
     background-color: #FFFFFF;
     box-shadow: 0px 2px 6px 0px #CACACA29;
     opacity: 0;
@@ -5062,3 +5062,177 @@ input[type="file"]:hover::-webkit-file-upload-button {
     top: 50% !important;
     transform: translateY(-50%) !important;
 }
+
+/* dashboard end */
+
+.select2-container .select2-choice .select2-arrow {
+    background-color: transparent !important;
+    padding-top: 0;
+}
+
+.select2-container .select2-choice .select2-arrow b {
+    background-position: 0 4px;
+}
+
+.select2-dropdown-open .select2-choice .select2-arrow b {
+    background-position: center 4px;
+}
+
+/* pos system start */
+
+.logo>* {
+    height: 45px;
+}
+
+.row .clearfix:before,
+.clearfix:after,
+.dl-horizontal dd:before,
+.dl-horizontal dd:after,
+.container:before,
+.container:after,
+.container-fluid:before,
+.container-fluid:after,
+.row:before,
+.row:after,
+.form-horizontal .form-group:before,
+.form-horizontal .form-group:after,
+.btn-toolbar:before,
+.btn-toolbar:after,
+.btn-group-vertical>.btn-group:before,
+.btn-group-vertical>.btn-group:after,
+.nav:before,
+.nav:after,
+.navbar:before,
+.navbar:after,
+.navbar-header:before,
+.navbar-header:after,
+.navbar-collapse:before,
+.navbar-collapse:after,
+.pager:before,
+.pager:after,
+.panel-body:before,
+.panel-body:after,
+.modal-footer:before,
+.modal-footer:after {
+    display: none;
+}
+
+.posHeader>.row {
+    justify-content: space-between;
+}
+
+.posBody {
+    background-color: #F5F5F9 !important;
+}
+
+.posWrapper {
+    padding: 30px !important;
+}
+
+.posUserContent {
+    width: 140px;
+}
+
+.posUserContent>.userContentDropdown {
+    width: 100%;
+}
+
+.posBtnContent {
+    width: unset !important;
+    margin: 0 !important;
+}
+
+.posBtnContent>.btnContentItem {
+    margin-right: 10px;
+}
+
+.posBtnContent>.btnContentItem>a {
+    padding: 7px 10px;
+}
+
+.userContentDrop>span:first-child>img {
+    width: 40px;
+    height: 40px;
+}
+
+.pos>#pos {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.pos>#pos>form {
+    width: 31%;
+    order: 2;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px 0px #CACACA29;
+}
+
+.pos>#pos>form>#leftdiv {
+    background-color: transparent;
+}
+
+.pos>#pos>#cp {
+    width: calc(100% - 31% - 15px);
+    order: 1;
+    display: flex;
+    flex-flow: row wrap;
+    background-color: #FFFFFF;
+    border-radius: 10px;
+    box-shadow: 0px 2px 6px 0px #CACACA29;
+}
+
+.pos>#pos>#cp>#cpinner {
+    order: 2;
+    margin-left: 0;
+    background-color: transparent;
+    width: calc(100% - 160px);
+    max-width: unset;
+    min-width: unset;
+    padding: 5px 15px;
+}
+
+.pos>#pos>#cp>#cpinner #proContainer {
+    padding: 5px 15px;
+}
+
+.pos>#pos>#cp>#filterOptions {
+    order: 1;
+    width: 160px;
+    max-width: unset;
+    min-width: unset;
+    box-shadow: 0px 3px 6px 0px #00000029;
+    border-radius: 8px;
+}
+
+.rotate.btn-cat-con {
+    display: none;
+}
+
+#filterOptions>ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    margin-top: 50px;
+}
+
+#filterOptions>ul>li {
+    text-align: center;
+    padding: 8px 15px;
+    color: #7E828A;
+    line-height: 18px;
+    font-weight: 400;
+    font-size: 14px;
+    box-shadow: 0px 1px 3px 0px #00000026;
+    background-color: transparent;
+    margin: 0.5px 0;
+    cursor: pointer;
+}
+
+#filterOptions>ul>li:hover {
+    background-color: #FFD4D1;
+    color: #EE4036;
+}
+
+/* pos system end */

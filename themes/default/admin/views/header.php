@@ -10,8 +10,8 @@
     <link rel="apple-touch-icon" sizes="180x180" href="<?= $assets ?>images/icon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="<?= $assets ?>images/icon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="<?= $assets ?>images/icon/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="manifest" href="<?= $assets ?>images/icon/site.webmanifest">
+    <link rel="mask-icon" href="<?= $assets ?>images/icon/safari-pinned-tab.svg" color="#5bbad5">
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 
@@ -23,7 +23,6 @@
     <script type="text/javascript" src="<?= $assets ?>js/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="<?= $assets ?>js/jquery-migrate-1.2.1.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
     <!--[if lt IE 9]>
