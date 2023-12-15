@@ -1,4 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
 class Billers extends MY_Controller
 {
@@ -28,7 +28,7 @@ class Billers extends MY_Controller
         $this->data['action'] = $action;
         $bc = array(array('link' => base_url(), 'page' => lang('home')), array('link' => '#', 'page' => lang('billers')));
         $meta = array('page_title' => lang('billers'), 'bc' => $bc);
-		$count = $this->companies_model->getUserCount("biller");
+        $count = $this->companies_model->getUserCount("biller");
         $this->data['count'] = $count;
         $this->page_construct('billers/index', $meta, $this->data);
     }
@@ -47,6 +47,19 @@ class Billers extends MY_Controller
         echo $this->datatables->generate();
     }
 
+    function get_ajax_billers()
+    {
+        $billers = $this->db->select("id, company, name, vat_no, phone, email, city, country")
+            ->from("companies")
+            ->where('group_name', 'biller')
+            ->get()
+            ->result();
+        echo json_encode([
+            'status' => !empty($billers),
+            'billers' => $billers
+        ]);
+    }
+
     function add()
     {
         $this->sma->checkPermissions(false, true);
@@ -54,7 +67,8 @@ class Billers extends MY_Controller
         $this->form_validation->set_rules('email', $this->lang->line("email_address"), 'is_unique[companies.email]');
 
         if ($this->form_validation->run('companies/add') == true) {
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'email' => $this->input->post('email'),
                 'group_id' => NULL,
                 'group_name' => 'biller',
@@ -106,7 +120,8 @@ class Billers extends MY_Controller
         }
 
         if ($this->form_validation->run('companies/add') == true) {
-            $data = array('name' => $this->input->post('name'),
+            $data = array(
+                'name' => $this->input->post('name'),
                 'email' => $this->input->post('email'),
                 'group_id' => NULL,
                 'group_name' => 'biller',
@@ -159,6 +174,13 @@ class Billers extends MY_Controller
         } else {
             $this->sma->send_json(array('error' => 1, 'msg' => lang("biller_x_deleted_have_sales")));
         }
+    }
+
+    function delete_ajax_biller()
+    {
+        echo json_encode([
+            'status' => $this->companies_model->deleteBiller($this->input->get('id'))
+        ]);
     }
 
     function suggestions($term = NULL, $limit = NULL)
@@ -264,5 +286,4 @@ class Billers extends MY_Controller
             redirect($_SERVER["HTTP_REFERER"]);
         }
     }
-
 }
