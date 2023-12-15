@@ -127,9 +127,9 @@
                                 render: function(row) {
                                     return `
                                     <ul class="icon">
-                                        <li><a href="#"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
+                                        <li><a href="${base_url}admin/sales/edit/${row.id}"><img src="<?= $assets ?>images/icon/edit.svg" class="svg" alt=""></a></li>
                                         <li><a href="#"><img src="<?= $assets ?>images/icon/view.svg" class="svg" alt=""></a></li>
-                                        <li><a href="#"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
+                                        <li><a href="javascript:void(0)" data-id="${row.id}" class="delete_sale"><img src="<?= $assets ?>images/icon/delete.svg" class="svg" alt=""></a></li>
                                     </ul>`;
                                 }
                             },
@@ -140,4 +140,25 @@
             error: res => {}
         });
     }
+
+    $(document).on('click', '.delete_sale', function() {
+        if (confirm('Are you Sure you want to delete this Sale. This Wont be Reversible...')) {
+            $.ajax({
+                url: `${base_url}admin/sales/delete_ajax_sale`,
+                dataType: 'json',
+                method: 'GET',
+                data: {
+                    id: $(this).data('id')
+                },
+                success: res => {
+                    if (res.status) {
+                        location.reload();
+                    } else {
+                        alert(res.msg);
+                    }
+                },
+                error: res => {},
+            });
+        }
+    });
 </script>
