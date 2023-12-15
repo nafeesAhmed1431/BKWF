@@ -1351,6 +1351,19 @@ class Sales extends MY_Controller
         }
     }
 
+    public function delete_ajax_sale()
+    {
+        $this->sma->checkPermissions(null, true);
+        $id = $this->input->get('id');
+        if (($this->sales_model->getInvoiceByID($id))->sale_status == 'returned') {
+            $this->sma->send_json(['status' => false, 'msg' => lang("sale_x_action")]);
+        }
+
+        if ($this->sales_model->deleteSale($id)) {
+            $this->sma->send_json(['status' => true]);
+        }
+    }
+
     public function delete_return($id = null)
     {
         $this->sma->checkPermissions(null, true);

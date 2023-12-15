@@ -98,6 +98,7 @@
                                     <li><a href="<?= admin_url('users') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Users</span></a></li>
                                     <li><a href="<?= admin_url('suppliers') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Suppliers</span></a></li>
                                     <li><a href="<?= admin_url('customers') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Customers</span></a></li>
+                                    <li><a href="<?= admin_url('billers') ?>"><span><img src="<?= $assets ?>images/icon/dbl-arrow.svg" class="svg" alt=""></span><span>List Billers</span></a></li>
                                 </ul>
                             </li>
                             <li>
