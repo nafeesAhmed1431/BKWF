@@ -545,6 +545,7 @@ class Pos extends MY_Controller
                 }
             }
 
+
             $this->load->view($this->theme . 'pos/add', $this->data);
         }
     }
